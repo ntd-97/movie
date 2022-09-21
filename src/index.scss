@@ -9,7 +9,9 @@
     font-family: "Poppins", sans-serif;
     background-color: #252229;
   }
+}
 
+@layer components {
   .navItem {
     &::after {
       content: "";
@@ -36,5 +38,107 @@
     @apply rounded-[20px];
     inset: 0;
     background: linear-gradient(0deg, black, transparent);
+  }
+
+  @mixin slider-arrow-btn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    bottom: -8px;
+    transform: translateY(-100%);
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    font-size: 2.2rem;
+    background-color: #4b444c;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      @apply bg-gray-500;
+    }
+
+    &[disabled] {
+      cursor: auto;
+      opacity: 0.6;
+
+      &:hover {
+        background-color: #272727;
+      }
+    }
+
+    // @media screen and (max-width: $max-width-small) {
+    //   display: none;
+    // }
+  }
+
+  .slider-arrow-btn {
+    &__next.banner {
+      @include slider-arrow-btn();
+      right: 25px;
+    }
+
+    &__prev.banner {
+      @include slider-arrow-btn();
+      right: 85px;
+    }
+  }
+
+  .slider-arrow-btn {
+    &__next.filmList {
+      @include slider-arrow-btn();
+      width: 25px;
+      height: 25px;
+      top: 27px;
+      right: 25px;
+    }
+
+    &__prev.filmList {
+      @include slider-arrow-btn();
+      width: 25px;
+      height: 25px;
+      top: 27px;
+      right: 55px;
+    }
+  }
+
+  .slider-arrow-btn__icon {
+    &--next {
+      transform: translateX(2px);
+    }
+    &--prev {
+      transform: translateX(-2px);
+    }
+  }
+
+  .swiper-pagination {
+    &-style.banner {
+      position: absolute;
+      text-align: center;
+      z-index: 1;
+    }
+
+    &-style.filmList {
+      position: relative;
+      text-align: center;
+      margin-top: 1rem;
+      z-index: 1;
+    }
+
+    &-style &-bullet {
+      display: inline-block;
+      background-color: #7c7c7c;
+      transition: all 0.2s ease;
+
+      &-active {
+        @apply bg-primary;
+        width: 15px;
+        border-radius: 5px;
+      }
+    }
   }
 }
