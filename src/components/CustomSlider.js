@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from "react";
+import React, { Fragment } from "react";
 
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
@@ -10,7 +10,6 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 const CustomSlider = ({ children, ...props }) => {
-  const swiperRef = useRef();
   return (
     <Fragment>
       <Swiper
@@ -30,10 +29,6 @@ const CustomSlider = ({ children, ...props }) => {
         }}
         centerInsufficientSlides={true}
         breakpoints={props.config ? props.config : ""}
-        //get swiper
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-        }}
       >
         {children}
       </Swiper>
@@ -41,17 +36,11 @@ const CustomSlider = ({ children, ...props }) => {
       {/* custom navigation button */}
       <button
         className={`slider-arrow-btn__prev ${props.paginationClass} btnPrev-${props.specifyClass}`}
-        onClick={() => {
-          swiperRef.current.slidePrev();
-        }}
       >
         <IoIosArrowBack className="slider-arrow-btn__icon--prev" />
       </button>
       <button
         className={`slider-arrow-btn__next ${props.paginationClass} btnNext-${props.specifyClass}`}
-        onClick={() => {
-          swiperRef.current.slideNext();
-        }}
       >
         <IoIosArrowForward className="slider-arrow-btn__icon--next" />
       </button>

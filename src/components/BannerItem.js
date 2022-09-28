@@ -2,24 +2,34 @@ import React from "react";
 import { BsPlayCircleFill } from "react-icons/bs";
 import { MdOutlineAdd } from "react-icons/md";
 import { AiFillStar } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
-const BannerItem = () => {
+const BannerItem = ({ type, filmID, info }) => {
+  const navigate = useNavigate();
+  const btnFilmClickHandler = () => {
+    navigate(`/${type}/${filmID}`);
+  };
   return (
     <div className="BannerItem relative">
       <img
-        src="https://images.unsplash.com/photo-1563381013529-1c922c80ac8d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1413&q=80"
-        alt="banner img"
-        className="w-full h-[40vh] object-cover rounded-[20px]"
+        src={`${process.env.REACT_APP_API_PATH_IMG_ORIGINAL}${info.backdrop_path}`}
+        alt="banner img not found"
+        className="w-full h-[55vh] object-cover rounded-[20px] text-primary"
       />
       <div className="absolute bottom-8 left-8 text-white">
-        <h2 className="text-4xl font-bold mb-5">Avenger:Endgame</h2>
+        <h2 className="text-4xl font-bold mb-5">
+          {type === "tvseries" ? info.name : info.title}
+        </h2>
         <div className="mb-5 flex items-center">
           <AiFillStar className="text-yellow-400 text-[26px] inline-block mr-2" />
-          <p className="text-xl font-bold mr-1">7.2</p>
+          <p className="text-xl font-bold mr-1">{info.vote_average}</p>
           <p className="text-[#545454] font-bold ">/10</p>
         </div>
         <div className="flex gap-x-5">
-          <button className="bg-primary px-5 py-2 rounded-[10px] outline-none font-medium transition-all hover:bg-red-500">
+          <button
+            className="bg-primary px-5 py-2 rounded-[10px] outline-none font-medium transition-all hover:bg-red-400"
+            onClick={btnFilmClickHandler}
+          >
             Watch
             <BsPlayCircleFill className="inline-block text-xl ml-1" />
           </button>

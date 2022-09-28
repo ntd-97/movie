@@ -1,31 +1,44 @@
-import React from "react";
 import { AiFillStar } from "react-icons/ai";
 import { BsPlayCircleFill } from "react-icons/bs";
 import { MdOutlineAdd } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
-const FilmItem = () => {
+const FilmItem = ({ type, filmID, info }) => {
+  const navigate = useNavigate();
+  const btnFilmClickHandler = () => {
+    navigate(`/${type}/${filmID}`);
+  };
   return (
     <div className="FilmItem relative rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC]">
       <img
-        className="object-cover w-full h-[300px] rounded-[10px] mb-4"
-        src="https://images.unsplash.com/photo-1604200213928-ba3cf4fc8436?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+        className="object-cover w-full h-[350px] rounded-[10px] mb-4"
+        src={`${process.env.REACT_APP_API_PATH_IMG_W500}${info.poster_path}`}
         alt="poster film"
       />
 
-      <h3 className="mb-3">Spiderman - No way home</h3>
+      <h3 className="mb-3 truncate">
+        {type === "tvseries" ? info.name : info.title}
+      </h3>
       <div className="mb-4 flex justify-between items-center text-sm text-[#7D7D7D] font-medium">
-        <span>2022</span>
+        <span>
+          {new Date(
+            type === "tvseries" ? info.first_air_date : info.release_date
+          ).getFullYear()}
+        </span>
         <span className="flex items-center">
-          7.2
+          {info.vote_average.toString().slice(0, 3)}
           <AiFillStar className="text-yellow-400 text-[20px] inline-block ml-1" />{" "}
         </span>
       </div>
       <button className="absolute top-5 right-5 bg-[#4B444C] opacity-60 px-2 py-2 rounded-full transition-all hover:bg-gray-500 hover:opacity-100">
         <MdOutlineAdd className="text-2xl" />
       </button>
-      <button className="bg-primary px-5 py-2 rounded-[10px] w-full outline-none font-medium transition-all hover:bg-red-500 flex justify-center items-center">
+      <button
+        onClick={btnFilmClickHandler}
+        className="bg-primary px-5 py-2 rounded-[10px] w-full outline-none font-medium transition-all hover:bg-red-400 flex justify-center items-center"
+      >
         Watch now
-        <BsPlayCircleFill className="inline-block text-xl ml-1" />
+        <BsPlayCircleFill className="inline-block text-xl ml-2" />
       </button>
     </div>
   );
