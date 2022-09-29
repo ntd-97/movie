@@ -1,6 +1,9 @@
 import { SwiperSlide } from "swiper/react";
+
 import CustomSlider from "./CustomSlider";
 import FilmItem from "./FilmItem";
+
+import PropTypes from "prop-types";
 
 const swiperResponsiveConfig = {
   992: {
@@ -21,16 +24,17 @@ const swiperResponsiveConfig = {
   },
 };
 
-const FilmList = ({ title, type, ...props }) => {
+const FilmList = ({ title, type, specifyClass, films }) => {
   return (
     <div className="FilmList relative">
       <h2 className="text-2xl text-[#ECECEC] font-medium mb-5">{title}</h2>
+
       <CustomSlider
-        specifyClass={props.specifyClass}
+        specifyClass={specifyClass}
         paginationClass="normalList"
         config={swiperResponsiveConfig}
       >
-        {props.films?.map((film) => {
+        {films?.map((film) => {
           return (
             <SwiperSlide key={film.id}>
               <FilmItem type={type} filmID={film.id} info={film} />
@@ -40,6 +44,13 @@ const FilmList = ({ title, type, ...props }) => {
       </CustomSlider>
     </div>
   );
+};
+
+FilmList.propTypes = {
+  specifyClass: PropTypes.string,
+  type: PropTypes.string,
+  title: PropTypes.string,
+  films: PropTypes.array,
 };
 
 export default FilmList;

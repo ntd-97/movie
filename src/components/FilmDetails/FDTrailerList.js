@@ -1,6 +1,9 @@
 import { SwiperSlide } from "swiper/react";
+
 import CustomSlider from "../CustomSlider";
 import FDTrailerItem from "./FDTrailerItem";
+
+import PropTypes from "prop-types";
 
 const swiperResponsiveConfig = {
   992: {
@@ -21,14 +24,14 @@ const swiperResponsiveConfig = {
   },
 };
 
-const FDTrailerList = (props) => {
+const FDTrailerList = ({ specifyClass, trailers }) => {
   return (
     <CustomSlider
-      specifyClass={props.specifyClass}
+      specifyClass={specifyClass}
       paginationClass="normalList"
       config={swiperResponsiveConfig}
     >
-      {props.trailers
+      {trailers
         ?.filter((trailer) => trailer.site === "YouTube")
         .map((trailer) => {
           return (
@@ -39,6 +42,11 @@ const FDTrailerList = (props) => {
         })}
     </CustomSlider>
   );
+};
+
+FDTrailerList.propTypes = {
+  specifyClass: PropTypes.string,
+  trailers: PropTypes.array,
 };
 
 export default FDTrailerList;

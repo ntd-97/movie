@@ -1,9 +1,11 @@
 import React from "react";
 import LogoImg from "../../assets/images/logo.png";
+
 import { BsGrid1X2Fill, BsPlayCircleFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import { RiSettings4Fill } from "react-icons/ri";
 import { IoLogOut } from "react-icons/io5";
+
 import { NavLink } from "react-router-dom";
 
 const MenuSideBar = () => {
@@ -16,10 +18,12 @@ const MenuSideBar = () => {
             src={LogoImg}
             alt="logo"
           />
+
           <div className="flex flex-col gap-y-6">
             <h4 className="uppercase text-[#505050] text-[14px] font-medium tracking-[4px] ">
               Categories
             </h4>
+
             <div className="px-3 flex flex-col gap-y-6">
               <NavLink
                 className={({ isActive }) =>
@@ -32,6 +36,7 @@ const MenuSideBar = () => {
                 <BsPlayCircleFill className="inline-block mr-[6px]" />
                 Movies
               </NavLink>
+
               <NavLink
                 className={({ isActive }) =>
                   (isActive ? "text-primary" : "") +
@@ -71,6 +76,7 @@ const MenuSideBar = () => {
               <RiSettings4Fill className="inline-block mr-[6px] text-[18px]" />
               Settings
             </a>
+
             <a
               className="flex items-center transition-colors hover:text-primary"
               href="#demo"
@@ -78,6 +84,7 @@ const MenuSideBar = () => {
               <IoLogOut className="inline-block mr-[6px] text-[18px]" />
               Log out
             </a>
+
             <div className="flex items-center flex-wrap">
               <img
                 className="w-[40px] h-[40px] rounded-full object-cover inline-block mr-3"

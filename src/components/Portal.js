@@ -18,6 +18,7 @@ const Portal = ({
   containerStyle = {},
   bodyStyle = {},
   onClose = () => {},
+  visible = false,
   overlay = true,
   children,
 }) => {
@@ -25,7 +26,7 @@ const Portal = ({
     document.body.appendChild(portalWrapperElm);
   }, []);
 
-  const renderContent = (
+  const renderContent = visible && (
     <div className={containerClassName} style={containerStyle}>
       {overlay && (
         <div
@@ -51,6 +52,7 @@ Portal.propTypes = {
   onClose: PropTypes.func,
   children: PropTypes.node,
   overlay: PropTypes.bool,
+  visible: PropTypes.bool,
 };
 
 export default Portal;

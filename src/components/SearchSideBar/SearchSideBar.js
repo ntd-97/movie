@@ -1,5 +1,7 @@
 import React from "react";
+
 import { FiSearch } from "react-icons/fi";
+
 import SearchSideBarList from "./SearchSideBarList";
 
 const SearchSideBar = () => {
@@ -14,7 +16,9 @@ const SearchSideBar = () => {
             className="px-[15px] py-[10px] w-full rounded-[10px] bg-[#252229] focus:outline-[#353535] outline-none"
           />
         </div>
+
         <SearchSideBarList title="Trending" />
+
         <SearchSideBarList title="Watchlists" />
       </div>
     </div>
