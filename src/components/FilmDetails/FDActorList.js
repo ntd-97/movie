@@ -9,8 +9,8 @@ import PropTypes from "prop-types";
 
 const swiperResponsiveConfig = {
   992: {
-    slidesPerView: 4,
-    slidesPerGroup: 4,
+    slidesPerView: 5,
+    slidesPerGroup: 5,
   },
   768: {
     slidesPerView: 3,

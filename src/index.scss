@@ -59,7 +59,8 @@
     content: "";
     position: absolute;
     inset: 0;
-    @apply bg-black bg-opacity-[65%];
+    @apply bg-black bg-opacity-[60%];
+    z-index: 3;
   }
 
   //Custom Swiper class
@@ -164,5 +165,4 @@
       }
     }
   }
-
 }

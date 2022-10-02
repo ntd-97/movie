@@ -2,11 +2,14 @@ import CustomSlider from "../CustomSlider";
 import BannerItem from "../BannerItem";
 import FilmList from "../FilmList";
 
+import { BsArrowRight } from "react-icons/bs";
+
 import { SwiperSlide } from "swiper/react";
 
 import axios from "axios";
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MoviesHomePage = () => {
   const [loading, setLoading] = useState(true);
@@ -16,6 +19,8 @@ const MoviesHomePage = () => {
     popular: [],
     topRated: [],
   });
+
+  const navigate = useNavigate();
 
   const getData = async () => {
     try {
@@ -90,6 +95,16 @@ const MoviesHomePage = () => {
           type="movies"
           films={data.topRated.results}
         />
+
+        <button
+          onClick={() => {
+            navigate("/movies/list/page/1");
+          }}
+          className="ml-auto bg-transparent px-5 py-2 rounded-[10px] outline-none text-primary text-xl font-medium transition-all hover:bg-primary hover:text-white flex justify-center items-center"
+        >
+          See more
+          <BsArrowRight className="inline-block text-2xl ml-2 font-bold" />
+        </button>
       </div>
     </>
   );

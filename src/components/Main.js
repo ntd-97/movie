@@ -5,6 +5,7 @@ import CelebProfile from "./Celebs/CelebProfile";
 import CelebsHomePage from "./Celebs/CelebsHomePage";
 import FilmDetails from "./FilmDetails/FilmDetails";
 import MoviesHomePage from "./MoviesHomePage/MoviesHomePage";
+import FilmsListPage from "./FilmsListPage/FilmsListPage";
 // import Navbar from "./Navbar";
 import PageNotFound from "./PageNotFound";
 import TVSeriesHomePage from "./TVSeriesHomePage/TVSeriesHomePage";
@@ -18,8 +19,16 @@ const Main = () => {
           <Route path="/" element={<Navigate to="movies" />}></Route>
           <Route path="movies" element={<MoviesHomePage />}></Route>
           <Route path="movies/:filmId" element={<FilmDetails />}></Route>
+          <Route
+            path="movies/list/page/:page"
+            element={<FilmsListPage />}
+          ></Route>
           <Route path="tvseries" element={<TVSeriesHomePage />}></Route>
           <Route path="tvseries/:filmId" element={<FilmDetails />}></Route>
+          <Route
+            path="tvseries/list/page/:page"
+            element={<FilmsListPage />}
+          ></Route>
           <Route
             path="celebs"
             element={<Navigate to="/celebs/page/1" />}
