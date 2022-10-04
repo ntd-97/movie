@@ -3,7 +3,10 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 
 import { useEffect } from "react";
+
 import { AiFillStar } from "react-icons/ai";
+import { MdOutlineAdd } from "react-icons/md";
+import { FaHeart } from "react-icons/fa";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -13,6 +16,8 @@ import FDTrailerList from "./FDTrailerList";
 
 import coverImgNotFound from "../../assets/images/cover_not_found.jpg";
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
+import { useContext } from "react";
+import { LoginContext } from "../../App";
 
 const FilmDetails = () => {
   const [loading, setLoading] = useState(true);
@@ -22,6 +27,8 @@ const FilmDetails = () => {
   const type = useRef();
 
   const navigate = useNavigate();
+
+  const { loginInfo } = useContext(LoginContext);
 
   let { pathname } = useLocation();
   let { filmId } = useParams();
@@ -230,22 +237,37 @@ const FilmDetails = () => {
               </p>
             </div>
 
-            <div className="flex justify-end gap-x-4 mt-10">
-              {data?.genres?.map((genre) => {
-                return (
-                  <span
-                    key={genre.id}
-                    className="px-[10px] py-[5px] border-2 rounded-[10px] border-[#474749] bg-[#292326] bg-opacity-70 hover:cursor-pointer hover:border-white transition-all"
-                    onClick={() => {
-                      navigate(
-                        `/${type.current}/list/page/1?with_genres=${genre.id}`
-                      );
-                    }}
-                  >
-                    {genre.name}
-                  </span>
-                );
-              })}
+            <div className="flex justify-between gap-x-4 mt-10 ">
+              <div className="flex gap-x-2">
+                {Object.keys(loginInfo).length > 0 && (
+                  <button className="flex justify-center items-center bg-[#292326] w-10 h-10  bg-opacity-90 px-2 py-2 rounded-xl transition-all hover:bg-gray-500">
+                    <MdOutlineAdd className="text-2xl" />
+                  </button>
+                )}
+
+                {Object.keys(loginInfo).length > 0 && (
+                  <button className="group flex justify-center items-center w-10 h-10  bg-[#292326] bg-opacity-90 px-2 py-2 rounded-full transition-all hover:opacity-100 hover:bg-transparent hover:text-primary">
+                    <FaHeart className="text-xl group-hover:text-2xl transition-all" />
+                  </button>
+                )}
+              </div>
+              <div className="flex gap-x-5">
+                {data?.genres?.map((genre) => {
+                  return (
+                    <span
+                      key={genre.id}
+                      className="px-[10px] py-[5px] border-2 rounded-[10px] border-[#474749] bg-[#292326] bg-opacity-70 hover:cursor-pointer hover:border-white transition-all"
+                      onClick={() => {
+                        navigate(
+                          `/${type.current}/list/page/1?with_genres=${genre.id}`
+                        );
+                      }}
+                    >
+                      {genre.name}
+                    </span>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

@@ -64,7 +64,7 @@ const TVSeriesHomePage = () => {
       <div
         className={`${
           loading ? "opacity-0 hidden " : "opacity-1 block"
-        } TVSeriesHomePage px-10 pt-10`}
+        } TVSeriesHomePage px-10 py-10`}
       >
         {/* banner */}
         <div className="relative  mb-6">

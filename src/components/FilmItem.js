@@ -1,6 +1,5 @@
 import { AiFillStar } from "react-icons/ai";
 import { BsPlayCircleFill } from "react-icons/bs";
-import { MdOutlineAdd } from "react-icons/md";
 
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -45,10 +44,6 @@ const FilmItem = ({ type, filmID, info }) => {
           <AiFillStar className="text-yellow-400 text-[20px] inline-block ml-1" />
         </span>
       </div>
-
-      <button className="absolute top-5 right-5 bg-[#4B444C] opacity-60 px-2 py-2 rounded-full transition-all hover:bg-gray-500 hover:opacity-100">
-        <MdOutlineAdd className="text-2xl" />
-      </button>
 
       <button
         onClick={btnFilmClickHandler}

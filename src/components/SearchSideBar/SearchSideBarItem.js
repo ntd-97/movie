@@ -1,37 +1,102 @@
 import React from "react";
+
 import { AiFillStar } from "react-icons/ai";
 
-const SearchSideBarItem = () => {
+import PropTypes from "prop-types";
+
+import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const SearchSideBarItem = ({ film, type }) => {
+  console.log(
+    "🚀 ~ file: SearchSideBarItem.js ~ line 13 ~ SearchSideBarItem ~ film",
+    film
+  );
+  const [data, setData] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getGenres = async () => {
+      const resGenres = await axios.get(
+        `${process.env.REACT_APP_API_PATH_GENRES}${type}/list?api_key=${process.env.REACT_APP_API_KEY}`
+      );
+
+      const genresResult = film.genre_ids.map((genre) => {
+        return resGenres.data.genres.find(
+          (genreListItem) => genre === genreListItem.id
+        );
+      });
+
+      setData(genresResult);
+    };
+
+    getGenres();
+  }, [type, film]);
+
   return (
-    <div className="SearchSideBarItem flex rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] gap-x-[10px]">
+    <div
+      onClick={() => {
+        navigate(`/${type === "movie" ? "movies" : "tvseries"}/${film?.id}`);
+      }}
+      className="SearchSideBarItem grid grid-cols-4 rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] hover:cursor-pointer hover:scale-105 transition-all"
+    >
       <img
-        src="https://is2-ssl.mzstatic.com/image/thumb/H4JfhPRO782ZNd7FgxmDFQ/1200x675mf.jpg"
+        src={
+          film?.poster_path
+            ? `${process.env.REACT_APP_API_PATH_IMG_W500}${film?.poster_path}`
+            : posterImgNotFound
+        }
         alt="poster film"
-        className="w-[92px] h-[95px] rounded-[10px] object-cover"
+        className="w-[100px] h-[120px]  rounded-[10px] object-cover col-span-1"
       />
-      <div className="flex-grow flex flex-col justify-between">
-        <h4>Iron Man</h4>
-        <div className="flex justify-between text-[13.5px] text-[#AFAFAF]">
-          <p>2008</p>
+
+      <div className="grid grid-row-4 col-span-3 ml-[10px]">
+        <h4 className="text-[17px] truncate">
+          {type === "tv" ? film?.name : film?.title}
+        </h4>
+        <div className="row-span-2 flex items-top justify-between text-[13.5px] text-[#AFAFAF]">
           <p>
-            8.0
-            <AiFillStar className="text-yellow-400 text-[20px] inline-block ml-1" />
+            {new Date(
+              type === "tv" ? film?.first_air_date : film?.release_date
+            ).getFullYear()}
+          </p>
+          <p>
+            {film?.vote_average > 0
+              ? film?.vote_average?.toString().slice(0, 3)
+              : "0"}
+            <AiFillStar className="text-yellow-400 text-[20px] inline-block ml-1 mb-1" />
           </p>
         </div>
-        <div className="flex justify-between">
-          <p className="text-[13.5px] px-[10px] py-[5px] border-2 rounded-[10px] border-[#474749] hover:cursor-pointer hover:border-white transition-all">
-            Action
-          </p>
-          <p className="text-[13.5px] px-[10px] py-[5px] border-2 rounded-[10px] border-[#474749] hover:cursor-pointer hover:border-white transition-all">
-            Fantasy
-          </p>
-          <p className="text-[13.5px] px-[10px] py-[5px] border-2 rounded-[10px] border-[#474749] hover:cursor-pointer hover:border-white transition-all">
-            Science Fiction
-          </p>
+
+        <div className=" grid grid-cols-3 gap-x-2">
+          {data?.map((genre) => (
+            <p
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(
+                  `/${
+                    type === "movie" ? "movies" : "tvseries"
+                  }/list/page/1?with_genres=${genre?.id}`
+                );
+              }}
+              key={genre?.id}
+              className="flex justify-center items-center text-[13.5px] px-[10px] py-[5px] border-2 rounded-[10px] conte border-[#474749] hover:cursor-pointer hover:border-white transition-all"
+            >
+              {genre?.name}
+            </p>
+          ))}
         </div>
       </div>
     </div>
   );
+};
+
+SearchSideBarItem.propTypes = {
+  type: PropTypes.string,
+  film: PropTypes.object,
 };
 
 export default SearchSideBarItem;

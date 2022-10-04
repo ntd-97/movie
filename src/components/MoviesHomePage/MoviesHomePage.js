@@ -65,7 +65,7 @@ const MoviesHomePage = () => {
       <div
         className={`${
           loading ? "opacity-0 hidden " : "opacity-1 block"
-        } MoviesHomePage px-10 pt-10 transtion-all`}
+        } MoviesHomePage px-10 py-10 transtion-all`}
       >
         {/* Banner */}
         <div className="relative  mb-6">

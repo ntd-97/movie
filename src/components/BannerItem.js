@@ -1,7 +1,6 @@
 import React from "react";
 
 import { BsPlayCircleFill } from "react-icons/bs";
-import { MdOutlineAdd } from "react-icons/md";
 import { AiFillStar } from "react-icons/ai";
 
 import { useNavigate } from "react-router-dom";
@@ -43,19 +42,13 @@ const BannerItem = ({ type, filmID, info }) => {
           <p className="text-[#545454] font-bold ">/10</p>
         </div>
 
-        <div className="flex gap-x-5">
-          <button
-            className="bg-primary px-5 py-2 rounded-[10px] outline-none font-medium transition-all hover:bg-red-400"
-            onClick={btnFilmClickHandler}
-          >
-            Watch
-            <BsPlayCircleFill className="inline-block text-xl ml-1" />
-          </button>
-
-          <button className="bg-[#4B444C] bg-opacity-80 px-2 py-2 rounded-full transition-all hover:bg-gray-500">
-            <MdOutlineAdd className="text-2xl" />
-          </button>
-        </div>
+        <button
+          className="flex items-center bg-primary px-10 py-2 rounded-[10px] outline-none font-medium transition-all hover:bg-red-400"
+          onClick={btnFilmClickHandler}
+        >
+          Watch
+          <BsPlayCircleFill className="inline-block text-xl ml-1" />
+        </button>
       </div>
     </div>
   );

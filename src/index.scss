@@ -55,6 +55,7 @@
     background: linear-gradient(0deg, black, transparent);
   }
 
+  //image details film overlay class
   .coverImgFilmDetails::before {
     content: "";
     position: absolute;
@@ -63,6 +64,17 @@
     z-index: 3;
   }
 
+  //bg overlay class
+  .bg_overlay {
+    background-image: url("/assets/images/login_bg.jpg");
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      @apply bg-black bg-opacity-[80%];
+      z-index: 3;
+    }
+  }
   //Custom Swiper class
   @mixin slider-arrow-btn {
     position: absolute;

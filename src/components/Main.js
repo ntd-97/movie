@@ -9,10 +9,12 @@ import FilmsListPage from "./FilmsListPage/FilmsListPage";
 // import Navbar from "./Navbar";
 import PageNotFound from "./PageNotFound";
 import TVSeriesHomePage from "./TVSeriesHomePage/TVSeriesHomePage";
+import SignUpPage from "./SignUpPage/SignUpPage";
+import LoginPage from "./LoginPage/LoginPage";
 
 const Main = () => {
   return (
-    <div className="Main h-full relative col-span-5 pb-5">
+    <div className="Main h-full relative col-span-5">
       {/* <Navbar /> */}
       <div>
         <Routes>
@@ -38,6 +40,8 @@ const Main = () => {
             path="celebs/profile/:celebId"
             element={<CelebProfile />}
           ></Route>
+          <Route path="signup" element={<SignUpPage />}></Route>
+          <Route path="login" element={<LoginPage />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
       </div>
