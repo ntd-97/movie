@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import React, { useEffect, useRef, useState } from "react";
 
 import FilmItem from "../FilmItem";
@@ -25,6 +26,7 @@ const ResultSearchPage = () => {
 
       let path = "";
 
+      // set API's path and title base on pathname
       if (pathname.includes("movies")) {
         type.current = {
           title: "Movies Search List",

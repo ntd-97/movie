@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import React from "react";
+import React, { useLayoutEffect } from "react";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -19,8 +19,11 @@ const SearchSideBar = () => {
 
   const [type, setType] = useState({});
 
-  const [searchQuery, setSearchQuery] = useState();
+  const typeRef = useRef("");
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // preventing call API a lots of times when the user types in the search input
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const { pathname } = useLocation();
@@ -47,28 +50,48 @@ const SearchSideBar = () => {
     }, 300);
   });
 
-  useEffect(() => {
-    if (pathname.includes("movies"))
-      setType({ path: "movie", pathSearch: "movies", name: "Movies" });
+  useLayoutEffect(() => {
+    // set search placeholder and path to navigate base on the pathname
+    if (pathname.includes("movies")) {
+      setType({
+        pathSearch: "movies",
+        name: "Movies",
+      });
 
-    if (pathname.includes("tvseries"))
-      setType({ path: "tv", pathSearch: "tvseries", name: "TV Series" });
+      typeRef.current = "movies";
+    }
 
-    if (pathname.includes("celebs"))
-      setType({ path: "person", pathSearch: "celebs", name: "Celebs" });
+    if (pathname.includes("tvseries")) {
+      setType({
+        pathSearch: "tvseries",
+        name: "TV Series",
+      });
 
-    console.log("path effect");
+      typeRef.current = "tvseries";
+    }
+
+    if (pathname.includes("celebs")) {
+      setType({
+        pathSearch: "celebs",
+        name: "Celebs",
+      });
+
+      typeRef.current = "celebs";
+    }
+
+    if (!pathname.includes("search")) {
+      setSearchQuery("");
+    }
   }, [pathname]);
 
   useEffect(() => {
+    // navigation when the user types in the search input
     if (debouncedSearchQuery) {
       navigate.current(
-        `/${type.pathSearch}/search/page/1?query=${debouncedSearchQuery}`
+        `/${typeRef.current}/search/page/1?query=${debouncedSearchQuery}`
       );
-      setSearchQuery("");
     }
-    console.log("path debound");
-  }, [debouncedSearchQuery, type]);
+  }, [debouncedSearchQuery]);
 
   useEffect(() => {
     getData.current();
