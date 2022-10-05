@@ -68,7 +68,7 @@ const MoviesHomePage = () => {
         } MoviesHomePage px-10 py-10 transtion-all`}
       >
         {/* Banner */}
-        <div className="relative  mb-6">
+        <div className="relative  mb-6 rounded-[20px] overflow-hidden">
           <CustomSlider specifyClass="moviesBanner" paginationClass="banner">
             {data?.nowPlaying?.results?.map((film) => {
               return (

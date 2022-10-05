@@ -30,19 +30,21 @@ const FilmList = ({ title, type, specifyClass, films }) => {
       <h2 className="text-2xl text-[#ECECEC] font-medium mb-5">{title}</h2>
 
       {films?.length > 0 ? (
-        <CustomSlider
-          specifyClass={specifyClass}
-          paginationClass="normalList"
-          config={swiperResponsiveConfig}
-        >
-          {films?.map((film) => {
-            return (
-              <SwiperSlide key={film.id}>
-                <FilmItem type={type} filmID={film.id} info={film} />
-              </SwiperSlide>
-            );
-          })}
-        </CustomSlider>
+        <div className="rounded-[20px] overflow-hidden">
+          <CustomSlider
+            specifyClass={specifyClass}
+            paginationClass="normalList"
+            config={swiperResponsiveConfig}
+          >
+            {films?.map((film) => {
+              return (
+                <SwiperSlide key={film.id}>
+                  <FilmItem type={type} filmID={film.id} info={film} />
+                </SwiperSlide>
+              );
+            })}
+          </CustomSlider>
+        </div>
       ) : (
         <h3 className="text-primary text-center text-2xl mb-10">{`${
           type === "movies" ? "Movies" : "TV Series"

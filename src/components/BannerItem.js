@@ -26,7 +26,7 @@ const BannerItem = ({ type, filmID, info }) => {
         }
         loading="lazy"
         alt="banner img not found"
-        className="w-full h-[55vh] object-cover rounded-[20px] text-primary"
+        className="w-full h-[55vh] object-cover rounded-[20px]  text-primary"
       />
 
       <div className="absolute bottom-8 left-8 text-white">

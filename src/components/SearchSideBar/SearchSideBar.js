@@ -6,12 +6,25 @@ import { useEffect, useRef, useState } from "react";
 
 import { FiSearch } from "react-icons/fi";
 
+import { useLocation, useNavigate } from "react-router-dom";
+
+import useDebounce from "../../hooks/useDebounce";
+
 import SearchSideBarList from "./SearchSideBarList";
 
 const SearchSideBar = () => {
   const [data, setData] = useState({});
 
   const [loading, setLoading] = useState(true);
+
+  const [type, setType] = useState({});
+
+  const [searchQuery, setSearchQuery] = useState();
+
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+
+  const { pathname } = useLocation();
+  const navigate = useRef(useNavigate());
 
   const getData = useRef(async () => {
     setLoading(true);
@@ -35,6 +48,29 @@ const SearchSideBar = () => {
   });
 
   useEffect(() => {
+    if (pathname.includes("movies"))
+      setType({ path: "movie", pathSearch: "movies", name: "Movies" });
+
+    if (pathname.includes("tvseries"))
+      setType({ path: "tv", pathSearch: "tvseries", name: "TV Series" });
+
+    if (pathname.includes("celebs"))
+      setType({ path: "person", pathSearch: "celebs", name: "Celebs" });
+
+    console.log("path effect");
+  }, [pathname]);
+
+  useEffect(() => {
+    if (debouncedSearchQuery) {
+      navigate.current(
+        `/${type.pathSearch}/search/page/1?query=${debouncedSearchQuery}`
+      );
+      setSearchQuery("");
+    }
+    console.log("path debound");
+  }, [debouncedSearchQuery, type]);
+
+  useEffect(() => {
     getData.current();
   }, []);
 
@@ -45,8 +81,12 @@ const SearchSideBar = () => {
           <FiSearch className="absolute top-1/2 right-[15px] text-[22px] text-[#9CA3AF] -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search"
+            placeholder={`Search ${type.name}`}
             className="px-[15px] py-[10px] w-full rounded-[10px] bg-[#252229] focus:outline-[#353535] outline-none"
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+            value={searchQuery}
           />
         </div>
         <div className="grid mt-5 gap-y-10">

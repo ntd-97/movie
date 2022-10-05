@@ -10,10 +10,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SearchSideBarItem = ({ film, type }) => {
-  console.log(
-    "🚀 ~ file: SearchSideBarItem.js ~ line 13 ~ SearchSideBarItem ~ film",
-    film
-  );
   const [data, setData] = useState([]);
 
   const navigate = useNavigate();

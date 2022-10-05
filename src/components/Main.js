@@ -11,6 +11,7 @@ import PageNotFound from "./PageNotFound";
 import TVSeriesHomePage from "./TVSeriesHomePage/TVSeriesHomePage";
 import SignUpPage from "./SignUpPage/SignUpPage";
 import LoginPage from "./LoginPage/LoginPage";
+import ResultSearchPage from "./ResultSearchPage/ResultSearchPage";
 
 const Main = () => {
   return (
@@ -19,18 +20,29 @@ const Main = () => {
       <div>
         <Routes>
           <Route path="/" element={<Navigate to="movies" />}></Route>
+
           <Route path="movies" element={<MoviesHomePage />}></Route>
           <Route path="movies/:filmId" element={<FilmDetails />}></Route>
           <Route
             path="movies/list/page/:page"
             element={<FilmsListPage />}
           ></Route>
+          <Route
+            path="movies/search/page/:page"
+            element={<ResultSearchPage />}
+          ></Route>
+
           <Route path="tvseries" element={<TVSeriesHomePage />}></Route>
           <Route path="tvseries/:filmId" element={<FilmDetails />}></Route>
           <Route
             path="tvseries/list/page/:page"
             element={<FilmsListPage />}
           ></Route>
+          <Route
+            path="tvseries/search/page/:page"
+            element={<ResultSearchPage />}
+          ></Route>
+
           <Route
             path="celebs"
             element={<Navigate to="/celebs/page/1" />}
@@ -40,8 +52,14 @@ const Main = () => {
             path="celebs/profile/:celebId"
             element={<CelebProfile />}
           ></Route>
+          <Route
+            path="celebs/search/page/:page"
+            element={<ResultSearchPage />}
+          ></Route>
+
           <Route path="signup" element={<SignUpPage />}></Route>
           <Route path="login" element={<LoginPage />}></Route>
+
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
       </div>

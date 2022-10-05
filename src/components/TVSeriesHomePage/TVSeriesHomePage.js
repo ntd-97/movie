@@ -67,7 +67,7 @@ const TVSeriesHomePage = () => {
         } TVSeriesHomePage px-10 py-10`}
       >
         {/* banner */}
-        <div className="relative  mb-6">
+        <div className="relative  mb-6 rounded-[20px] overflow-hidden">
           <CustomSlider specifyClass="TVSeriesBanner" paginationClass="banner">
             {data?.nowPlaying?.results?.map((film) => {
               return (
