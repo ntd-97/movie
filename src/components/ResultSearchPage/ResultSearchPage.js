@@ -67,7 +67,7 @@ const ResultSearchPage = () => {
     }
   });
 
-  // get data when page, search are changed
+  // get data when page, search was changed
   useEffect(() => {
     getData.current(page, search);
   }, [page, search]);

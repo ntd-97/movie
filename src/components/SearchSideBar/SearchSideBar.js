@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import React, { useLayoutEffect } from "react";
+import React, { useContext } from "react";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -12,8 +12,10 @@ import useDebounce from "../../hooks/useDebounce";
 
 import SearchSideBarList from "./SearchSideBarList";
 
+import { LoginContext } from "../../App";
+
 const SearchSideBar = () => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -22,6 +24,8 @@ const SearchSideBar = () => {
   const typeRef = useRef("");
 
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { loginInfo } = useContext(LoginContext);
 
   // preventing call API a lots of times when the user types in the search input
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
@@ -32,6 +36,16 @@ const SearchSideBar = () => {
   const getData = useRef(async () => {
     setLoading(true);
 
+    const user_id = localStorage.getItem("user_id");
+    const session_id = localStorage.getItem("session_id");
+
+    let resMoviesWatchlist = {};
+    let resTvWatchlist = {};
+    let resMoviesFavorite = {};
+    let resTvFavorite = {};
+
+    let results = [];
+
     const resMoviesTrending = await axios.get(
       `${process.env.REACT_APP_API_PATH_TRENDING}movie/day?api_key=${process.env.REACT_APP_API_KEY}`
     );
@@ -40,17 +54,87 @@ const SearchSideBar = () => {
       `${process.env.REACT_APP_API_PATH_TRENDING}tv/day?api_key=${process.env.REACT_APP_API_KEY}`
     );
 
-    setData({
-      moviesTrending: resMoviesTrending.data.results.slice(0, 3),
-      tvTrending: resTvTrending.data.results.slice(0, 3),
-    });
+    results = [
+      {
+        films: resMoviesTrending.data.results.slice(0, 3),
+        title: "Movies Trending",
+        type: "movie",
+        typeNavigate: "/movies/trending",
+      },
+      {
+        films: resTvTrending.data.results.slice(0, 3),
+        title: "TV Series Trending",
+        type: "tv",
+        typeNavigate: "/tvseries/trending",
+      },
+    ];
+
+    if (user_id) {
+      resMoviesWatchlist = await axios.get(
+        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
+      );
+
+      resTvWatchlist = await axios.get(
+        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
+      );
+
+      resMoviesFavorite = await axios.get(
+        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
+      );
+
+      resTvFavorite = await axios.get(
+        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
+      );
+
+      results = [
+        ...results,
+        {
+          films:
+            resMoviesWatchlist.data.results.length > 3
+              ? resMoviesWatchlist.data.results.slice(0, 3)
+              : resMoviesWatchlist.data.results,
+          title: "Movies Watchlist",
+          type: "movie",
+          typeNavigate: "/movies/watchlist",
+        },
+        {
+          films:
+            resTvWatchlist.data.results.length > 3
+              ? resTvWatchlist.data.results.slice(0, 3)
+              : resTvWatchlist.data.results,
+          title: "TV Series Watchlist",
+          type: "tv",
+          typeNavigate: "/tvseries/watchlist",
+        },
+        {
+          films:
+            resMoviesFavorite.data.results.length > 3
+              ? resMoviesFavorite.data.results.slice(0, 3)
+              : resMoviesFavorite.data.results,
+          title: "Favorite Movies",
+          type: "movie",
+          typeNavigate: "/movies/favorite",
+        },
+        {
+          films:
+            resTvFavorite.data.results.length > 3
+              ? resTvFavorite.data.results.slice(0, 3)
+              : resTvFavorite.data.results,
+          title: "Favorite TV Series",
+          type: "tv",
+          typeNavigate: "/tvseries/favorite",
+        },
+      ];
+    }
+
+    setData(results);
 
     setTimeout(() => {
       setLoading(false);
     }, 300);
   });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // set search placeholder and path to navigate base on the pathname
     if (pathname.includes("movies")) {
       setType({
@@ -95,7 +179,7 @@ const SearchSideBar = () => {
 
   useEffect(() => {
     getData.current();
-  }, []);
+  }, [loginInfo]);
 
   return (
     <div className="w-full h-screen col-span-2">
@@ -113,19 +197,16 @@ const SearchSideBar = () => {
           />
         </div>
         <div className="grid mt-5 gap-y-10">
-          <SearchSideBarList
-            title="Movies Trending"
-            type="movie"
-            loading={loading}
-            films={data.moviesTrending}
-          />
-
-          <SearchSideBarList
-            title="TV Series Trending"
-            type="tv"
-            loading={loading}
-            films={data.tvTrending}
-          />
+          {data.map((list) => (
+            <SearchSideBarList
+              key={list.typeNavigate}
+              title={list.title}
+              type={list.type}
+              typeNavigate={list.typeNavigate}
+              loading={loading}
+              films={list.films}
+            />
+          ))}
         </div>
 
         {/* <SearchSideBarList title="Watchlists" type={type} loading={loading} /> */}

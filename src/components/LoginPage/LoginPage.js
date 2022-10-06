@@ -195,7 +195,12 @@ const LoginPage = () => {
           )}
           <button
             type="submit"
-            className="font-bold text-[18px] h-[43px] bg-primary py-2 rounded-[10px] hover:bg-red-400 flex items-center justify-center"
+            className={`${
+              isSubmitting
+                ? "hover:cursor-default"
+                : "hover:cursor-pointer hover:bg-red-400"
+            } font-bold text-[18px] h-[43px] bg-primary py-2 rounded-[10px] flex items-center justify-center`}
+            aria-disabled={isSubmitting ? true : false}
           >
             {isSubmitting ? (
               <div className="mx-auto w-5 h-5 border-2 border-white border-t-2 border-t-transparent rounded-full animate-spin"></div>

@@ -12,6 +12,7 @@ import TVSeriesHomePage from "./TVSeriesHomePage/TVSeriesHomePage";
 import SignUpPage from "./SignUpPage/SignUpPage";
 import LoginPage from "./LoginPage/LoginPage";
 import ResultSearchPage from "./ResultSearchPage/ResultSearchPage";
+import CommonListPage from "./CommonListPage";
 
 const Main = () => {
   return (
@@ -20,7 +21,7 @@ const Main = () => {
       <div>
         <Routes>
           <Route path="/" element={<Navigate to="movies" />}></Route>
-
+          {/* Movies route */}
           <Route path="movies" element={<MoviesHomePage />}></Route>
           <Route path="movies/:filmId" element={<FilmDetails />}></Route>
           <Route
@@ -31,7 +32,19 @@ const Main = () => {
             path="movies/search/page/:page"
             element={<ResultSearchPage />}
           ></Route>
-
+          <Route
+            path="movies/trending/page/:page"
+            element={<CommonListPage />}
+          ></Route>{" "}
+          <Route
+            path="movies/watchlist/page/:page"
+            element={<CommonListPage />}
+          ></Route>
+          <Route
+            path="movies/favorite/page/:page"
+            element={<CommonListPage />}
+          ></Route>
+          {/* TV Series route */}
           <Route path="tvseries" element={<TVSeriesHomePage />}></Route>
           <Route path="tvseries/:filmId" element={<FilmDetails />}></Route>
           <Route
@@ -42,7 +55,19 @@ const Main = () => {
             path="tvseries/search/page/:page"
             element={<ResultSearchPage />}
           ></Route>
-
+          <Route
+            path="tvseries/trending/page/:page"
+            element={<CommonListPage />}
+          ></Route>
+          <Route
+            path="tvseries/watchlist/page/:page"
+            element={<CommonListPage />}
+          ></Route>
+          <Route
+            path="tvseries/favorite/page/:page"
+            element={<CommonListPage />}
+          ></Route>
+          {/* Celebs route */}
           <Route
             path="celebs"
             element={<Navigate to="/celebs/page/1" />}
@@ -56,10 +81,10 @@ const Main = () => {
             path="celebs/search/page/:page"
             element={<ResultSearchPage />}
           ></Route>
-
+          {/* login, signup route */}
           <Route path="signup" element={<SignUpPage />}></Route>
           <Route path="login" element={<LoginPage />}></Route>
-
+          {/* Route not found */}
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
       </div>
