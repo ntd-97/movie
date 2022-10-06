@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 
 import { BsCheckLg } from "react-icons/bs";
 
+import bgImage from "../../assets/images/login_bg.jpg";
+
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -116,7 +118,10 @@ const LoginPage = () => {
   }, [setFocus]);
 
   return (
-    <div className="LoginPage bg_overlay w-full h-[100vh] flex justify-center items-center  select-none">
+    <div
+      className="LoginPage bg_overlay w-full h-[100vh] flex justify-center items-center  select-none"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <div className="bg-[#181818] w-[45%] bg-opacity-90 text-[#ececec] z-50 p-10 rounded-[15px]">
         <h3 className="text-2xl mb-4 font-bold tracking-[2px]">LOGIN</h3>
         <form
