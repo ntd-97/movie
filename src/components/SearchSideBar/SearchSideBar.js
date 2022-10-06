@@ -59,13 +59,13 @@ const SearchSideBar = () => {
         films: resMoviesTrending.data.results.slice(0, 3),
         title: "Movies Trending",
         type: "movie",
-        typeNavigate: "/movies/trending",
+        pathNavigate: "/movies/trending",
       },
       {
         films: resTvTrending.data.results.slice(0, 3),
         title: "TV Series Trending",
         type: "tv",
-        typeNavigate: "/tvseries/trending",
+        pathNavigate: "/tvseries/trending",
       },
     ];
 
@@ -95,7 +95,7 @@ const SearchSideBar = () => {
               : resMoviesWatchlist.data.results,
           title: "Movies Watchlist",
           type: "movie",
-          typeNavigate: "/movies/watchlist",
+          pathNavigate: "/movies/watchlist",
         },
         {
           films:
@@ -104,7 +104,7 @@ const SearchSideBar = () => {
               : resTvWatchlist.data.results,
           title: "TV Series Watchlist",
           type: "tv",
-          typeNavigate: "/tvseries/watchlist",
+          pathNavigate: "/tvseries/watchlist",
         },
         {
           films:
@@ -113,7 +113,7 @@ const SearchSideBar = () => {
               : resMoviesFavorite.data.results,
           title: "Favorite Movies",
           type: "movie",
-          typeNavigate: "/movies/favorite",
+          pathNavigate: "/movies/favorite",
         },
         {
           films:
@@ -122,7 +122,7 @@ const SearchSideBar = () => {
               : resTvFavorite.data.results,
           title: "Favorite TV Series",
           type: "tv",
-          typeNavigate: "/tvseries/favorite",
+          pathNavigate: "/tvseries/favorite",
         },
       ];
     }
@@ -199,10 +199,10 @@ const SearchSideBar = () => {
         <div className="grid mt-5 gap-y-10">
           {data.map((list) => (
             <SearchSideBarList
-              key={list.typeNavigate}
+              key={list.pathNavigate}
               title={list.title}
               type={list.type}
-              typeNavigate={list.typeNavigate}
+              pathNavigate={list.pathNavigate}
               loading={loading}
               films={list.films}
             />
