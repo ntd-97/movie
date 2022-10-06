@@ -5,21 +5,18 @@ import PropTypes from "prop-types";
 
 import { useNavigate } from "react-router-dom";
 
-const SearchSideBarList = ({ title, type, pathNavigate, loading, films }) => {
+const SearchSideBarList = ({ title, type, pathNavigate, films }) => {
   const navigate = useNavigate();
 
   return (
     <div className="SearchSideBarList">
       <h2 className="text-2xl text-[#ECECEC] font-medium mb-5">{title}</h2>
-      {loading && (
-        <div className="mx-auto w-8 h-8 border-2 border-primary border-t-2 border-t-transparent rounded-full animate-spin"></div>
-      )}
 
-      {!loading && films.length <= 0 && (
+      {films.length <= 0 && (
         <h3 className="text-primary text-center text-xl"> Not found</h3>
       )}
 
-      {!loading && films.length > 0 && (
+      {films.length > 0 && (
         <>
           <div className="flex flex-col gap-y-[15px]">
             {films?.map((film) => (
@@ -44,7 +41,6 @@ SearchSideBarList.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string,
   pathNavigate: PropTypes.string,
-  loading: PropTypes.bool,
   films: PropTypes.array,
 };
 

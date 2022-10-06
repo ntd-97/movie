@@ -34,104 +34,108 @@ const SearchSideBar = () => {
   const navigate = useRef(useNavigate());
 
   const getData = useRef(async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const user_id = localStorage.getItem("user_id");
-    const session_id = localStorage.getItem("session_id");
+      const user_id = localStorage.getItem("user_id");
+      const session_id = localStorage.getItem("session_id");
 
-    let resMoviesWatchlist = {};
-    let resTvWatchlist = {};
-    let resMoviesFavorite = {};
-    let resTvFavorite = {};
+      let resMoviesWatchlist = {};
+      let resTvWatchlist = {};
+      let resMoviesFavorite = {};
+      let resTvFavorite = {};
 
-    let results = [];
+      let results = [];
 
-    const resMoviesTrending = await axios.get(
-      `${process.env.REACT_APP_API_PATH_TRENDING}movie/day?api_key=${process.env.REACT_APP_API_KEY}`
-    );
-
-    const resTvTrending = await axios.get(
-      `${process.env.REACT_APP_API_PATH_TRENDING}tv/day?api_key=${process.env.REACT_APP_API_KEY}`
-    );
-
-    results = [
-      {
-        films: resMoviesTrending.data.results.slice(0, 3),
-        title: "Movies Trending",
-        type: "movie",
-        pathNavigate: "/movies/trending",
-      },
-      {
-        films: resTvTrending.data.results.slice(0, 3),
-        title: "TV Series Trending",
-        type: "tv",
-        pathNavigate: "/tvseries/trending",
-      },
-    ];
-
-    if (user_id) {
-      resMoviesWatchlist = await axios.get(
-        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
+      const resMoviesTrending = await axios.get(
+        `${process.env.REACT_APP_API_PATH_TRENDING}movie/day?api_key=${process.env.REACT_APP_API_KEY}`
       );
 
-      resTvWatchlist = await axios.get(
-        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
-      );
-
-      resMoviesFavorite = await axios.get(
-        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
-      );
-
-      resTvFavorite = await axios.get(
-        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
+      const resTvTrending = await axios.get(
+        `${process.env.REACT_APP_API_PATH_TRENDING}tv/day?api_key=${process.env.REACT_APP_API_KEY}`
       );
 
       results = [
-        ...results,
         {
-          films:
-            resMoviesWatchlist.data.results.length > 3
-              ? resMoviesWatchlist.data.results.slice(0, 3)
-              : resMoviesWatchlist.data.results,
-          title: "Movies Watchlist",
+          films: resMoviesTrending.data.results.slice(0, 3),
+          title: "Movies Trending",
           type: "movie",
-          pathNavigate: "/movies/watchlist",
+          pathNavigate: "/movies/trending",
         },
         {
-          films:
-            resTvWatchlist.data.results.length > 3
-              ? resTvWatchlist.data.results.slice(0, 3)
-              : resTvWatchlist.data.results,
-          title: "TV Series Watchlist",
+          films: resTvTrending.data.results.slice(0, 3),
+          title: "TV Series Trending",
           type: "tv",
-          pathNavigate: "/tvseries/watchlist",
-        },
-        {
-          films:
-            resMoviesFavorite.data.results.length > 3
-              ? resMoviesFavorite.data.results.slice(0, 3)
-              : resMoviesFavorite.data.results,
-          title: "Favorite Movies",
-          type: "movie",
-          pathNavigate: "/movies/favorite",
-        },
-        {
-          films:
-            resTvFavorite.data.results.length > 3
-              ? resTvFavorite.data.results.slice(0, 3)
-              : resTvFavorite.data.results,
-          title: "Favorite TV Series",
-          type: "tv",
-          pathNavigate: "/tvseries/favorite",
+          pathNavigate: "/tvseries/trending",
         },
       ];
+
+      if (user_id) {
+        resMoviesWatchlist = await axios.get(
+          `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
+        );
+
+        resTvWatchlist = await axios.get(
+          `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
+        );
+
+        resMoviesFavorite = await axios.get(
+          `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
+        );
+
+        resTvFavorite = await axios.get(
+          `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
+        );
+
+        results = [
+          ...results,
+          {
+            films:
+              resMoviesWatchlist.data.results.length > 3
+                ? resMoviesWatchlist.data.results.slice(0, 3)
+                : resMoviesWatchlist.data.results,
+            title: "Movies Watchlist",
+            type: "movie",
+            pathNavigate: "/movies/watchlist",
+          },
+          {
+            films:
+              resTvWatchlist.data.results.length > 3
+                ? resTvWatchlist.data.results.slice(0, 3)
+                : resTvWatchlist.data.results,
+            title: "TV Series Watchlist",
+            type: "tv",
+            pathNavigate: "/tvseries/watchlist",
+          },
+          {
+            films:
+              resMoviesFavorite.data.results.length > 3
+                ? resMoviesFavorite.data.results.slice(0, 3)
+                : resMoviesFavorite.data.results,
+            title: "Favorite Movies",
+            type: "movie",
+            pathNavigate: "/movies/favorite",
+          },
+          {
+            films:
+              resTvFavorite.data.results.length > 3
+                ? resTvFavorite.data.results.slice(0, 3)
+                : resTvFavorite.data.results,
+            title: "Favorite TV Series",
+            type: "tv",
+            pathNavigate: "/tvseries/favorite",
+          },
+        ];
+      }
+
+      setData(results);
+
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
+    } catch (error) {
+      console.log(error);
     }
-
-    setData(results);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 300);
   });
 
   useEffect(() => {
@@ -196,20 +200,22 @@ const SearchSideBar = () => {
             value={searchQuery}
           />
         </div>
-        <div className="grid mt-5 gap-y-10">
-          {data.map((list) => (
-            <SearchSideBarList
-              key={list.pathNavigate}
-              title={list.title}
-              type={list.type}
-              pathNavigate={list.pathNavigate}
-              loading={loading}
-              films={list.films}
-            />
-          ))}
-        </div>
-
-        {/* <SearchSideBarList title="Watchlists" type={type} loading={loading} /> */}
+        {loading && (
+          <div className="mx-auto w-10 h-10 border-2 border-primary border-t-2 border-t-transparent rounded-full animate-spin"></div>
+        )}
+        {!loading && (
+          <div className="grid mt-5 gap-y-10">
+            {data.map((list) => (
+              <SearchSideBarList
+                key={list.pathNavigate}
+                title={list.title}
+                type={list.type}
+                pathNavigate={list.pathNavigate}
+                films={list.films}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
