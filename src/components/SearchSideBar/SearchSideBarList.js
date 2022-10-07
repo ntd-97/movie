@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import Loader from "../Loader";
 
 const SearchSideBarList = ({ title, type, pathNavigate, apiPath }) => {
   const navigate = useNavigate();
@@ -44,9 +45,13 @@ const SearchSideBarList = ({ title, type, pathNavigate, apiPath }) => {
     <div className="SearchSideBarList">
       <h2 className="text-2xl text-[#ECECEC] font-medium mb-5">{title}</h2>
 
-      {loading && (
-        <div className="mx-auto w-10 h-10 border-2 border-primary border-t-2 border-t-transparent rounded-full animate-spin"></div>
-      )}
+      <Loader
+        classWidth="w-10"
+        classHeight="h-10"
+        classBorder="border-2"
+        classMargin="mt-0"
+        loading={loading}
+      />
 
       {films.length <= 0 && !loading && (
         <h3 className="text-primary text-center text-xl"> Not found</h3>

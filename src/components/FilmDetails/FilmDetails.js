@@ -18,6 +18,7 @@ import coverImgNotFound from "../../assets/images/cover_not_found.jpg";
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 import { useContext } from "react";
 import { AccountStateContext } from "../../App";
+import Loader from "../Loader";
 
 const FilmDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -199,11 +200,13 @@ const FilmDetails = () => {
   return (
     <>
       {/* loader */}
-      <div
-        className={`${
-          loading ? "opacity-1 block" : "opacity-0 hidden"
-        }  w-[50px] h-[50px] border-[4px] border-y-primary border-l-primary border-r-transparent rounded-full animate-spin mx-auto mt-10 transtion-all`}
-      ></div>
+      <Loader
+        classWidth="w-[50px]"
+        classHeight="h-[50px]"
+        classBorder="border-[4px]"
+        classMargin="mt-10"
+        loading={loading}
+      />
 
       <div
         className={`${
@@ -310,9 +313,13 @@ const FilmDetails = () => {
                     onClick={watchlistClickHandler}
                     className="group flex justify-center items-center bg-[#292326] w-10 h-10  bg-opacity-90 px-2 py-2 rounded-xl transition-all hover:bg-gray-500"
                   >
-                    {loadingBtnWatchList && (
-                      <div className="mx-auto w-4 h-4 border-2 border-primary border-t-2 border-t-transparent rounded-full animate-spin"></div>
-                    )}
+                    <Loader
+                      classWidth="w-4"
+                      classHeight="h-4"
+                      classBorder="border-2"
+                      classMargin="mt-0"
+                      loading={loadingBtnWatchList}
+                    />
 
                     {accountState?.watchlist && !loadingBtnWatchList && (
                       <MdOutlineRemove className="text-xl group-hover:text-2xl transition-all" />
@@ -333,9 +340,14 @@ const FilmDetails = () => {
                     } group flex justify-center items-center w-10 h-10  bg-[#292326] bg-opacity-90 px-2 py-2 rounded-full transition-all hover:opacity-100 hover:bg-transparent`}
                     onClick={favoriteClickHandler}
                   >
-                    {loadingBtnFavorite && (
-                      <div className="mx-auto w-4 h-4 border-2 border-primary border-t-2 border-t-transparent rounded-full animate-spin"></div>
-                    )}
+                    <Loader
+                      classWidth="w-4"
+                      classHeight="h-4"
+                      classBorder="border-2"
+                      classMargin="mt-0"
+                      loading={loadingBtnFavorite}
+                    />
+
                     {!loadingBtnFavorite && (
                       <FaHeart className="text-xl group-hover:text-2xl transition-all" />
                     )}

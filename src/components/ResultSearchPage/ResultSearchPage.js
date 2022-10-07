@@ -8,9 +8,10 @@ import ReactPaginate from "react-paginate";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CelebItem from "../Celebs/CelebItem";
+import Loader from "../Loader";
 
 const ResultSearchPage = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState();
 
@@ -57,10 +58,10 @@ const ResultSearchPage = () => {
 
       const res = await axios.get(path);
 
+      setData(res.data);
       // set timeout to prevent jerking
       setTimeout(() => {
         setLoading(false);
-        setData(res.data);
       }, [200]);
     } catch (error) {
       console.log(error);
@@ -80,11 +81,13 @@ const ResultSearchPage = () => {
         </h1>
 
         {/* loader */}
-        <div
-          className={`${
-            loading ? "opacity-1 block" : "opacity-0 hidden"
-          }  w-[50px] h-[50px] border-[4px] border-y-primary border-l-primary border-r-transparent rounded-full animate-spin mx-auto mt-10 transtion-all`}
-        ></div>
+        <Loader
+          classWidth="w-[50px]"
+          classHeight="h-[50px]"
+          classBorder="border-[4px]"
+          classMargin="mt-10"
+          loading={loading}
+        />
 
         {data?.results?.filter((film) => film.poster_path).length <= 0 &&
           data?.results?.filter((celeb) => celeb.profile_path).length <= 0 && (

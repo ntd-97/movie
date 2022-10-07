@@ -7,6 +7,7 @@ import FilterBar from "./FilterBar";
 import ReactPaginate from "react-paginate";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import Loader from "../Loader";
 
 const FilmsListPage = () => {
   const [loading, setLoading] = useState(true);
@@ -64,11 +65,13 @@ const FilmsListPage = () => {
         <FilterBar type={pathname.includes("movies") ? "movie" : "tv"} />
 
         {/* loader */}
-        <div
-          className={`${
-            loading ? "opacity-1 block" : "opacity-0 hidden"
-          }  w-[50px] h-[50px] border-[4px] border-y-primary border-l-primary border-r-transparent rounded-full animate-spin mx-auto mt-10 transtion-all`}
-        ></div>
+        <Loader
+          classWidth="w-[50px]"
+          classHeight="h-[50px]"
+          classBorder="border-[4px]"
+          classMargin="mt-10"
+          loading={loading}
+        />
 
         {/* Film list */}
         {data?.results?.filter((film) => film.poster_path).length > 0 ? (

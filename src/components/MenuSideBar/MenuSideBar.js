@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import avatarDefault from "../../assets/images/avatar_default.png";
+import Loader from "../Loader";
 
 const MenuSideBar = () => {
   const { loginInfo, setLoginInfo } = useContext(LoginContext);
@@ -119,7 +120,13 @@ const MenuSideBar = () => {
                     Log out
                   </Link>
                 ) : (
-                  <div className="mx-auto w-5 h-5 border-2 border-primary border-t-2 border-t-transparent rounded-full animate-spin"></div>
+                  <Loader
+                    classWidth="w-5"
+                    classHeight="h-5"
+                    classBorder="border-2"
+                    classMargin="mt-0"
+                    loading={loading}
+                  />
                 )}
               </>
             )}
