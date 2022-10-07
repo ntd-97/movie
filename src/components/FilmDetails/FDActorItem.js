@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 
 const FDActorItem = ({ actor }) => {
   const navigate = useNavigate();
+
   return (
     <div className="flex flex-col justify-center items-center gap-y-1 text-center">
       <img

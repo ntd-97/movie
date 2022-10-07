@@ -1,8 +1,6 @@
+import React, { useRef, useState, useEffect, useContext } from "react";
+
 import axios from "axios";
-
-import React, { useRef, useState } from "react";
-
-import { useEffect } from "react";
 
 import { AiFillStar } from "react-icons/ai";
 import { MdOutlineAdd, MdOutlineRemove } from "react-icons/md";
@@ -13,12 +11,12 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import FilmList from "../FilmList";
 import FDActorList from "./FDActorList";
 import FDTrailerList from "./FDTrailerList";
+import Loader from "../Loader";
 
 import coverImgNotFound from "../../assets/images/cover_not_found.jpg";
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
-import { useContext } from "react";
+
 import { AccountStateContext } from "../../App";
-import Loader from "../Loader";
 
 const FilmDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -26,7 +24,7 @@ const FilmDetails = () => {
   const [loadingBtnWatchList, setLoadingBtnWatchList] = useState(false);
   const [loadingBtnFavorite, setLoadingBtnFavorite] = useState(false);
 
-  const [data, setData] = useState({});
+  const [filmDetails, setFilmDetails] = useState({});
 
   const type = useRef("");
 
@@ -94,7 +92,7 @@ const FilmDetails = () => {
     }
   };
 
-  const getData = useRef(async (filmId, pathname) => {
+  const getFilmDetails = useRef(async (filmId, pathname) => {
     // get API path base on type(movies, tvseries)
     setLoading(true);
     const path = pathname.includes("tvseries")
@@ -119,7 +117,7 @@ const FilmDetails = () => {
         });
       }
 
-      setData((prevData) => {
+      setFilmDetails((prevData) => {
         // refactor data
         if (type.current === "movies") {
           // refactor movie's time
@@ -194,7 +192,7 @@ const FilmDetails = () => {
     // set type
     type.current = pathname.includes("tvseries") ? "tvseries" : "movies";
     // call function getData
-    getData.current(filmId, pathname);
+    getFilmDetails.current(filmId, pathname);
   }, [pathname, filmId]);
 
   return (
@@ -217,7 +215,7 @@ const FilmDetails = () => {
         <div
           className="grid grid-cols-12 gap-10 px-10 my-auto bg-cover py-16 coverImgFilmDetails relative"
           style={{
-            backgroundImage: `url(${data?.backdrop_path_full})`,
+            backgroundImage: `url(${filmDetails?.backdrop_path_full})`,
           }}
         >
           <div className="col-span-4 z-50">
@@ -225,8 +223,8 @@ const FilmDetails = () => {
               className="w-full  object-cover text-primary"
               loading="lazy"
               src={
-                data?.poster_path
-                  ? `${process.env.REACT_APP_API_PATH_IMG_W500}${data?.poster_path}`
+                filmDetails?.poster_path
+                  ? `${process.env.REACT_APP_API_PATH_IMG_W500}${filmDetails?.poster_path}`
                   : posterImgNotFound
               }
               alt="poster img not found"
@@ -236,58 +234,64 @@ const FilmDetails = () => {
           <div className="flex flex-col justify-between text-[#ececec] col-span-8 mt-5 z-50">
             <div className="flex flex-col gap-y-4">
               <h1 className="text-5xl ">
-                {type.current === "movies" ? data?.title : data?.name}
+                {type.current === "movies"
+                  ? filmDetails?.title
+                  : filmDetails?.name}
               </h1>
 
               <h2 className="text-[#b5b5b5] text-2xl">
                 {type.current === "movies"
-                  ? data?.original_title
-                  : data?.original_name}
+                  ? filmDetails?.original_title
+                  : filmDetails?.original_name}
                 (
                 {new Date(
                   type.current === "movies"
-                    ? data?.release_date
-                    : data?.first_air_date
+                    ? filmDetails?.release_date
+                    : filmDetails?.first_air_date
                 ).getFullYear()}
                 )
               </h2>
 
               <p>
-                <span className={`${parseInt(data?.hours) ? "" : "hidden"}`}>
-                  {data?.hours} hour{" "}
+                <span
+                  className={`${parseInt(filmDetails?.hours) ? "" : "hidden"}`}
+                >
+                  {filmDetails?.hours} hour{" "}
                 </span>
                 <span
-                  className={`${parseInt(data?.minutes) ? "" : "hidden"} mr-5`}
+                  className={`${
+                    parseInt(filmDetails?.minutes) ? "" : "hidden"
+                  } mr-5`}
                 >
-                  {data?.minutes} minutes
+                  {filmDetails?.minutes} minutes
                   {type.current === "tvseries" ? "/episode" : ""}
                 </span>
-                {data?.certification && (
+                {filmDetails?.certification && (
                   <span className="bg-[#363636] px-2 rounded-[6px]">
-                    {data?.certification}
+                    {filmDetails?.certification}
                   </span>
                 )}
               </p>
 
               <p className="flex items-center">
                 <AiFillStar className="text-yellow-400 text-[20px] inline-block mr-1" />
-                {data?.vote_average ? data?.vote_average : "0"}
+                {filmDetails?.vote_average ? filmDetails?.vote_average : "0"}
               </p>
             </div>
 
             <div className="mt-5">
-              {data?.director && (
+              {filmDetails?.director && (
                 <p className="mb-1">
                   <span className="uppercase text-[#b5b5b5] mr-2">
                     Director:
                   </span>
-                  {data?.director}
+                  {filmDetails?.director}
                 </p>
               )}
 
               <p className="mb-1">
                 <span className="uppercase text-[#b5b5b5] mr-2">Nation:</span>
-                {data?.production_countries
+                {filmDetails?.production_countries
                   ?.map((country) => country.name)
                   .join(", ")}
               </p>
@@ -297,12 +301,12 @@ const FilmDetails = () => {
                   Release date:
                 </span>
                 {type.current === "movies"
-                  ? data?.release_date
-                  : data?.first_air_date}
+                  ? filmDetails?.release_date
+                  : filmDetails?.first_air_date}
               </p>
 
               <p className="leading-[24px] mt-5 text-justify">
-                {data?.overview}
+                {filmDetails?.overview}
               </p>
             </div>
 
@@ -355,7 +359,7 @@ const FilmDetails = () => {
                 )}
               </div>
               <div className="flex gap-x-5">
-                {data?.genres?.map((genre) => {
+                {filmDetails?.genres?.map((genre) => {
                   return (
                     <span
                       key={genre.id}
@@ -378,11 +382,11 @@ const FilmDetails = () => {
         {/* actors list */}
         <div className="text-[#ececec] col-span-12 relative px-10">
           <h4 className="mb-10 font-medium text-2xl">Actors</h4>
-          {data?.credits?.cast?.filter((actor) => actor.profile_path).length >
-          0 ? (
+          {filmDetails?.credits?.cast?.filter((actor) => actor.profile_path)
+            .length > 0 ? (
             <FDActorList
               specifyClass="film-details-actor-list"
-              actors={data?.credits?.cast}
+              actors={filmDetails?.credits?.cast}
             />
           ) : (
             <h3 className="text-primary text-center text-2xl">
@@ -394,10 +398,10 @@ const FilmDetails = () => {
         {/* trailers list */}
         <div className="text-[#ececec] col-span-12 relative px-10">
           <h4 className="mb-10 font-medium text-2xl">Trailers</h4>
-          {data?.videos?.results.length > 0 ? (
+          {filmDetails?.videos?.results.length > 0 ? (
             <FDTrailerList
               specifyClass="film-details-trailer-list"
-              trailers={data?.videos?.results}
+              trailers={filmDetails?.videos?.results}
             />
           ) : (
             <h3 className="text-primary text-center text-2xl">
@@ -413,7 +417,9 @@ const FilmDetails = () => {
               type.current === "movies" ? "Similar Movies" : "Similar TV Series"
             }
             type={type.current}
-            films={data?.similar?.results?.filter((film) => film.poster_path)}
+            films={filmDetails?.similar?.results?.filter(
+              (film) => film.poster_path
+            )}
             specifyClass="film-details-similar-movies-list"
           />
         </div>

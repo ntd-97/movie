@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from "react";
+
 import axios from "axios";
 
-import React, { useEffect, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +15,7 @@ import Loader from "../Loader";
 const TVSeriesHomePage = () => {
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState({
+  const [tvSeries, setTvSeries] = useState({
     nowPlaying: [],
     popular: [],
     topRated: [],
@@ -22,7 +23,7 @@ const TVSeriesHomePage = () => {
 
   const navigate = useNavigate();
 
-  const getData = async () => {
+  const getTvSeries = async () => {
     try {
       // tv series now playing data
       const resNowPlaying = await axios.get(
@@ -37,7 +38,7 @@ const TVSeriesHomePage = () => {
         `${process.env.REACT_APP_API_PATH_TVSERIES}top_rated?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
       );
 
-      setData({
+      setTvSeries({
         nowPlaying: resNowPlaying.data,
         popular: resPopular.data,
         topRated: resTopRated.data,
@@ -50,7 +51,7 @@ const TVSeriesHomePage = () => {
   };
 
   useEffect(() => {
-    getData();
+    getTvSeries();
   }, []);
 
   return (
@@ -72,7 +73,7 @@ const TVSeriesHomePage = () => {
         {/* banner */}
         <div className="relative  mb-6 rounded-[20px] overflow-hidden">
           <CustomSlider specifyClass="TVSeriesBanner" paginationClass="banner">
-            {data?.nowPlaying?.results?.map((film) => {
+            {tvSeries?.nowPlaying?.results?.map((film) => {
               return (
                 <SwiperSlide key={film.id}>
                   <BannerItem type="tvseries" filmID={film.id} info={film} />
@@ -86,7 +87,7 @@ const TVSeriesHomePage = () => {
         <FilmList
           type="tvseries"
           title="Popular TV series"
-          films={data.popular.results}
+          films={tvSeries.popular.results}
           specifyClass="TVSeriesPopList"
         />
 
@@ -94,7 +95,7 @@ const TVSeriesHomePage = () => {
         <FilmList
           type="tvseries"
           title="Top rated TV series"
-          films={data.topRated.results}
+          films={tvSeries.topRated.results}
           specifyClass="TVSeriesTopList"
         />
 

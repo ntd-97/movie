@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { BsFillPlayFill } from "react-icons/bs";
 
 import { TrailerModalContext } from "../../App";
-import { useContext } from "react";
 
 import PropTypes from "prop-types";
 
 const FDTrailerItem = ({ videoKey }) => {
-  // get prop from context
+  // get props from TrailerModalContext
   const { setOpenModal, setTrailerKey } = useContext(TrailerModalContext);
 
   return (

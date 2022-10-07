@@ -1,4 +1,5 @@
 import React from "react";
+
 import { TiWarning } from "react-icons/ti";
 
 const PageNotFound = () => {

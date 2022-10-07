@@ -3,8 +3,18 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Portal from "../Portal";
+import { useLocation } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
 const FDTrailerModal = ({ visible, onClose, children, bodyClassName = "" }) => {
+  const { pathname } = useLocation();
+  const closeFunc = useRef(onClose);
+
+  // close modal when pathname was changed
+  useEffect(() => {
+    closeFunc.current();
+  }, [pathname]);
+
   return (
     <Portal
       visible={visible}

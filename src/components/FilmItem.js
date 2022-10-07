@@ -2,6 +2,7 @@ import { AiFillStar } from "react-icons/ai";
 import { BsPlayCircleFill } from "react-icons/bs";
 
 import { useNavigate } from "react-router-dom";
+
 import PropTypes from "prop-types";
 
 import posterImgNotFound from "../assets/images/poster_not_found.jpg";

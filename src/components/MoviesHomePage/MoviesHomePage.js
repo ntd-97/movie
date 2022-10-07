@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
+
 import CustomSlider from "../CustomSlider";
 import BannerItem from "../BannerItem";
 import FilmList from "../FilmList";
+import Loader from "../Loader";
 
 import { BsArrowRight } from "react-icons/bs";
 
@@ -8,14 +11,12 @@ import { SwiperSlide } from "swiper/react";
 
 import axios from "axios";
 
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loader from "../Loader";
 
 const MoviesHomePage = () => {
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState({
+  const [movies, setMovies] = useState({
     nowPlaying: [],
     popular: [],
     topRated: [],
@@ -23,7 +24,7 @@ const MoviesHomePage = () => {
 
   const navigate = useNavigate();
 
-  const getData = async () => {
+  const getMovies = async () => {
     try {
       // now playing movies data
       const resNowPlaying = await axios.get(
@@ -38,7 +39,7 @@ const MoviesHomePage = () => {
         `${process.env.REACT_APP_API_PATH_MOVIES}top_rated?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
       );
 
-      setData({
+      setMovies({
         nowPlaying: resNowPlaying.data,
         popular: resPopular.data,
         topRated: resTopRated.data,
@@ -51,7 +52,7 @@ const MoviesHomePage = () => {
   };
 
   useEffect(() => {
-    getData();
+    getMovies();
   }, []);
 
   return (
@@ -73,7 +74,7 @@ const MoviesHomePage = () => {
         {/* Banner */}
         <div className="relative  mb-6 rounded-[20px] overflow-hidden">
           <CustomSlider specifyClass="moviesBanner" paginationClass="banner">
-            {data?.nowPlaying?.results?.map((film) => {
+            {movies?.nowPlaying?.results?.map((film) => {
               return (
                 <SwiperSlide key={film.id}>
                   <BannerItem type="movies" filmID={film.id} info={film} />
@@ -88,7 +89,7 @@ const MoviesHomePage = () => {
           title="Popular movies"
           specifyClass="moviesPopList"
           type="movies"
-          films={data.popular.results}
+          films={movies.popular.results}
         />
 
         {/* Top rated movies */}
@@ -96,7 +97,7 @@ const MoviesHomePage = () => {
           title="Top rated movies"
           specifyClass="moviesTopList"
           type="movies"
-          films={data.topRated.results}
+          films={movies.topRated.results}
         />
 
         <button

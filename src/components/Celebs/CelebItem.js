@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 const CelebItem = ({ celebId, name, profilePath }) => {
   const navigate = useNavigate();
+
   return (
     <div
       className="flex flex-col justify-center items-center gap-y-1 text-center p-2 bg-[#33292E] bg-opacity-60 rounded-3xl transition-all hover:cursor-pointer hover:bg-opacity-100"

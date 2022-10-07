@@ -1,28 +1,30 @@
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+
+import axios from "axios";
 
 import FilmItem from "../FilmItem";
 import FilterBar from "./FilterBar";
+import Loader from "../Loader";
 
 import ReactPaginate from "react-paginate";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import Loader from "../Loader";
 
 const FilmsListPage = () => {
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState();
+  const [filmsList, setFilmsList] = useState();
 
   const navigate = useNavigate();
   let { pathname, search } = useLocation();
   let { page } = useParams();
 
-  const getData = useRef(async (page, search) => {
+  const getFilmsList = useRef(async (page, search) => {
     try {
       setLoading(true);
 
       let path = "";
+
       // set path base on list's type
       if (pathname.includes("movies")) {
         path = `${process.env.REACT_APP_API_PATH_DISCOVER_MOVIE}${
@@ -39,10 +41,11 @@ const FilmsListPage = () => {
 
       const res = await axios.get(path);
 
+      setFilmsList(res.data);
+
       // set timeout to prevent jerking
       setTimeout(() => {
         setLoading(false);
-        setData(res.data);
       }, [200]);
     } catch (error) {
       console.log(error);
@@ -51,7 +54,7 @@ const FilmsListPage = () => {
 
   // get data when page, search are changed
   useEffect(() => {
-    getData.current(page, search);
+    getFilmsList.current(page, search);
   }, [page, search]);
 
   return (
@@ -74,13 +77,13 @@ const FilmsListPage = () => {
         />
 
         {/* Film list */}
-        {data?.results?.filter((film) => film.poster_path).length > 0 ? (
+        {filmsList?.results?.filter((film) => film.poster_path).length > 0 ? (
           <div
             className={`${
               loading ? "opacity-0 hidden" : "opacity-1 grid"
             } grid-cols-4 gap-5 transition-all`}
           >
-            {data?.results
+            {filmsList?.results
               ?.filter((film) => film.poster_path)
               .map((film) => (
                 <FilmItem
@@ -102,9 +105,11 @@ const FilmsListPage = () => {
         )}
 
         {/* pagination */}
-        {data?.results?.filter((film) => film.poster_path).length > 0 ? (
+        {filmsList?.results?.filter((film) => film.poster_path).length > 0 ? (
           <ReactPaginate
-            pageCount={data?.total_pages >= 500 ? 500 : data?.total_pages}
+            pageCount={
+              filmsList?.total_pages >= 500 ? 500 : filmsList?.total_pages
+            }
             className="flex justify-center items-center mt-10 gap-x-3 text-[#ececec] "
             pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"

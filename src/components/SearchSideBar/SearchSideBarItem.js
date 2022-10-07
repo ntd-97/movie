@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { AiFillStar } from "react-icons/ai";
 
 import PropTypes from "prop-types";
 
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
+
 import axios from "axios";
-import { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 const SearchSideBarItem = ({ film, type }) => {
-  const [data, setData] = useState([]);
+  const [genres, setGenres] = useState([]);
 
   const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ const SearchSideBarItem = ({ film, type }) => {
         );
       });
 
-      setData(genresResult.slice(0, 3));
+      setGenres(genresResult.slice(0, 3));
     };
 
     getGenres();
@@ -68,7 +69,7 @@ const SearchSideBarItem = ({ film, type }) => {
         </div>
 
         <div className=" grid grid-cols-3 gap-x-2">
-          {data?.map((genre) => (
+          {genres?.map((genre) => (
             <p
               onClick={(e) => {
                 e.stopPropagation();

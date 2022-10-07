@@ -1,19 +1,19 @@
-import axios from "axios";
-
 import React, { useEffect, useRef, useState } from "react";
 
+import axios from "axios";
+
 import FilmItem from "../FilmItem";
+import CelebItem from "../Celebs/CelebItem";
+import Loader from "../Loader";
 
 import ReactPaginate from "react-paginate";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import CelebItem from "../Celebs/CelebItem";
-import Loader from "../Loader";
 
 const ResultSearchPage = () => {
   const [loading, setLoading] = useState(false);
 
-  const [data, setData] = useState();
+  const [resultSearch, setResultSearch] = useState();
 
   const navigate = useNavigate();
   let { pathname, search } = useLocation();
@@ -21,7 +21,7 @@ const ResultSearchPage = () => {
 
   const type = useRef({});
 
-  const getData = useRef(async (page, search) => {
+  const getResultSearch = useRef(async (page, search) => {
     try {
       setLoading(true);
 
@@ -58,7 +58,7 @@ const ResultSearchPage = () => {
 
       const res = await axios.get(path);
 
-      setData(res.data);
+      setResultSearch(res.data);
       // set timeout to prevent jerking
       setTimeout(() => {
         setLoading(false);
@@ -70,7 +70,7 @@ const ResultSearchPage = () => {
 
   // get data when page, search was changed
   useEffect(() => {
-    getData.current(page, search);
+    getResultSearch.current(page, search);
   }, [page, search]);
 
   return (
@@ -89,8 +89,11 @@ const ResultSearchPage = () => {
           loading={loading}
         />
 
-        {data?.results?.filter((film) => film.poster_path).length <= 0 &&
-          data?.results?.filter((celeb) => celeb.profile_path).length <= 0 && (
+        {/* not found msg */}
+        {resultSearch?.results?.filter((film) => film.poster_path).length <=
+          0 &&
+          resultSearch?.results?.filter((celeb) => celeb.profile_path).length <=
+            0 && (
             <h3
               className={`${
                 loading ? "opacity-0 hidden" : "opacity-1 block"
@@ -102,13 +105,14 @@ const ResultSearchPage = () => {
 
         {/* Film list */}
         {type.current.subType !== "celebs" &&
-          data?.results?.filter((film) => film.poster_path).length > 0 && (
+          resultSearch?.results?.filter((film) => film.poster_path).length >
+            0 && (
             <div
               className={`${
                 loading ? "opacity-0 hidden" : "opacity-1 grid"
               } grid-cols-4 gap-5 transition-all`}
             >
-              {data?.results
+              {resultSearch?.results
                 ?.filter((film) => film.poster_path)
                 .map((film) => (
                   <FilmItem
@@ -123,13 +127,14 @@ const ResultSearchPage = () => {
 
         {/* Celebs list */}
         {type.current.subType === "celebs" &&
-          data?.results?.filter((celeb) => celeb.profile_path).length > 0 && (
+          resultSearch?.results?.filter((celeb) => celeb.profile_path).length >
+            0 && (
             <div
               className={`${
                 loading ? "opacity-0 hidden" : "opacity-1 grid"
               } grid-cols-5 gap-5 transition-all`}
             >
-              {data?.results
+              {resultSearch?.results
                 ?.filter((celeb) => celeb.profile_path)
                 .map((celeb) => (
                   <CelebItem
@@ -143,9 +148,12 @@ const ResultSearchPage = () => {
           )}
 
         {/* pagination */}
-        {data?.results?.filter((film) => film.poster_path).length > 0 ? (
+        {resultSearch?.results?.filter((film) => film.poster_path).length >
+        0 ? (
           <ReactPaginate
-            pageCount={data?.total_pages >= 500 ? 500 : data?.total_pages}
+            pageCount={
+              resultSearch?.total_pages >= 500 ? 500 : resultSearch?.total_pages
+            }
             className="flex justify-center items-center mt-10 gap-x-3 text-[#ececec] "
             pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"

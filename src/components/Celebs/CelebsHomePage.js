@@ -1,31 +1,33 @@
-import CelebItem from "./CelebItem";
+import React, { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
-
-import React, { useEffect, useRef, useState } from "react";
 
 import ReactPaginate from "react-paginate";
 
 import { useNavigate, useParams } from "react-router-dom";
+
+import CelebItem from "./CelebItem";
 import Loader from "../Loader";
 
 const CelebsHomePage = () => {
-  const [data, setData] = useState();
+  const [celebsList, setCelebsList] = useState();
+
   const [loading, setLoading] = useState(true);
 
   let { page } = useParams();
 
   const navigate = useNavigate();
 
-  const getData = useRef(async (page) => {
+  const getCelebsList = useRef(async (page) => {
     try {
       setLoading(true);
       const res = await axios.get(
         `${process.env.REACT_APP_API_PATH_PEOPLE}popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
       );
 
+      setCelebsList(res.data);
+
       setTimeout(() => {
-        setData(res.data);
         setLoading(false);
       }, [300]);
     } catch (error) {
@@ -34,7 +36,7 @@ const CelebsHomePage = () => {
   });
 
   useEffect(() => {
-    getData.current(page);
+    getCelebsList.current(page);
   }, [page]);
 
   return (
@@ -57,7 +59,7 @@ const CelebsHomePage = () => {
           loading ? "opacity-0 hidden " : "opacity-1 grid"
         } grid-cols-5 gap-5`}
       >
-        {data?.results
+        {celebsList?.results
           ?.filter((celeb) => celeb.profile_path !== null)
           .map((celeb) => (
             <CelebItem
@@ -71,7 +73,9 @@ const CelebsHomePage = () => {
 
       {/* pagination */}
       <ReactPaginate
-        pageCount={data?.total_pages ? parseInt(data?.total_pages) : 1}
+        pageCount={
+          celebsList?.total_pages ? parseInt(celebsList?.total_pages) : 1
+        }
         className="flex justify-center items-center mt-10 gap-x-3 text-[#ececec] "
         pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
         previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"

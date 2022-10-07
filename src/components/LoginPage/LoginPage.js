@@ -1,6 +1,4 @@
-import React from "react";
-
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { BsCheckLg } from "react-icons/bs";
 
@@ -12,12 +10,11 @@ import * as yup from "yup";
 
 import axios from "axios";
 
-import { useContext } from "react";
-
 import { LoginContext } from "../../App";
 
 import { useNavigate } from "react-router-dom";
 
+// Yup validation schema
 const validationSchema = yup.object({
   username: yup.string().required("Please enter your Username!"),
   password: yup.string().required("Please enter your Password!"),
@@ -44,6 +41,7 @@ const LoginPage = () => {
   const loginHandler = async () => {
     if (isValid) {
       try {
+        // get username and password from form
         const { username, password } = getValues();
 
         const res_reqToken = await axios.get(
@@ -62,6 +60,7 @@ const LoginPage = () => {
               }
             );
           } catch (error) {
+            // username or password is invalid
             if (error.response.status === 401) {
               setErrorMsg(true);
             }
@@ -95,14 +94,15 @@ const LoginPage = () => {
                 avatar: res_accountInfo.data.avatar.tmdb.avatar_path,
               });
 
+              // reset form
               reset({
                 username: "",
                 password: "",
                 showPassword: false,
               });
-
+              // uncheck check box
               setChecked(false);
-
+              // navigate to home page
               navigate("/");
             }
           }

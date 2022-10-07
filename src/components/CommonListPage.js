@@ -1,18 +1,18 @@
-import axios from "axios";
-
 import React, { useEffect, useRef, useState } from "react";
 
+import axios from "axios";
+
 import FilmItem from "./FilmItem";
+import Loader from "./Loader";
 
 import ReactPaginate from "react-paginate";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import Loader from "./Loader";
 
 const CommonListPage = () => {
   const [loading, setLoading] = useState(false);
 
-  const [data, setData] = useState();
+  const [films, setFilms] = useState();
 
   const navigate = useNavigate();
   let { pathname } = useLocation();
@@ -20,7 +20,7 @@ const CommonListPage = () => {
 
   const type = useRef({});
 
-  const getData = useRef(async (page, pathname) => {
+  const getFilms = useRef(async (page, pathname) => {
     try {
       setLoading(true);
       const user_id = localStorage.getItem("user_id");
@@ -86,7 +86,7 @@ const CommonListPage = () => {
       // set timeout to prevent jerking
       setTimeout(() => {
         setLoading(false);
-        setData(res.data);
+        setFilms(res.data);
       }, [200]);
     } catch (error) {
       console.log(error);
@@ -95,7 +95,7 @@ const CommonListPage = () => {
 
   // get data when page was changed
   useEffect(() => {
-    getData.current(page, pathname);
+    getFilms.current(page, pathname);
   }, [page, pathname]);
 
   return (
@@ -114,7 +114,7 @@ const CommonListPage = () => {
           loading={loading}
         />
 
-        {data?.results?.filter((film) => film.poster_path).length <= 0 && (
+        {films?.results?.filter((film) => film.poster_path).length <= 0 && (
           <h3
             className={`${
               loading ? "opacity-0 hidden" : "opacity-1 block"
@@ -125,13 +125,13 @@ const CommonListPage = () => {
         )}
 
         {/* Film list */}
-        {data?.results?.filter((film) => film.poster_path).length > 0 && (
+        {films?.results?.filter((film) => film.poster_path).length > 0 && (
           <div
             className={`${
               loading ? "opacity-0 hidden" : "opacity-1 grid"
             } grid-cols-4 gap-5 transition-all`}
           >
-            {data?.results
+            {films?.results
               ?.filter((film) => film.poster_path)
               .map((film) => (
                 <FilmItem
@@ -145,9 +145,9 @@ const CommonListPage = () => {
         )}
 
         {/* pagination */}
-        {data?.results?.filter((film) => film.poster_path).length > 0 ? (
+        {films?.results?.filter((film) => film.poster_path).length > 0 ? (
           <ReactPaginate
-            pageCount={data?.total_pages >= 500 ? 500 : data?.total_pages}
+            pageCount={films?.total_pages >= 500 ? 500 : films?.total_pages}
             className="flex justify-center items-center mt-10 gap-x-3 text-[#ececec] "
             pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"

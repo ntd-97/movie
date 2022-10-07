@@ -12,11 +12,11 @@ import Loader from "../Loader";
 const CelebProfile = () => {
   const { celebId } = useParams();
 
-  const [data, setData] = useState();
+  const [celebInfo, setCelebInfo] = useState();
 
   const [loading, setLoanding] = useState(true);
 
-  const getData = useRef(async () => {
+  const getCelebInfo = useRef(async () => {
     try {
       const res = await axios.get(
         `${process.env.REACT_APP_API_PATH_PEOPLE}${celebId}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=movie_credits,tv_credits`
@@ -58,7 +58,7 @@ const CelebProfile = () => {
         tvseries,
       };
 
-      setData(res.data);
+      setCelebInfo(res.data);
       setLoanding(false);
     } catch (error) {
       console.log(error);
@@ -66,7 +66,7 @@ const CelebProfile = () => {
   });
 
   useEffect(() => {
-    getData.current();
+    getCelebInfo.current();
   }, []);
 
   return (
@@ -88,24 +88,24 @@ const CelebProfile = () => {
         <div className="col-span-4">
           <img
             loading="lazy"
-            src={`${process.env.REACT_APP_API_PATH_IMG_W500}${data?.profile_path}`}
+            src={`${process.env.REACT_APP_API_PATH_IMG_W500}${celebInfo?.profile_path}`}
             alt="profile img"
           />
         </div>
 
         <div className="col-span-8 mt-5 flex flex-col gap-y-4">
-          <h1 className="text-5xl ">{data?.name}</h1>
+          <h1 className="text-5xl ">{celebInfo?.name}</h1>
 
           <h2 className="text-[#b5b5b5] text-2xl">
-            {data?.birthday && data?.deathday
-              ? `(${data?.birthday} / ${data?.deathday})`
-              : `(${data?.birthday})`}
-            {data?.place_of_birth ? ` - ${data?.place_of_birth}` : ""}
+            {celebInfo?.birthday && celebInfo?.deathday
+              ? `(${celebInfo?.birthday} / ${celebInfo?.deathday})`
+              : `(${celebInfo?.birthday})`}
+            {celebInfo?.place_of_birth ? ` - ${celebInfo?.place_of_birth}` : ""}
           </h2>
 
-          {data?.biography ? (
+          {celebInfo?.biography ? (
             <p className="leading-[28px] mt-4 text-justify">
-              {data?.biography}
+              {celebInfo?.biography}
             </p>
           ) : (
             <h3 className="text-2xl text-primary">Info not found</h3>
@@ -117,7 +117,7 @@ const CelebProfile = () => {
             title="Movies"
             specifyClass="moviesCelebProfile"
             type="movies"
-            films={data?.movies}
+            films={celebInfo?.movies}
           />
         </div>
 
@@ -126,7 +126,7 @@ const CelebProfile = () => {
             title="TV Series"
             specifyClass="tvseriesCelebProfile"
             type="tvseries"
-            films={data?.tvseries}
+            films={celebInfo?.tvseries}
           />
         </div>
       </div>

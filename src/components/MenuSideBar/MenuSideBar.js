@@ -12,13 +12,12 @@ import {
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdLogOut, IoMdLogIn } from "react-icons/io";
 
-import { Link, NavLink } from "react-router-dom";
-
-import { useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
 import avatarDefault from "../../assets/images/avatar_default.png";
+
 import Loader from "../Loader";
 
 const MenuSideBar = () => {

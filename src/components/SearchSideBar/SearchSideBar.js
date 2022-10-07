@@ -1,6 +1,4 @@
-import React, { useContext } from "react";
-
-import { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { FiSearch } from "react-icons/fi";
 
@@ -9,7 +7,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useDebounce from "../../hooks/useDebounce";
 
 import SearchSideBarList from "./SearchSideBarList";
-
 import SearchSideBarListMW from "./SearchSideBarListMW";
 import SearchSideBarListTVW from "./SearchSideBarListTVW";
 import SearchSideBarListMF from "./SearchSideBarListMF";
@@ -34,7 +31,7 @@ const SearchSideBar = () => {
   const { pathname } = useLocation();
   const navigate = useRef(useNavigate());
 
-  const getData = useRef(async () => {
+  const getLists = useRef(async () => {
     try {
       const user_id = localStorage.getItem("user_id");
       const session_id = localStorage.getItem("session_id");
@@ -138,7 +135,7 @@ const SearchSideBar = () => {
   }, [debouncedSearchQuery]);
 
   useEffect(() => {
-    getData.current();
+    getLists.current();
   }, [loginInfo]);
 
   return (

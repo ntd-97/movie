@@ -1,32 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 import SearchSideBarItem from "./SearchSideBarItem";
+import Loader from "../Loader";
 
 import PropTypes from "prop-types";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+
 import axios from "axios";
-import { useEffect } from "react";
-import Loader from "../Loader";
 
 const SearchSideBarList = ({ title, type, pathNavigate, apiPath }) => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
 
-  const [films, setfilms] = useState([]);
+  const [films, setFilms] = useState([]);
 
   useEffect(() => {
     let timeOut = 0;
 
-    const getData = async () => {
+    const getFilms = async () => {
       setLoading(true);
       const res = await axios.get(apiPath);
 
       if (res.data.results.length < 3) {
-        setfilms(res.data.results);
+        setFilms(res.data.results);
       } else {
-        setfilms(res.data.results.slice(0, 3));
+        setFilms(res.data.results.slice(0, 3));
       }
 
       timeOut = setTimeout(() => {
@@ -34,7 +34,7 @@ const SearchSideBarList = ({ title, type, pathNavigate, apiPath }) => {
       }, 300);
     };
 
-    getData();
+    getFilms();
 
     return () => {
       clearTimeout(timeOut);

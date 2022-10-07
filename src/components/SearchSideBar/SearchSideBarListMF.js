@@ -1,36 +1,33 @@
-import React from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 
 import SearchSideBarItem from "./SearchSideBarItem";
+import Loader from "../Loader";
 
 import PropTypes from "prop-types";
 
 import { useNavigate } from "react-router-dom";
 
-import { useState, useEffect, useRef } from "react";
-
 import axios from "axios";
 
-import { useContext } from "react";
 import { AccountStateContext } from "../../App";
-import Loader from "../Loader";
 
 const SearchSideBarListMF = ({ title, type, pathNavigate, apiPath }) => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
 
-  const [films, setfilms] = useState([]);
+  const [films, setFilms] = useState([]);
 
   const { accountState } = useContext(AccountStateContext);
 
-  const getData = useRef(async () => {
+  const getFilms = useRef(async () => {
     setLoading(true);
     const res = await axios.get(apiPath);
 
     if (res.data.results.length < 3) {
-      setfilms(res.data.results);
+      setFilms(res.data.results);
     } else {
-      setfilms(res.data.results.slice(0, 3));
+      setFilms(res.data.results.slice(0, 3));
     }
 
     setTimeout(() => {
@@ -39,7 +36,7 @@ const SearchSideBarListMF = ({ title, type, pathNavigate, apiPath }) => {
   });
 
   useEffect(() => {
-    getData.current();
+    getFilms.current();
   }, []);
 
   useEffect(() => {
@@ -47,7 +44,7 @@ const SearchSideBarListMF = ({ title, type, pathNavigate, apiPath }) => {
       accountState.changed === "favorite" &&
       accountState.mediaType === "movie"
     ) {
-      getData.current();
+      getFilms.current();
     }
   }, [accountState]);
 

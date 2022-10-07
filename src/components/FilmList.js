@@ -38,8 +38,8 @@ const FilmList = ({ title, type, specifyClass, films }) => {
           >
             {films?.map((film) => {
               return (
-                <SwiperSlide key={film.id}>
-                  <FilmItem type={type} filmID={film.id} info={film} />
+                <SwiperSlide key={film?.id}>
+                  <FilmItem type={type} filmID={film?.id} info={film} />
                 </SwiperSlide>
               );
             })}

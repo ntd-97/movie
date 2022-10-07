@@ -1,13 +1,13 @@
-import axios from "axios";
-
 import React, { useState, useEffect, useRef, memo } from "react";
+
+import axios from "axios";
 
 import PropTypes from "prop-types";
 
 import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 
 const FilterBar = memo(({ type }) => {
-  const [data, setData] = useState({});
+  const [filters, setFilters] = useState({});
 
   const [filterSelected, setFilterSelected] = useState({});
 
@@ -63,7 +63,7 @@ const FilterBar = memo(({ type }) => {
     });
   };
 
-  const getData = useRef(async () => {
+  const getFilters = useRef(async () => {
     // get genres data
     const resGenres = await axios.get(
       `${process.env.REACT_APP_API_PATH_GENRES}${type}/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
@@ -127,14 +127,14 @@ const FilterBar = memo(({ type }) => {
 
     // set data to render select - option
     if (type === "movie") {
-      setData({
+      setFilters({
         genres: resGenres.data.genres,
         certifications: resCertification.data.certifications.US,
         years,
         sortBy,
       });
     } else {
-      setData({
+      setFilters({
         genres: resGenres.data.genres,
         years,
         sortBy,
@@ -145,7 +145,7 @@ const FilterBar = memo(({ type }) => {
 
   // Get data when type change
   useEffect(() => {
-    getData.current();
+    getFilters.current();
   }, [type]);
 
   // get filter params from URL when page reloaded and bind to select's value
@@ -190,7 +190,7 @@ const FilterBar = memo(({ type }) => {
           <option key="default" value="none">
             -- genes --
           </option>
-          {data?.genres?.map((genre) => (
+          {filters?.genres?.map((genre) => (
             <option key={genre.id} value={genre.id}>
               {genre.name}
             </option>
@@ -218,7 +218,7 @@ const FilterBar = memo(({ type }) => {
             <option key="default" value="none">
               -- certification --
             </option>
-            {data?.certifications?.map((certification) => (
+            {filters?.certifications?.map((certification) => (
               <option
                 key={certification.certification}
                 value={certification.certification}
@@ -248,7 +248,7 @@ const FilterBar = memo(({ type }) => {
             <option key="default" value="none">
               -- type --
             </option>
-            {data?.tvTypes?.map((tvtype) => (
+            {filters?.tvTypes?.map((tvtype) => (
               <option key={tvtype.value} value={tvtype.value}>
                 {tvtype.name}
               </option>
@@ -283,7 +283,7 @@ const FilterBar = memo(({ type }) => {
           <option key="default" value="none">
             -- year --
           </option>
-          {data?.years?.map((year, index, years) => (
+          {filters?.years?.map((year, index, years) => (
             <option key={year} value={year}>
               {index === years.length - 1 ? `before ${year}` : `${year}`}
             </option>
@@ -306,7 +306,7 @@ const FilterBar = memo(({ type }) => {
           <option key="default" value="none">
             -- sort --
           </option>
-          {data?.sortBy?.map((sortItem) => (
+          {filters?.sortBy?.map((sortItem) => (
             <option key={sortItem.id} value={sortItem.value}>
               {sortItem.name}
             </option>

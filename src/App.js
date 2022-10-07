@@ -12,7 +12,9 @@ export const AccountStateContext = createContext();
 
 function App() {
   const [loadTrailer, setloadTrailer] = useState(true);
+
   const [openModal, setOpenModal] = useState(false);
+
   const [trailerKey, setTrailerKey] = useState();
 
   const [accountState, setAccountState] = useState({});
@@ -20,6 +22,7 @@ function App() {
   const [loginInfo, setLoginInfo] = useState({});
 
   useEffect(() => {
+    // get login info from local storage
     if (localStorage.getItem("session_id")) {
       setLoginInfo({
         session_id: localStorage.getItem("session_id"),
@@ -38,9 +41,11 @@ function App() {
       <div className="App grid grid-cols-8 max-w-screen-[1920px] mx-auto">
         <AccountStateContext.Provider value={{ accountState, setAccountState }}>
           <MenuSideBar />
+
           <TrailerModalContext.Provider value={{ setOpenModal, setTrailerKey }}>
             <Main></Main>
           </TrailerModalContext.Provider>
+
           <SearchSideBar />
         </AccountStateContext.Provider>
 
