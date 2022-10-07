@@ -26,7 +26,7 @@ const SearchSideBarItem = ({ film, type }) => {
         );
       });
 
-      setData(genresResult);
+      setData(genresResult.slice(0, 3));
     };
 
     getGenres();

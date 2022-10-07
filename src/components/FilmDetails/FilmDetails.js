@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 
 import { AiFillStar } from "react-icons/ai";
-import { MdOutlineAdd } from "react-icons/md";
+import { MdOutlineAdd, MdOutlineRemove } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -17,21 +17,81 @@ import FDTrailerList from "./FDTrailerList";
 import coverImgNotFound from "../../assets/images/cover_not_found.jpg";
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 import { useContext } from "react";
-import { LoginContext } from "../../App";
+import { AccountStateContext } from "../../App";
 
 const FilmDetails = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const [data, setData] = useState();
+  const [loadingBtnWatchList, setLoadingBtnWatchList] = useState(false);
+  const [loadingBtnFavorite, setLoadingBtnFavorite] = useState(false);
 
-  const type = useRef();
+  const [data, setData] = useState({});
+
+  const type = useRef("");
 
   const navigate = useNavigate();
 
-  const { loginInfo } = useContext(LoginContext);
+  const { accountState, setAccountState } = useContext(AccountStateContext);
 
   let { pathname } = useLocation();
   let { filmId } = useParams();
+
+  const userId = localStorage.getItem("user_id");
+  const sessionId = localStorage.getItem("session_id");
+
+  const watchlistClickHandler = async () => {
+    try {
+      setLoadingBtnWatchList(true);
+      const mediaType = pathname.includes("tvseries") ? "tv" : "movie";
+      await axios.post(
+        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${userId}/watchlist?api_key=${process.env.REACT_APP_API_KEY}&session_id=${sessionId}`,
+        {
+          media_type: mediaType,
+          media_id: filmId,
+          watchlist: !accountState.watchlist,
+        },
+        { "Content-Type": "application/json;charset=utf-8" }
+      );
+
+      setAccountState((prevState) => ({
+        ...prevState,
+        watchlist: !prevState.watchlist,
+        changed: "watchlist",
+        mediaType,
+      }));
+
+      setLoadingBtnWatchList(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const favoriteClickHandler = async () => {
+    try {
+      setLoadingBtnFavorite(true);
+      const mediaType = pathname.includes("tvseries") ? "tv" : "movie";
+      await axios.post(
+        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${userId}/favorite?api_key=${process.env.REACT_APP_API_KEY}&session_id=${sessionId}`,
+        {
+          media_type: mediaType,
+          media_id: filmId,
+          favorite: !accountState.favorite,
+        },
+        { "Content-Type": "application/json;charset=utf-8" }
+      );
+
+      setAccountState((prevState) => ({
+        ...prevState,
+        favorite: !prevState.favorite,
+        changed: "favorite",
+        mediaType,
+      }));
+
+      setLoadingBtnFavorite(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getData = useRef(async (filmId, pathname) => {
     // get API path base on type(movies, tvseries)
@@ -41,14 +101,22 @@ const FilmDetails = () => {
       : process.env.REACT_APP_API_PATH_MOVIES;
 
     try {
-      // call API
+      // build API path
       const res = await axios.get(
-        `${path}${filmId}?api_key=${
-          process.env.REACT_APP_API_KEY
+        `${path}${filmId}?api_key=${process.env.REACT_APP_API_KEY}${
+          sessionId ? `&session_id=${sessionId}` : ""
         }&append_to_response=videos,credits,${
           type.current === "movies" ? "release_dates" : "content_ratings"
-        },similar`
+        },${sessionId ? "account_states" : ""},similar`
       );
+
+      // Add or remove film in favorite and watchlist
+      if (userId) {
+        setAccountState({
+          watchlist: res.data.account_states.watchlist,
+          favorite: res.data.account_states.favorite,
+        });
+      }
 
       setData((prevData) => {
         // refactor data
@@ -103,7 +171,6 @@ const FilmDetails = () => {
         const backdrop_path_full = res.data.backdrop_path
           ? `${process.env.REACT_APP_API_PATH_IMG_ORIGINAL}${res.data?.backdrop_path}`
           : coverImgNotFound;
-        console.log(backdrop_path_full);
 
         res.data = {
           ...res.data,
@@ -111,7 +178,6 @@ const FilmDetails = () => {
           director,
           backdrop_path_full,
         };
-        console.log(res.data);
         return res.data;
       });
 
@@ -219,7 +285,7 @@ const FilmDetails = () => {
               <p className="mb-1">
                 <span className="uppercase text-[#b5b5b5] mr-2">Nation:</span>
                 {data?.production_countries
-                  .map((country) => country.name)
+                  ?.map((country) => country.name)
                   .join(", ")}
               </p>
 
@@ -239,15 +305,40 @@ const FilmDetails = () => {
 
             <div className="flex justify-between gap-x-4 mt-10 ">
               <div className="flex gap-x-2">
-                {Object.keys(loginInfo).length > 0 && (
-                  <button className="flex justify-center items-center bg-[#292326] w-10 h-10  bg-opacity-90 px-2 py-2 rounded-xl transition-all hover:bg-gray-500">
-                    <MdOutlineAdd className="text-2xl" />
+                {userId && (
+                  <button
+                    onClick={watchlistClickHandler}
+                    className="group flex justify-center items-center bg-[#292326] w-10 h-10  bg-opacity-90 px-2 py-2 rounded-xl transition-all hover:bg-gray-500"
+                  >
+                    {loadingBtnWatchList && (
+                      <div className="mx-auto w-4 h-4 border-2 border-primary border-t-2 border-t-transparent rounded-full animate-spin"></div>
+                    )}
+
+                    {accountState?.watchlist && !loadingBtnWatchList && (
+                      <MdOutlineRemove className="text-xl group-hover:text-2xl transition-all" />
+                    )}
+
+                    {!accountState?.watchlist && !loadingBtnWatchList && (
+                      <MdOutlineAdd className="text-xl group-hover:text-2xl transition-all" />
+                    )}
                   </button>
                 )}
 
-                {Object.keys(loginInfo).length > 0 && (
-                  <button className="group flex justify-center items-center w-10 h-10  bg-[#292326] bg-opacity-90 px-2 py-2 rounded-full transition-all hover:opacity-100 hover:bg-transparent hover:text-primary">
-                    <FaHeart className="text-xl group-hover:text-2xl transition-all" />
+                {userId && (
+                  <button
+                    className={`${
+                      accountState?.favorite
+                        ? "text-primary  hover:text-[#ececec]"
+                        : " hover:text-primary"
+                    } group flex justify-center items-center w-10 h-10  bg-[#292326] bg-opacity-90 px-2 py-2 rounded-full transition-all hover:opacity-100 hover:bg-transparent`}
+                    onClick={favoriteClickHandler}
+                  >
+                    {loadingBtnFavorite && (
+                      <div className="mx-auto w-4 h-4 border-2 border-primary border-t-2 border-t-transparent rounded-full animate-spin"></div>
+                    )}
+                    {!loadingBtnFavorite && (
+                      <FaHeart className="text-xl group-hover:text-2xl transition-all" />
+                    )}
                   </button>
                 )}
               </div>
@@ -310,7 +401,7 @@ const FilmDetails = () => {
               type.current === "movies" ? "Similar Movies" : "Similar TV Series"
             }
             type={type.current}
-            films={data?.similar.results.filter((film) => film.poster_path)}
+            films={data?.similar?.results?.filter((film) => film.poster_path)}
             specifyClass="film-details-similar-movies-list"
           />
         </div>

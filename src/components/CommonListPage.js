@@ -47,7 +47,7 @@ const CommonListPage = () => {
       if (pathname.includes("movies") && pathname.includes("watchlist")) {
         type.current = {
           title: "Movies Watchlist",
-          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
+          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=${page}`,
           pathPagination: "/movies/watchlist",
           subType: "movies",
         };
@@ -56,7 +56,7 @@ const CommonListPage = () => {
       if (pathname.includes("tvseries") && pathname.includes("watchlist")) {
         type.current = {
           title: "TV Series Watchlist",
-          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
+          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=${page}`,
           pathPagination: "/tvseries/watchlist",
           subType: "tvseries",
         };
@@ -65,7 +65,7 @@ const CommonListPage = () => {
       if (pathname.includes("movies") && pathname.includes("favorite")) {
         type.current = {
           title: "Favorite Movies",
-          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
+          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=${page}`,
           pathPagination: "/movies/favorite",
           subType: "movies",
         };
@@ -74,7 +74,7 @@ const CommonListPage = () => {
       if (pathname.includes("tvseries") && pathname.includes("favorite")) {
         type.current = {
           title: "Favorite TV Series",
-          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
+          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=${page}`,
           pathPagination: "/tvseries/favorite",
           subType: "tvseries",
         };
@@ -156,7 +156,9 @@ const CommonListPage = () => {
             disableInitialCallback={true}
             onPageChange={(e) => {
               navigate(
-                `${type.current.subType}/page/${(e.selected + 1).toString()}`
+                `${type.current.pathPagination}/page/${(
+                  e.selected + 1
+                ).toString()}`
               );
             }}
           />

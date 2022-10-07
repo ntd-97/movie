@@ -8,11 +8,14 @@ import { createContext, useEffect, useState } from "react";
 // export context
 export const TrailerModalContext = createContext();
 export const LoginContext = createContext();
+export const AccountStateContext = createContext();
 
 function App() {
   const [loadTrailer, setloadTrailer] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [trailerKey, setTrailerKey] = useState();
+
+  const [accountState, setAccountState] = useState({});
 
   const [loginInfo, setLoginInfo] = useState({});
 
@@ -32,12 +35,14 @@ function App() {
 
   return (
     <LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
-      <div className="App grid grid-cols-8">
-        <MenuSideBar />
-        <TrailerModalContext.Provider value={{ setOpenModal, setTrailerKey }}>
-          <Main></Main>
-        </TrailerModalContext.Provider>
-        <SearchSideBar />
+      <div className="App grid grid-cols-8 max-w-screen-[1920px] mx-auto">
+        <AccountStateContext.Provider value={{ accountState, setAccountState }}>
+          <MenuSideBar />
+          <TrailerModalContext.Provider value={{ setOpenModal, setTrailerKey }}>
+            <Main></Main>
+          </TrailerModalContext.Provider>
+          <SearchSideBar />
+        </AccountStateContext.Provider>
 
         {/* Trailer modal */}
         <FDTrailerModal

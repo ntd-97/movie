@@ -1,44 +1,54 @@
 import React from "react";
+
 import SearchSideBarItem from "./SearchSideBarItem";
 
 import PropTypes from "prop-types";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
-import { useEffect } from "react";
 
-const SearchSideBarList = ({ title, type, pathNavigate, apiPath }) => {
+import { useState, useEffect, useRef } from "react";
+
+import axios from "axios";
+
+import { useContext } from "react";
+import { AccountStateContext } from "../../App";
+
+const SearchSideBarListTVF = ({ title, type, pathNavigate, apiPath }) => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
 
   const [films, setfilms] = useState([]);
 
+  const { accountState } = useContext(AccountStateContext);
+
+  const getData = useRef(async () => {
+    setLoading(true);
+    const res = await axios.get(apiPath);
+
+    if (res.data.results.length < 3) {
+      setfilms(res.data.results);
+    } else {
+      setfilms(res.data.results.slice(0, 3));
+    }
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
+  });
+
   useEffect(() => {
-    let timeOut = 0;
+    getData.current();
+  }, []);
 
-    const getData = async () => {
-      setLoading(true);
-      const res = await axios.get(apiPath);
-
-      if (res.data.results.length < 3) {
-        setfilms(res.data.results);
-      } else {
-        setfilms(res.data.results.slice(0, 3));
-      }
-
-      timeOut = setTimeout(() => {
-        setLoading(false);
-      }, 300);
-    };
-
-    getData();
-
-    return () => {
-      clearTimeout(timeOut);
-    };
-  }, [apiPath]);
+  useEffect(() => {
+    if (
+      accountState.changed === "favorite" &&
+      accountState.mediaType === "tv"
+    ) {
+      getData.current();
+    }
+  }, [accountState]);
 
   return (
     <div className="SearchSideBarList">
@@ -73,11 +83,11 @@ const SearchSideBarList = ({ title, type, pathNavigate, apiPath }) => {
   );
 };
 
-SearchSideBarList.propTypes = {
+SearchSideBarListTVF.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string,
   pathNavigate: PropTypes.string,
   apiPath: PropTypes.string,
 };
 
-export default SearchSideBarList;
+export default SearchSideBarListTVF;

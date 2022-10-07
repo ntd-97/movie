@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import React, { useContext } from "react";
 
 import { useEffect, useRef, useState } from "react";
@@ -12,12 +10,15 @@ import useDebounce from "../../hooks/useDebounce";
 
 import SearchSideBarList from "./SearchSideBarList";
 
+import SearchSideBarListMW from "./SearchSideBarListMW";
+import SearchSideBarListTVW from "./SearchSideBarListTVW";
+import SearchSideBarListMF from "./SearchSideBarListMF";
+import SearchSideBarListTVF from "./SearchSideBarListTVF";
+
 import { LoginContext } from "../../App";
 
 const SearchSideBar = () => {
-  const [data, setData] = useState([]);
-
-  const [loading, setLoading] = useState(true);
+  const [lists, setLists] = useState({});
 
   const [type, setType] = useState({});
 
@@ -35,104 +36,59 @@ const SearchSideBar = () => {
 
   const getData = useRef(async () => {
     try {
-      setLoading(true);
-
       const user_id = localStorage.getItem("user_id");
       const session_id = localStorage.getItem("session_id");
 
-      let resMoviesWatchlist = {};
-      let resTvWatchlist = {};
-      let resMoviesFavorite = {};
-      let resTvFavorite = {};
+      let results = {};
 
-      let results = [];
-
-      const resMoviesTrending = await axios.get(
-        `${process.env.REACT_APP_API_PATH_TRENDING}movie/day?api_key=${process.env.REACT_APP_API_KEY}`
-      );
-
-      const resTvTrending = await axios.get(
-        `${process.env.REACT_APP_API_PATH_TRENDING}tv/day?api_key=${process.env.REACT_APP_API_KEY}`
-      );
-
-      results = [
-        {
-          films: resMoviesTrending.data.results.slice(0, 3),
-          title: "Movies Trending",
-          type: "movie",
-          pathNavigate: "/movies/trending",
-        },
-        {
-          films: resTvTrending.data.results.slice(0, 3),
-          title: "TV Series Trending",
-          type: "tv",
-          pathNavigate: "/tvseries/trending",
-        },
-      ];
+      results = {
+        trending: [
+          {
+            apiPath: `${process.env.REACT_APP_API_PATH_TRENDING}movie/day?api_key=${process.env.REACT_APP_API_KEY}`,
+            title: "Movies Trending",
+            type: "movie",
+            pathNavigate: "/movies/trending",
+          },
+          {
+            apiPath: `${process.env.REACT_APP_API_PATH_TRENDING}tv/day?api_key=${process.env.REACT_APP_API_KEY}`,
+            title: "TV Series Trending",
+            type: "tv",
+            pathNavigate: "/tvseries/trending",
+          },
+        ],
+      };
 
       if (user_id) {
-        resMoviesWatchlist = await axios.get(
-          `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
-        );
-
-        resTvWatchlist = await axios.get(
-          `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
-        );
-
-        resMoviesFavorite = await axios.get(
-          `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
-        );
-
-        resTvFavorite = await axios.get(
-          `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`
-        );
-
-        results = [
+        results = {
           ...results,
-          {
-            films:
-              resMoviesWatchlist.data.results.length > 3
-                ? resMoviesWatchlist.data.results.slice(0, 3)
-                : resMoviesWatchlist.data.results,
+          movieWatchlist: {
+            apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
             title: "Movies Watchlist",
             type: "movie",
             pathNavigate: "/movies/watchlist",
           },
-          {
-            films:
-              resTvWatchlist.data.results.length > 3
-                ? resTvWatchlist.data.results.slice(0, 3)
-                : resTvWatchlist.data.results,
+          tvWatchlist: {
+            apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
             title: "TV Series Watchlist",
             type: "tv",
             pathNavigate: "/tvseries/watchlist",
           },
-          {
-            films:
-              resMoviesFavorite.data.results.length > 3
-                ? resMoviesFavorite.data.results.slice(0, 3)
-                : resMoviesFavorite.data.results,
+          movieFavorite: {
+            apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
             title: "Favorite Movies",
             type: "movie",
             pathNavigate: "/movies/favorite",
           },
-          {
-            films:
-              resTvFavorite.data.results.length > 3
-                ? resTvFavorite.data.results.slice(0, 3)
-                : resTvFavorite.data.results,
+          tvFavorite: {
+            apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
             title: "Favorite TV Series",
             type: "tv",
             pathNavigate: "/tvseries/favorite",
           },
-        ];
+        };
       }
 
-      setData(results);
-
-      setTimeout(() => {
-        setLoading(false);
-      }, 300);
+      setLists(results);
     } catch (error) {
       console.log(error);
     }
@@ -200,22 +156,58 @@ const SearchSideBar = () => {
             value={searchQuery}
           />
         </div>
-        {loading && (
-          <div className="mx-auto w-10 h-10 border-2 border-primary border-t-2 border-t-transparent rounded-full animate-spin"></div>
-        )}
-        {!loading && (
-          <div className="grid mt-5 gap-y-10">
-            {data.map((list) => (
-              <SearchSideBarList
-                key={list.pathNavigate}
-                title={list.title}
-                type={list.type}
-                pathNavigate={list.pathNavigate}
-                films={list.films}
-              />
-            ))}
-          </div>
-        )}
+
+        <div className="grid mt-5 gap-y-10">
+          {lists?.trending?.map((list) => (
+            <SearchSideBarList
+              key={list.pathNavigate}
+              title={list.title}
+              type={list.type}
+              pathNavigate={list.pathNavigate}
+              apiPath={list.apiPath}
+            />
+          ))}
+
+          {localStorage.getItem("user_id") &&
+            lists?.movieWatchlist?.apiPath &&
+            lists?.tvWatchlist?.apiPath &&
+            lists?.movieFavorite?.apiPath &&
+            lists?.tvFavorite?.apiPath && (
+              <>
+                <SearchSideBarListMW
+                  key={lists?.movieWatchlist?.pathNavigate}
+                  title={lists?.movieWatchlist?.title}
+                  type={lists?.movieWatchlist?.type}
+                  pathNavigate={lists?.movieWatchlist?.pathNavigate}
+                  apiPath={lists?.movieWatchlist?.apiPath}
+                />
+
+                <SearchSideBarListMF
+                  key={lists?.movieFavorite?.pathNavigate}
+                  title={lists?.movieFavorite?.title}
+                  type={lists?.movieFavorite?.type}
+                  pathNavigate={lists?.movieFavorite?.pathNavigate}
+                  apiPath={lists?.movieFavorite?.apiPath}
+                />
+
+                <SearchSideBarListTVW
+                  key={lists?.tvWatchlist?.pathNavigate}
+                  title={lists?.tvWatchlist?.title}
+                  type={lists?.tvWatchlist?.type}
+                  pathNavigate={lists?.tvWatchlist?.pathNavigate}
+                  apiPath={lists?.tvWatchlist?.apiPath}
+                />
+
+                <SearchSideBarListTVF
+                  key={lists?.tvFavorite?.pathNavigate}
+                  title={lists?.tvFavorite?.title}
+                  type={lists?.tvFavorite?.type}
+                  pathNavigate={lists?.tvFavorite?.pathNavigate}
+                  apiPath={lists?.tvFavorite?.apiPath}
+                />
+              </>
+            )}
+        </div>
       </div>
     </div>
   );
