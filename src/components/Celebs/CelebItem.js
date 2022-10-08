@@ -7,18 +7,18 @@ const CelebItem = ({ celebId, name, profilePath }) => {
 
   return (
     <div
-      className="flex flex-col justify-center items-center gap-y-1 text-center p-2 bg-[#33292E] bg-opacity-60 rounded-3xl transition-all hover:cursor-pointer hover:bg-opacity-100"
+      className="flex flex-col items-center justify-center gap-y-1 rounded-3xl bg-[#33292E] bg-opacity-60 p-2 text-center transition-all hover:scale-95 hover:cursor-pointer hover:bg-opacity-100"
       onClick={() => {
         navigate(`/celebs/profile/${celebId}`);
       }}
     >
       <img
-        className="w-[200px] object-cover rounded-[20px] transition-all"
+        className="w-[200px] rounded-[20px] object-cover transition-all"
         loading="lazy"
         src={`${process.env.REACT_APP_API_PATH_IMG_W500}${profilePath}`}
         alt="actor img"
       />
-      <p className="font-medium text-[#ececec] transition-all hover:text-white inline-block w-full mt-2 truncate">
+      <p className="mt-2 inline-block w-full truncate font-medium text-[#ececec] transition-all hover:text-white">
         {name}
       </p>
     </div>

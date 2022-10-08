@@ -15,10 +15,10 @@ const FilmItem = ({ type, filmID, info }) => {
   };
 
   return (
-    <div className="FilmItem relative rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC]">
+    <div className="FilmItem relative rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95">
       <img
         loading="lazy"
-        className="object-cover w-full h-[350px] rounded-[10px] mb-4"
+        className="mb-4 max-h-[370px] w-full rounded-[10px]  object-cover"
         src={
           info.poster_path
             ? `${process.env.REACT_APP_API_PATH_IMG_W500}${info.poster_path}`
@@ -27,11 +27,11 @@ const FilmItem = ({ type, filmID, info }) => {
         alt="poster film"
       />
 
-      <h3 className="mb-3 truncate">
+      <h3 className="mb-3 truncate text-lg">
         {type === "tvseries" ? info.name : info.title}
       </h3>
 
-      <div className="mb-4 flex justify-between items-center text-sm text-[#7D7D7D] font-medium">
+      <div className="mb-4 flex items-center justify-between text-sm font-medium text-[#7D7D7D]">
         <span>
           {new Date(
             type === "tvseries" ? info.first_air_date : info.release_date
@@ -42,16 +42,16 @@ const FilmItem = ({ type, filmID, info }) => {
           {info.vote_average > 0
             ? info.vote_average.toString().slice(0, 3)
             : "0"}
-          <AiFillStar className="text-yellow-400 text-[20px] inline-block ml-1" />
+          <AiFillStar className="ml-1 inline-block text-[20px] text-yellow-400" />
         </span>
       </div>
 
       <button
         onClick={btnFilmClickHandler}
-        className="bg-primary px-5 py-2 rounded-[10px] w-full outline-none font-medium transition-all hover:bg-red-400 flex justify-center items-center"
+        className="flex w-full items-center justify-center rounded-[10px] bg-primary px-5 py-2 font-medium outline-none transition-all hover:bg-red-400"
       >
         Watch now
-        <BsPlayCircleFill className="inline-block text-xl ml-2" />
+        <BsPlayCircleFill className="ml-2 inline-block text-xl" />
       </button>
     </div>
   );

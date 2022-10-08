@@ -26,28 +26,28 @@ const BannerItem = ({ type, filmID, info }) => {
         }
         loading="lazy"
         alt="banner img not found"
-        className="w-full h-[55vh] object-cover rounded-[20px]  text-primary"
+        className="max-h-[570px] w-full rounded-[20px] object-cover  text-primary"
       />
 
       <div className="absolute bottom-8 left-8 text-white">
-        <h2 className="text-4xl font-bold mb-5">
+        <h2 className="mb-5 text-4xl font-bold">
           {type === "tvseries" ? info.name : info.title}
         </h2>
 
         <div className="mb-5 flex items-center">
-          <AiFillStar className="text-yellow-400 text-[26px] inline-block mr-2" />
-          <p className="text-xl font-bold mr-1">
+          <AiFillStar className="mr-2 inline-block text-[26px] text-yellow-400" />
+          <p className="mr-1 text-xl font-bold">
             {info.vote_average ? info.vote_average : "0"}
           </p>
-          <p className="text-[#545454] font-bold ">/10</p>
+          <p className="font-bold text-[#545454] ">/10</p>
         </div>
 
         <button
-          className="flex items-center bg-primary px-10 py-2 rounded-[10px] outline-none font-medium transition-all hover:bg-red-400"
+          className="flex items-center rounded-[10px] bg-primary px-10 py-2 font-medium outline-none transition-all hover:bg-red-400"
           onClick={btnFilmClickHandler}
         >
           Watch
-          <BsPlayCircleFill className="inline-block text-xl ml-1" />
+          <BsPlayCircleFill className="ml-1 inline-block text-xl" />
         </button>
       </div>
     </div>
