@@ -46,127 +46,125 @@ const MenuSideBar = () => {
   };
 
   return (
-    <div className="w-full h-screen">
-      <div className="w-[12.5%] border-r-2 border-[#353535] h-full fixed text-[#ececec] bg-[#181818] py-5 flex flex-col justify-between">
-        <div className="flex flex-col px-6 gap-y-10">
-          <img
-            className="w-[65px] justify-self-center hover:cursor-pointer"
-            src={LogoImg}
-            alt="logo"
-            onClick={() => {
-              navigate("/");
-            }}
-          />
-
-          <div className="flex flex-col gap-y-6">
-            <h4 className="uppercase text-[#505050] text-[14px] font-medium tracking-[4px] ">
-              Categories
-            </h4>
-
-            <div className="px-3 flex flex-col gap-y-6">
-              <NavLink
-                className={({ isActive }) =>
-                  (isActive ? "text-primary" : "") +
-                  " " +
-                  "flex items-center transition-colors hover:text-primary leading-[25px]"
-                }
-                to="movies"
-              >
-                <BsPlayCircleFill className="inline-block mr-[6px]" />
-                Movies
-              </NavLink>
-
-              <NavLink
-                className={({ isActive }) =>
-                  (isActive ? "text-primary" : "") +
-                  " " +
-                  "flex items-center transition-colors hover:text-primary leading-[25px]"
-                }
-                to="tvseries"
-              >
-                <BsGrid1X2Fill className="inline-block mr-[6px] text-[14px]" />
-                TV Series
-              </NavLink>
-
-              <NavLink
-                className={({ isActive }) =>
-                  (isActive ? "text-primary" : "") +
-                  " " +
-                  "flex items-center transition-colors hover:text-primary leading-[25px]"
-                }
-                to="celebs"
-              >
-                <FaUserCircle className="inline-block mr-[6px] text-[17px]" />
-                Celebs
-              </NavLink>
-            </div>
-          </div>
-        </div>
+    <div className="col-span-1 flex h-screen flex-col justify-between border-r-2 border-[#353535] bg-[#181818] py-5 text-[#ececec]">
+      <div className="ml-4 flex flex-col gap-y-10">
+        <img
+          className="w-[55%] justify-self-center hover:cursor-pointer"
+          src={LogoImg}
+          alt="logo"
+          onClick={() => {
+            navigate("/");
+          }}
+        />
 
         <div className="flex flex-col gap-y-6">
-          <h4 className="uppercase pl-6 text-[#505050] text-[14px] font-medium tracking-[4px]">
-            General
+          <h4 className="text-[14px] font-medium uppercase tracking-[4px] text-[#505050] ">
+            Categories
           </h4>
-          <div className="ml-6 px-3 flex flex-col gap-y-6">
-            {Object.keys(loginInfo).length > 0 && (
-              <>
-                {!loading ? (
-                  <Link
-                    className="flex items-center transition-colors hover:text-primary"
-                    onClick={logoutHandler}
-                  >
-                    <IoMdLogOut className="inline-block mr-[6px] text-[18px]" />
-                    Log out
-                  </Link>
-                ) : (
-                  <Loader
-                    classWidth="w-5"
-                    classHeight="h-5"
-                    classBorder="border-2"
-                    classMargin="mt-0"
-                    loading={loading}
-                  />
-                )}
-              </>
-            )}
 
-            {Object.keys(loginInfo).length <= 0 && (
-              <Link
-                className="flex items-center transition-colors hover:text-primary"
-                to="login"
-              >
-                <IoMdLogIn className="inline-block mr-[6px] text-[18px]" />
-                Log in
-              </Link>
-            )}
+          <div className="ml-3 flex flex-col gap-y-6">
+            <NavLink
+              className={({ isActive }) =>
+                (isActive ? "text-primary" : "") +
+                " " +
+                "flex items-center leading-[25px] transition-colors hover:text-primary"
+              }
+              to="movies"
+            >
+              <BsPlayCircleFill className="mr-[6px] inline-block" />
+              Movies
+            </NavLink>
+
+            <NavLink
+              className={({ isActive }) =>
+                (isActive ? "text-primary" : "") +
+                " " +
+                "flex items-center leading-[25px] transition-colors hover:text-primary"
+              }
+              to="tvseries"
+            >
+              <BsGrid1X2Fill className="mr-[6px] inline-block text-[14px]" />
+              TV Series
+            </NavLink>
+
+            <NavLink
+              className={({ isActive }) =>
+                (isActive ? "text-primary" : "") +
+                " " +
+                "flex items-center leading-[25px] transition-colors hover:text-primary"
+              }
+              to="celebs"
+            >
+              <FaUserCircle className="mr-[6px] inline-block text-[17px]" />
+              Celebs
+            </NavLink>
           </div>
+        </div>
+      </div>
 
+      <div className="flex flex-col gap-y-6">
+        <h4 className="ml-4 text-[14px] font-medium uppercase tracking-[4px] text-[#505050]">
+          General
+        </h4>
+        <div className="ml-7 flex flex-col gap-y-6">
           {Object.keys(loginInfo).length > 0 && (
-            <div className="flex items-center justify-center flex-wrap border-2 border-primary rounded-3xl py-2 w-[82%] mx-auto">
-              <img
-                className="w-[35px] h-[35px] rounded-full object-cover inline-block mr-[6px]"
-                src={
-                  loginInfo.avatar
-                    ? `${process.env.REACT_APP_API_PATH_IMG_W500}${loginInfo.avatar}`
-                    : avatarDefault
-                }
-                alt="avatar img"
-              />
-
-              <span>{loginInfo.user_name}</span>
-            </div>
+            <>
+              {!loading ? (
+                <Link
+                  className="flex items-center transition-colors hover:text-primary"
+                  onClick={logoutHandler}
+                >
+                  <IoMdLogOut className="mr-[6px] inline-block text-[18px]" />
+                  Log out
+                </Link>
+              ) : (
+                <Loader
+                  classWidth="w-5"
+                  classHeight="h-5"
+                  classBorder="border-2"
+                  classMargin="mt-0"
+                  loading={loading}
+                />
+              )}
+            </>
           )}
 
           {Object.keys(loginInfo).length <= 0 && (
             <Link
-              to={"signup"}
-              className="flex items-center justify-center w-[82%] mx-auto bg-primary py-2 rounded-[10px] transition-colors uppercase font-bold hover:bg-red-400"
+              className="flex items-center transition-colors hover:text-primary"
+              to="login"
             >
-              Sign up
-              <BsArrowRightCircleFill className="inline-block ml-[6px] text-[18px]" />
+              <IoMdLogIn className="mr-[6px] inline-block text-[18px]" />
+              Log in
             </Link>
           )}
         </div>
+
+        {Object.keys(loginInfo).length > 0 && (
+          <div className="flex flex-wrap items-center justify-center p-2">
+            <img
+              className="mr-[6px] mb-[6px] inline-block h-[35px] w-[35px] rounded-full border-2  border-primary object-cover"
+              src={
+                loginInfo.avatar
+                  ? `${process.env.REACT_APP_API_PATH_IMG_W500}${loginInfo.avatar}`
+                  : avatarDefault
+              }
+              alt="avatar img"
+            />
+
+            <span className="truncate text-primary">{loginInfo.user_name}</span>
+          </div>
+        )}
+
+        {Object.keys(loginInfo).length <= 0 && (
+          <Link
+            to={"signup"}
+            className="mx-auto flex w-[82%] items-center justify-center rounded-[10px] bg-primary py-2 font-bold uppercase transition-colors hover:bg-red-400"
+          >
+            Sign up
+            <BsArrowRightCircleFill className="ml-[6px] inline-block text-[18px]" />
+          </Link>
+        )}
       </div>
     </div>
   );

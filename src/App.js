@@ -38,7 +38,7 @@ function App() {
 
   return (
     <LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
-      <div className="App grid grid-cols-8 max-w-screen-[1920px] mx-auto">
+      <div className="App mx-auto grid max-w-[1920px] grid-cols-12">
         <AccountStateContext.Provider value={{ accountState, setAccountState }}>
           <MenuSideBar />
 
@@ -58,15 +58,15 @@ function App() {
           {/* loader */}
           <div
             className={`${
-              loadTrailer ? "opacity-100 visible" : "opacity-0 hidden"
-            } border-[4px] w-[30px] h-[30px] border-primary rounded-full border-r-transparent animate-spin m-auto absolute inset-0`}
+              loadTrailer ? "visible opacity-100" : "hidden opacity-0"
+            } absolute inset-0 m-auto h-[30px] w-[30px] animate-spin rounded-full border-[4px] border-primary border-r-transparent`}
           ></div>
 
           {/* iframe for youtube video */}
           <iframe
             className={`${
               loadTrailer ? "opacity-0" : "opacity-100"
-            } w-full h-full`}
+            } h-full w-full`}
             onLoad={() => {
               setloadTrailer(false);
             }}

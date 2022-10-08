@@ -139,72 +139,70 @@ const SearchSideBar = () => {
   }, [loginInfo]);
 
   return (
-    <div className="w-full h-screen col-span-2">
-      <div className="w-[25%] h-full border-l-2 border-[#353535] fixed text-[#ececec] bg-[#181818] px-6 pb-5 flex flex-col overflow-scroll no-scrollbar">
-        <div className="sticky top-0 z-50 py-5 bg-[#181818] bg-opacity-95">
-          <FiSearch className="absolute top-1/2 right-[15px] text-[22px] text-[#9CA3AF] -translate-y-1/2" />
-          <input
-            type="text"
-            placeholder={`Search ${type.name}`}
-            className="px-[15px] py-[10px] w-full rounded-[10px] bg-[#252229] focus:outline-[#353535] outline-none"
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-            }}
-            value={searchQuery}
+    <div className="no-scrollbar col-span-3 flex  h-screen  flex-col overflow-scroll border-l-2 border-[#353535] bg-[#181818] px-6 pb-5 text-[#ececec]">
+      <div className="sticky top-0 z-50 bg-[#181818] bg-opacity-95 py-5">
+        <FiSearch className="absolute top-1/2 right-[15px] -translate-y-1/2 text-[22px] text-[#9CA3AF]" />
+        <input
+          type="text"
+          placeholder={`Search ${type.name}`}
+          className="w-full rounded-[10px] bg-[#252229] px-[15px] py-[10px] outline-none focus:outline-[#353535]"
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+          }}
+          value={searchQuery}
+        />
+      </div>
+
+      <div className="mt-5 grid gap-y-10">
+        {lists?.trending?.map((list) => (
+          <SearchSideBarList
+            key={list.pathNavigate}
+            title={list.title}
+            type={list.type}
+            pathNavigate={list.pathNavigate}
+            apiPath={list.apiPath}
           />
-        </div>
+        ))}
 
-        <div className="grid mt-5 gap-y-10">
-          {lists?.trending?.map((list) => (
-            <SearchSideBarList
-              key={list.pathNavigate}
-              title={list.title}
-              type={list.type}
-              pathNavigate={list.pathNavigate}
-              apiPath={list.apiPath}
-            />
-          ))}
+        {localStorage.getItem("user_id") &&
+          lists?.movieWatchlist?.apiPath &&
+          lists?.tvWatchlist?.apiPath &&
+          lists?.movieFavorite?.apiPath &&
+          lists?.tvFavorite?.apiPath && (
+            <>
+              <SearchSideBarListMW
+                key={lists?.movieWatchlist?.pathNavigate}
+                title={lists?.movieWatchlist?.title}
+                type={lists?.movieWatchlist?.type}
+                pathNavigate={lists?.movieWatchlist?.pathNavigate}
+                apiPath={lists?.movieWatchlist?.apiPath}
+              />
 
-          {localStorage.getItem("user_id") &&
-            lists?.movieWatchlist?.apiPath &&
-            lists?.tvWatchlist?.apiPath &&
-            lists?.movieFavorite?.apiPath &&
-            lists?.tvFavorite?.apiPath && (
-              <>
-                <SearchSideBarListMW
-                  key={lists?.movieWatchlist?.pathNavigate}
-                  title={lists?.movieWatchlist?.title}
-                  type={lists?.movieWatchlist?.type}
-                  pathNavigate={lists?.movieWatchlist?.pathNavigate}
-                  apiPath={lists?.movieWatchlist?.apiPath}
-                />
+              <SearchSideBarListMF
+                key={lists?.movieFavorite?.pathNavigate}
+                title={lists?.movieFavorite?.title}
+                type={lists?.movieFavorite?.type}
+                pathNavigate={lists?.movieFavorite?.pathNavigate}
+                apiPath={lists?.movieFavorite?.apiPath}
+              />
 
-                <SearchSideBarListMF
-                  key={lists?.movieFavorite?.pathNavigate}
-                  title={lists?.movieFavorite?.title}
-                  type={lists?.movieFavorite?.type}
-                  pathNavigate={lists?.movieFavorite?.pathNavigate}
-                  apiPath={lists?.movieFavorite?.apiPath}
-                />
+              <SearchSideBarListTVW
+                key={lists?.tvWatchlist?.pathNavigate}
+                title={lists?.tvWatchlist?.title}
+                type={lists?.tvWatchlist?.type}
+                pathNavigate={lists?.tvWatchlist?.pathNavigate}
+                apiPath={lists?.tvWatchlist?.apiPath}
+              />
 
-                <SearchSideBarListTVW
-                  key={lists?.tvWatchlist?.pathNavigate}
-                  title={lists?.tvWatchlist?.title}
-                  type={lists?.tvWatchlist?.type}
-                  pathNavigate={lists?.tvWatchlist?.pathNavigate}
-                  apiPath={lists?.tvWatchlist?.apiPath}
-                />
-
-                <SearchSideBarListTVF
-                  key={lists?.tvFavorite?.pathNavigate}
-                  title={lists?.tvFavorite?.title}
-                  type={lists?.tvFavorite?.type}
-                  pathNavigate={lists?.tvFavorite?.pathNavigate}
-                  apiPath={lists?.tvFavorite?.apiPath}
-                />
-              </>
-            )}
-        </div>
+              <SearchSideBarListTVF
+                key={lists?.tvFavorite?.pathNavigate}
+                title={lists?.tvFavorite?.title}
+                type={lists?.tvFavorite?.type}
+                pathNavigate={lists?.tvFavorite?.pathNavigate}
+                apiPath={lists?.tvFavorite?.apiPath}
+              />
+            </>
+          )}
       </div>
     </div>
   );
