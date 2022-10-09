@@ -38,7 +38,7 @@ function App() {
 
   return (
     <LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
-      <div className="App mx-auto grid max-w-[1920px] grid-cols-12">
+      <div className="App relative mx-auto grid max-w-[1920px] grid-cols-1 lg:grid-cols-12">
         <AccountStateContext.Provider value={{ accountState, setAccountState }}>
           <MenuSideBar />
 
