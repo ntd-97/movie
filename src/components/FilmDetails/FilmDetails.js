@@ -208,17 +208,17 @@ const FilmDetails = () => {
 
       <div
         className={`${
-          loading ? "opacity-0 hidden " : "opacity-1 block"
-        } FilmDetail relative transition-all grid grid-cols-1 gap-y-12`}
+          loading ? "hidden opacity-0 " : "opacity-1 block"
+        } FilmDetail relative grid grid-cols-1 gap-y-12 transition-all`}
       >
         {/* banner */}
         <div
-          className="grid grid-cols-12 gap-10 px-10 my-auto bg-cover py-16 coverImgFilmDetails relative"
+          className="coverImgFilmDetails relative my-auto grid grid-cols-12 gap-10 bg-cover px-10 py-16"
           style={{
             backgroundImage: `url(${filmDetails?.backdrop_path_full})`,
           }}
         >
-          <div className="col-span-4 z-50">
+          <div className="z-50 lg:col-span-5 2xl:col-span-4">
             <img
               className="w-full  object-cover text-primary"
               loading="lazy"
@@ -231,7 +231,7 @@ const FilmDetails = () => {
             />
           </div>
 
-          <div className="flex flex-col justify-between text-[#ececec] col-span-8 mt-5 z-50">
+          <div className="z-50 mt-5 flex flex-col justify-between text-[#ececec] lg:col-span-7 2xl:col-span-8">
             <div className="flex flex-col gap-y-4">
               <h1 className="text-5xl ">
                 {type.current === "movies"
@@ -239,7 +239,7 @@ const FilmDetails = () => {
                   : filmDetails?.name}
               </h1>
 
-              <h2 className="text-[#b5b5b5] text-2xl">
+              <h2 className="text-2xl text-[#b5b5b5]">
                 {type.current === "movies"
                   ? filmDetails?.original_title
                   : filmDetails?.original_name}
@@ -267,14 +267,14 @@ const FilmDetails = () => {
                   {type.current === "tvseries" ? "/episode" : ""}
                 </span>
                 {filmDetails?.certification && (
-                  <span className="bg-[#363636] px-2 rounded-[6px]">
+                  <span className="rounded-[6px] bg-[#363636] px-2">
                     {filmDetails?.certification}
                   </span>
                 )}
               </p>
 
               <p className="flex items-center">
-                <AiFillStar className="text-yellow-400 text-[20px] inline-block mr-1" />
+                <AiFillStar className="mr-1 inline-block text-[20px] text-yellow-400" />
                 {filmDetails?.vote_average ? filmDetails?.vote_average : "0"}
               </p>
             </div>
@@ -282,7 +282,7 @@ const FilmDetails = () => {
             <div className="mt-5">
               {filmDetails?.director && (
                 <p className="mb-1">
-                  <span className="uppercase text-[#b5b5b5] mr-2">
+                  <span className="mr-2 uppercase text-[#b5b5b5]">
                     Director:
                   </span>
                   {filmDetails?.director}
@@ -290,14 +290,14 @@ const FilmDetails = () => {
               )}
 
               <p className="mb-1">
-                <span className="uppercase text-[#b5b5b5] mr-2">Nation:</span>
+                <span className="mr-2 uppercase text-[#b5b5b5]">Nation:</span>
                 {filmDetails?.production_countries
                   ?.map((country) => country.name)
                   .join(", ")}
               </p>
 
               <p className="mb-1">
-                <span className="uppercase text-[#b5b5b5] mr-2">
+                <span className="mr-2 uppercase text-[#b5b5b5]">
                   Release date:
                 </span>
                 {type.current === "movies"
@@ -305,17 +305,17 @@ const FilmDetails = () => {
                   : filmDetails?.first_air_date}
               </p>
 
-              <p className="leading-[24px] mt-5 text-justify">
+              <p className="mt-5 text-justify leading-[24px]">
                 {filmDetails?.overview}
               </p>
             </div>
 
-            <div className="flex justify-between gap-x-4 mt-10 ">
+            <div className="mt-10 flex justify-between gap-x-4 ">
               <div className="flex gap-x-2">
                 {userId && (
                   <button
                     onClick={watchlistClickHandler}
-                    className="group flex justify-center items-center bg-[#292326] w-10 h-10  bg-opacity-90 px-2 py-2 rounded-xl transition-all hover:bg-gray-500"
+                    className="group flex h-10 w-10 items-center justify-center rounded-xl  bg-[#292326] bg-opacity-90 px-2 py-2 transition-all hover:bg-gray-500"
                   >
                     <Loader
                       classWidth="w-4"
@@ -326,11 +326,11 @@ const FilmDetails = () => {
                     />
 
                     {accountState?.watchlist && !loadingBtnWatchList && (
-                      <MdOutlineRemove className="text-xl group-hover:text-2xl transition-all" />
+                      <MdOutlineRemove className="text-xl transition-all group-hover:text-2xl" />
                     )}
 
                     {!accountState?.watchlist && !loadingBtnWatchList && (
-                      <MdOutlineAdd className="text-xl group-hover:text-2xl transition-all" />
+                      <MdOutlineAdd className="text-xl transition-all group-hover:text-2xl" />
                     )}
                   </button>
                 )}
@@ -341,7 +341,7 @@ const FilmDetails = () => {
                       accountState?.favorite
                         ? "text-primary  hover:text-[#ececec]"
                         : " hover:text-primary"
-                    } group flex justify-center items-center w-10 h-10  bg-[#292326] bg-opacity-90 px-2 py-2 rounded-full transition-all hover:opacity-100 hover:bg-transparent`}
+                    } group flex h-10 w-10 items-center justify-center  rounded-full bg-[#292326] bg-opacity-90 px-2 py-2 transition-all hover:bg-transparent hover:opacity-100`}
                     onClick={favoriteClickHandler}
                   >
                     <Loader
@@ -353,17 +353,17 @@ const FilmDetails = () => {
                     />
 
                     {!loadingBtnFavorite && (
-                      <FaHeart className="text-xl group-hover:text-2xl transition-all" />
+                      <FaHeart className="text-xl transition-all group-hover:text-2xl" />
                     )}
                   </button>
                 )}
               </div>
-              <div className="flex gap-x-5">
+              <div className="flex flex-wrap gap-x-5 gap-y-3">
                 {filmDetails?.genres?.map((genre) => {
                   return (
                     <span
                       key={genre.id}
-                      className="px-[10px] py-[5px] border-2 rounded-[10px] border-[#474749] bg-[#292326] bg-opacity-70 hover:cursor-pointer hover:border-white transition-all"
+                      className="rounded-[10px] border-2 border-[#474749] bg-[#292326] bg-opacity-70 px-[10px] py-[5px] transition-all hover:cursor-pointer hover:border-white"
                       onClick={() => {
                         navigate(
                           `/${type.current}/list/page/1?with_genres=${genre.id}`
@@ -380,8 +380,8 @@ const FilmDetails = () => {
         </div>
 
         {/* actors list */}
-        <div className="text-[#ececec] col-span-12 relative px-10">
-          <h4 className="mb-10 font-medium text-2xl">Actors</h4>
+        <div className="relative col-span-12 px-10 text-[#ececec]">
+          <h4 className="mb-10 font-medium lg:text-xl 2xl:text-2xl">Actors</h4>
           {filmDetails?.credits?.cast?.filter((actor) => actor.profile_path)
             .length > 0 ? (
             <FDActorList
@@ -389,29 +389,31 @@ const FilmDetails = () => {
               actors={filmDetails?.credits?.cast}
             />
           ) : (
-            <h3 className="text-primary text-center text-2xl">
+            <h3 className="text-center text-primary lg:text-xl 2xl:text-2xl">
               Actor not found
             </h3>
           )}
         </div>
 
         {/* trailers list */}
-        <div className="text-[#ececec] col-span-12 relative px-10">
-          <h4 className="mb-10 font-medium text-2xl">Trailers</h4>
+        <div className="relative col-span-12 px-10 text-[#ececec]">
+          <h4 className="mb-10 font-medium lg:text-xl 2xl:text-2xl">
+            Trailers
+          </h4>
           {filmDetails?.videos?.results.length > 0 ? (
             <FDTrailerList
               specifyClass="film-details-trailer-list"
               trailers={filmDetails?.videos?.results}
             />
           ) : (
-            <h3 className="text-primary text-center text-2xl">
+            <h3 className="text-center text-primary lg:text-xl 2xl:text-2xl">
               Trailer not found
             </h3>
           )}
         </div>
 
         {/* similar films list */}
-        <div className="text-[#ececec] col-span-12 relative px-10">
+        <div className="relative col-span-12 px-10 text-[#ececec]">
           <FilmList
             title={
               type.current === "movies" ? "Similar Movies" : "Similar TV Series"

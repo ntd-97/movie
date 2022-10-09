@@ -52,7 +52,9 @@ const SearchSideBarListMW = ({ title, type, pathNavigate, apiPath }) => {
 
   return (
     <div className="SearchSideBarList">
-      <h2 className="text-2xl text-[#ECECEC] font-medium mb-5">{title}</h2>
+      <h2 className="mb-5 font-medium text-[#ECECEC] lg:text-xl 2xl:text-2xl">
+        {title}
+      </h2>
 
       <Loader
         classWidth="w-10"
@@ -63,7 +65,7 @@ const SearchSideBarListMW = ({ title, type, pathNavigate, apiPath }) => {
       />
 
       {films.length <= 0 && !loading && (
-        <h3 className="text-primary text-center text-xl"> Not found</h3>
+        <h3 className="text-center text-xl text-primary"> Not found</h3>
       )}
 
       {films.length > 0 && !loading && (
@@ -77,7 +79,7 @@ const SearchSideBarListMW = ({ title, type, pathNavigate, apiPath }) => {
             onClick={() => {
               navigate(`${pathNavigate}/page/1`);
             }}
-            className="text-[18px] bg-primary px-5 py-2 mt-[15px] rounded-[10px] w-full outline-none font-medium transition-all hover:bg-red-400 "
+            className="mt-[15px] w-full rounded-[10px] bg-primary px-5 py-2 font-medium outline-none transition-all hover:bg-red-400 lg:text-base 2xl:text-[18px] "
           >
             See more
           </button>

@@ -60,7 +60,7 @@ const FilmsListPage = () => {
   return (
     <>
       <div className="MoviesListPage p-10">
-        <h1 className="text-3xl font-medium text-[#cecece] text-center mb-10">
+        <h1 className="mb-10 text-center font-medium text-[#cecece] lg:text-2xl 2xl:text-3xl">
           {pathname.includes("movies") ? "Movies List" : "TV Series List"}
         </h1>
 
@@ -80,7 +80,7 @@ const FilmsListPage = () => {
         {filmsList?.results?.filter((film) => film.poster_path).length > 0 ? (
           <div
             className={`${
-              loading ? "opacity-0 hidden" : "opacity-1 grid"
+              loading ? "hidden opacity-0" : "opacity-1 grid"
             } grid-cols-4 gap-5 transition-all`}
           >
             {filmsList?.results
@@ -97,8 +97,8 @@ const FilmsListPage = () => {
         ) : (
           <h3
             className={`${
-              loading ? "opacity-0 hidden" : "opacity-1 block"
-            } transition-all text-primary text-center text-2xl mt-20`}
+              loading ? "hidden opacity-0" : "opacity-1 block"
+            } mt-20 text-center text-2xl text-primary transition-all`}
           >
             Not found
           </h3>
@@ -110,7 +110,7 @@ const FilmsListPage = () => {
             pageCount={
               filmsList?.total_pages >= 500 ? 500 : filmsList?.total_pages
             }
-            className="flex justify-center items-center mt-10 gap-x-3 text-[#ececec] "
+            className="mt-10 flex items-center justify-center gap-x-3 text-[#ececec] "
             pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             nextClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"

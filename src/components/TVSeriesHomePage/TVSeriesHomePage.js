@@ -67,11 +67,11 @@ const TVSeriesHomePage = () => {
 
       <div
         className={`${
-          loading ? "opacity-0 hidden " : "opacity-1 block"
+          loading ? "hidden opacity-0 " : "opacity-1 block"
         } TVSeriesHomePage px-10 py-10`}
       >
         {/* banner */}
-        <div className="relative  mb-6 rounded-[20px] overflow-hidden">
+        <div className="relative  mb-6 overflow-hidden rounded-[20px]">
           <CustomSlider specifyClass="TVSeriesBanner" paginationClass="banner">
             {tvSeries?.nowPlaying?.results?.map((film) => {
               return (
@@ -103,10 +103,10 @@ const TVSeriesHomePage = () => {
           onClick={() => {
             navigate("/tvseries/list/page/1");
           }}
-          className="ml-auto bg-transparent px-5 py-2 rounded-[10px] outline-none text-primary text-xl font-medium transition-all hover:bg-primary hover:text-white flex justify-center items-center"
+          className="ml-auto flex items-center justify-center rounded-[10px] bg-transparent px-5 py-2 font-medium text-primary outline-none transition-all hover:bg-primary hover:text-white lg:text-lg 2xl:text-xl"
         >
           See more
-          <BsArrowRight className="inline-block text-2xl ml-2 font-bold" />
+          <BsArrowRight className="ml-2 inline-block font-bold lg:text-xl 2xl:text-2xl" />
         </button>
       </div>
     </>

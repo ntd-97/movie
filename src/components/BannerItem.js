@@ -26,11 +26,11 @@ const BannerItem = ({ type, filmID, info }) => {
         }
         loading="lazy"
         alt="banner img not found"
-        className="max-h-[570px] w-full rounded-[20px] object-cover  text-primary"
+        className="w-full rounded-[20px] object-cover text-primary lg:max-h-[465px]  2xl:max-h-[570px]"
       />
 
       <div className="absolute bottom-8 left-8 text-white">
-        <h2 className="mb-5 text-4xl font-bold">
+        <h2 className="mb-5 font-bold lg:text-3xl 2xl:text-4xl">
           {type === "tvseries" ? info.name : info.title}
         </h2>
 

@@ -76,7 +76,7 @@ const ResultSearchPage = () => {
   return (
     <>
       <div className="MoviesListPage p-10">
-        <h1 className="text-3xl font-medium text-[#cecece] text-center mb-10">
+        <h1 className="mb-10 text-center font-medium text-[#cecece] lg:text-2xl 2xl:text-3xl">
           {type?.current?.title}
         </h1>
 
@@ -96,8 +96,8 @@ const ResultSearchPage = () => {
             0 && (
             <h3
               className={`${
-                loading ? "opacity-0 hidden" : "opacity-1 block"
-              } transition-all text-primary text-center text-2xl mt-20`}
+                loading ? "hidden opacity-0" : "opacity-1 block"
+              } mt-20 text-center text-primary transition-all lg:text-xl 2xl:text-2xl`}
             >
               Not found
             </h3>
@@ -109,7 +109,7 @@ const ResultSearchPage = () => {
             0 && (
             <div
               className={`${
-                loading ? "opacity-0 hidden" : "opacity-1 grid"
+                loading ? "hidden opacity-0" : "opacity-1 grid"
               } grid-cols-4 gap-5 transition-all`}
             >
               {resultSearch?.results
@@ -131,7 +131,7 @@ const ResultSearchPage = () => {
             0 && (
             <div
               className={`${
-                loading ? "opacity-0 hidden" : "opacity-1 grid"
+                loading ? "hidden opacity-0" : "opacity-1 grid"
               } grid-cols-5 gap-5 transition-all`}
             >
               {resultSearch?.results
@@ -154,7 +154,7 @@ const ResultSearchPage = () => {
             pageCount={
               resultSearch?.total_pages >= 500 ? 500 : resultSearch?.total_pages
             }
-            className="flex justify-center items-center mt-10 gap-x-3 text-[#ececec] "
+            className="mt-10 flex items-center justify-center gap-x-3 text-[#ececec] "
             pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             nextClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"

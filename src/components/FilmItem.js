@@ -18,7 +18,7 @@ const FilmItem = ({ type, filmID, info }) => {
     <div className="FilmItem relative rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95">
       <img
         loading="lazy"
-        className="mb-4 max-h-[370px] w-full rounded-[10px]  object-cover"
+        className="mb-4 w-full rounded-[10px] object-cover lg:h-[240px]  2xl:h-[370px]"
         src={
           info.poster_path
             ? `${process.env.REACT_APP_API_PATH_IMG_W500}${info.poster_path}`
@@ -27,7 +27,7 @@ const FilmItem = ({ type, filmID, info }) => {
         alt="poster film"
       />
 
-      <h3 className="mb-3 truncate text-lg">
+      <h3 className="mb-3 truncate lg:text-base 2xl:text-lg">
         {type === "tvseries" ? info.name : info.title}
       </h3>
 

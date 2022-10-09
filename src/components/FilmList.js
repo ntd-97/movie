@@ -27,10 +27,12 @@ const swiperResponsiveConfig = {
 const FilmList = ({ title, type, specifyClass, films }) => {
   return (
     <div className="FilmList relative">
-      <h2 className="text-2xl text-[#ECECEC] font-medium mb-5">{title}</h2>
+      <h2 className="mb-5 font-medium text-[#ECECEC] lg:text-xl 2xl:text-2xl">
+        {title}
+      </h2>
 
       {films?.length > 0 ? (
-        <div className="rounded-[20px] overflow-hidden">
+        <div className="overflow-hidden rounded-[20px]">
           <CustomSlider
             specifyClass={specifyClass}
             paginationClass="normalList"
@@ -46,7 +48,7 @@ const FilmList = ({ title, type, specifyClass, films }) => {
           </CustomSlider>
         </div>
       ) : (
-        <h3 className="text-primary text-center text-2xl mb-10">{`${
+        <h3 className="mb-10 text-center text-2xl text-primary">{`${
           type === "movies" ? "Movies" : "TV Series"
         } not found`}</h3>
       )}
