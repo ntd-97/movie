@@ -172,16 +172,16 @@ const FilterBar = memo(({ type }) => {
   }, [search]);
 
   return (
-    <div className="FilterBar w-full py-5 px-1 grid grid-cols-4 gap-x-5 justify-between rounded-[20px] bg-[#33292E] bg-opacity-60 mb-5">
+    <div className="FilterBar mb-5 grid w-full grid-cols-2 justify-between gap-x-2 gap-y-3 rounded-[20px] bg-[#33292E] bg-opacity-60 py-5 px-1 lg:grid-cols-4 lg:gap-x-5">
       {/* Genres */}
-      <div className="flex justify-center flex-col px-[10px] items-start">
-        <label className="text-[#ececec] mr-2" htmlFor="genres">
+      <div className="flex flex-col items-start justify-center px-[10px]">
+        <label className="mr-2 text-[#ececec]" htmlFor="genres">
           Genres:
         </label>
         <select
           onChange={selectionChangeHanler}
           name="with_genres"
-          className="py-1 px-2 rounded-[7px] w-full mt-1 focus:outline-none hover:cursor-pointer"
+          className="mt-1 w-full rounded-[7px] py-1 px-2 hover:cursor-pointer focus:outline-none"
           id="genres"
           value={
             filterSelected?.with_genres ? filterSelected?.with_genres : "none"
@@ -200,14 +200,14 @@ const FilterBar = memo(({ type }) => {
 
       {/* Certification */}
       {type === "movie" && (
-        <div className="flex justify-center flex-col px-[10px] items-start">
-          <label className="text-[#ececec] mr-2" htmlFor="certification">
+        <div className="flex flex-col items-start justify-center px-[10px]">
+          <label className="mr-2 text-[#ececec]" htmlFor="certification">
             Certification:
           </label>
           <select
             onChange={selectionChangeHanler}
             name="certification"
-            className="py-1 px-2 rounded-[7px] w-full mt-1 focus:outline-none hover:cursor-pointer"
+            className="mt-1 w-full rounded-[7px] py-1 px-2 hover:cursor-pointer focus:outline-none"
             value={
               filterSelected?.certification
                 ? filterSelected?.certification
@@ -232,14 +232,14 @@ const FilterBar = memo(({ type }) => {
 
       {/* TV Series type */}
       {type === "tv" && (
-        <div className="flex justify-center flex-col px-[10px] items-start">
-          <label className="text-[#ececec] mr-2" htmlFor="certification">
+        <div className="flex flex-col items-start justify-center px-[10px]">
+          <label className="mr-2 text-[#ececec]" htmlFor="certification">
             Type:
           </label>
           <select
             onChange={selectionChangeHanler}
             name="with_type"
-            className="py-1 px-2 rounded-[7px] w-full mt-1 focus:outline-none hover:cursor-pointer"
+            className="mt-1 w-full rounded-[7px] py-1 px-2 hover:cursor-pointer focus:outline-none"
             value={
               filterSelected?.with_type ? filterSelected?.with_type : "none"
             }
@@ -258,8 +258,8 @@ const FilterBar = memo(({ type }) => {
       )}
 
       {/* Year */}
-      <div className="flex justify-center flex-col px-[10px] items-start">
-        <label className="text-[#ececec] mr-2" htmlFor="year">
+      <div className="flex flex-col items-start justify-center px-[10px]">
+        <label className="mr-2 text-[#ececec]" htmlFor="year">
           Year:
         </label>
         <select
@@ -267,7 +267,7 @@ const FilterBar = memo(({ type }) => {
           name={
             type === "movie" ? "primary_release_year" : "first_air_date_year"
           }
-          className="py-1 px-2 rounded-[7px] w-full mt-1 focus:outline-none hover:cursor-pointer"
+          className="mt-1 w-full rounded-[7px] py-1 px-2 hover:cursor-pointer focus:outline-none"
           value={
             type === "movie"
               ? filterSelected?.primary_release_year ||
@@ -292,14 +292,14 @@ const FilterBar = memo(({ type }) => {
       </div>
 
       {/* Sort by */}
-      <div className="flex justify-center flex-col px-[10px] items-start">
-        <label className="text-[#ececec] mr-2" htmlFor="sort">
+      <div className="flex flex-col items-start justify-center px-[10px]">
+        <label className="mr-2 text-[#ececec]" htmlFor="sort">
           Sort by:
         </label>
         <select
           onChange={selectionChangeHanler}
           name="sort_by"
-          className="py-1 px-2 rounded-[7px] w-full mt-1 focus:outline-none hover:cursor-pointer"
+          className="mt-1 w-full rounded-[7px] py-1 px-2 hover:cursor-pointer focus:outline-none"
           value={filterSelected?.sort_by ? filterSelected?.sort_by : "none"}
           id="sort"
         >

@@ -51,7 +51,7 @@ const SearchSideBarListTVF = ({ title, type, pathNavigate, apiPath }) => {
 
   return (
     <div className="SearchSideBarList">
-      <h2 className="mb-5 font-medium text-[#ECECEC] lg:text-xl 2xl:text-2xl">
+      <h2 className="mb-5 text-xl font-medium text-[#ECECEC] 2xl:text-2xl">
         {title}
       </h2>
 

@@ -16,7 +16,7 @@ import CommonListPage from "./CommonListPage";
 
 const Main = () => {
   return (
-    <div className="Main no-scrollbar relative col-span-8 h-screen overflow-scroll">
+    <div className="Main no-scrollbar relative col-span-8 h-screen lg:overflow-scroll">
       {/* <Navbar /> */}
       <div>
         <Routes>

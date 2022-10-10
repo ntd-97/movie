@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { FiSearch } from "react-icons/fi";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -19,9 +20,11 @@ const SearchSideBar = () => {
 
   const [type, setType] = useState({});
 
-  const typeRef = useRef("");
-
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [openSearchSidebar, setOpenSearchSidebar] = useState(false);
+
+  const typeRef = useRef("");
 
   const { loginInfo } = useContext(LoginContext);
 
@@ -91,6 +94,10 @@ const SearchSideBar = () => {
     }
   });
 
+  const clickOpenSideBarHandler = () => {
+    setOpenSearchSidebar(!openSearchSidebar);
+  };
+
   useEffect(() => {
     // set search placeholder and path to navigate base on the pathname
     if (pathname.includes("movies")) {
@@ -139,9 +146,29 @@ const SearchSideBar = () => {
   }, [loginInfo]);
 
   return (
-    <div className="no-scrollbar col-span-3 flex  h-screen  flex-col overflow-scroll border-l-2 border-[#353535] bg-[#181818] px-6 pb-5 text-[#ececec]">
-      <div className="sticky top-0 z-50 bg-[#181818] bg-opacity-95 py-5">
+    <div
+      className={`${
+        openSearchSidebar
+          ? "sidebarShow overflow-scroll"
+          : "sidebarHide overflow-hidden"
+      } no-scrollbar fixed left-0 right-0 z-[100] flex h-screen flex-col  bg-[#181818] px-3 pb-4 text-[#ececec] lg:relative  lg:z-auto lg:col-span-3 lg:h-screen lg:overflow-scroll lg:border-l-2 lg:border-[#353535] lg:px-6 lg:pb-5`}
+    >
+      <div className="sticky top-0 z-50 flex gap-x-2 bg-[#181818] bg-opacity-95 py-3 lg:py-5">
         <FiSearch className="absolute top-1/2 right-[15px] -translate-y-1/2 text-[22px] text-[#9CA3AF]" />
+        {!openSearchSidebar && (
+          <IoIosArrowUp
+            onClick={clickOpenSideBarHandler}
+            className="rounded-[10px] bg-[#252229] p-2 text-[44px] lg:hidden"
+          />
+        )}
+
+        {openSearchSidebar && (
+          <IoIosArrowDown
+            onClick={clickOpenSideBarHandler}
+            className="rounded-[10px] bg-[#252229] p-2 text-[44px] lg:hidden"
+          />
+        )}
+
         <input
           type="text"
           placeholder={`Search ${type.name}`}

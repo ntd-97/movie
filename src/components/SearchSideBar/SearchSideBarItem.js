@@ -38,7 +38,7 @@ const SearchSideBarItem = ({ film, type }) => {
       onClick={() => {
         navigate(`/${type === "movie" ? "movies" : "tvseries"}/${film?.id}`);
       }}
-      className="SearchSideBarItem grid rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-105 hover:cursor-pointer lg:grid-cols-8 2xl:grid-cols-4"
+      className="SearchSideBarItem grid grid-cols-12 rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-105 hover:cursor-pointer lg:grid-cols-8 2xl:grid-cols-4"
     >
       <img
         src={
@@ -47,10 +47,10 @@ const SearchSideBarItem = ({ film, type }) => {
             : posterImgNotFound
         }
         alt="poster film"
-        className=" w-full rounded-[10px] object-cover lg:col-span-3 lg:max-h-[145px] 2xl:col-span-1 2xl:max-h-[135px]"
+        className="col-span-3 w-full rounded-[10px] object-cover lg:col-span-3 lg:h-[145px] 2xl:col-span-1 2xl:h-[135px]"
       />
 
-      <div className="grid-row-4 ml-[10px] grid lg:col-span-5 2xl:col-span-3">
+      <div className="grid-row-4 col-span-9 ml-[10px] grid lg:col-span-5 2xl:col-span-3">
         <h4 className="row-span-1 truncate lg:text-base 2xl:text-[17px]">
           {type === "tv" ? film?.name : film?.title}
         </h4>
@@ -68,7 +68,7 @@ const SearchSideBarItem = ({ film, type }) => {
           </p>
         </div>
 
-        <div className="row-span-1 flex gap-x-2 lg:flex-wrap lg:gap-y-1">
+        <div className="row-span-1 flex flex-wrap gap-x-2 gap-y-1 2xl:flex-nowrap 2xl:gap-y-0">
           {genres?.map((genre) => (
             <p
               onClick={(e) => {
@@ -82,7 +82,7 @@ const SearchSideBarItem = ({ film, type }) => {
               key={genre?.id}
               className={`${
                 genres.length > 1 ? "flex-1" : ""
-              } lg flex items-center justify-center rounded-[10px] border-2 border-[#474749] px-2 text-center transition-all hover:cursor-pointer hover:border-white lg:py-1 lg:text-xs 2xl:text-[13.5px]`}
+              } flex items-center justify-center rounded-[10px] border-2 border-[#474749] px-2 py-1 text-center text-xs transition-all hover:cursor-pointer hover:border-white 2xl:py-0 2xl:text-[13.5px]`}
             >
               {genre?.name}
             </p>

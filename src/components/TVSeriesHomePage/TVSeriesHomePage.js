@@ -68,7 +68,7 @@ const TVSeriesHomePage = () => {
       <div
         className={`${
           loading ? "hidden opacity-0 " : "opacity-1 block"
-        } TVSeriesHomePage px-10 py-10`}
+        } TVSeriesHomePage mt-[86px] px-3 pb-[90px] lg:mt-0 lg:p-10`}
       >
         {/* banner */}
         <div className="relative  mb-6 overflow-hidden rounded-[20px]">

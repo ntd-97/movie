@@ -18,7 +18,7 @@ const FilmItem = ({ type, filmID, info }) => {
     <div className="FilmItem relative rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95">
       <img
         loading="lazy"
-        className="mb-4 w-full rounded-[10px] object-cover lg:h-[240px]  2xl:h-[370px]"
+        className="mb-3 w-full rounded-[10px] object-cover lg:mb-4 lg:h-[240px]  2xl:h-[370px]"
         src={
           info.poster_path
             ? `${process.env.REACT_APP_API_PATH_IMG_W500}${info.poster_path}`
@@ -27,11 +27,11 @@ const FilmItem = ({ type, filmID, info }) => {
         alt="poster film"
       />
 
-      <h3 className="mb-3 truncate lg:text-base 2xl:text-lg">
+      <h3 className="mb-2 truncate lg:mb-3 lg:text-base 2xl:text-lg">
         {type === "tvseries" ? info.name : info.title}
       </h3>
 
-      <div className="mb-4 flex items-center justify-between text-sm font-medium text-[#7D7D7D]">
+      <div className="mb-3 flex items-center justify-between text-sm font-medium text-[#7D7D7D] lg:mb-4">
         <span>
           {new Date(
             type === "tvseries" ? info.first_air_date : info.release_date
@@ -51,7 +51,7 @@ const FilmItem = ({ type, filmID, info }) => {
         className="flex w-full items-center justify-center rounded-[10px] bg-primary px-5 py-2 font-medium outline-none transition-all hover:bg-red-400"
       >
         Watch now
-        <BsPlayCircleFill className="ml-2 inline-block text-xl" />
+        <BsPlayCircleFill className="ml-2 hidden text-xl lg:inline-block" />
       </button>
     </div>
   );

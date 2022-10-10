@@ -26,24 +26,30 @@ const BannerItem = ({ type, filmID, info }) => {
         }
         loading="lazy"
         alt="banner img not found"
-        className="w-full rounded-[20px] object-cover text-primary lg:max-h-[465px]  2xl:max-h-[570px]"
+        className="w-full rounded-[20px] object-cover text-primary lg:h-[465px]  2xl:h-[570px]"
       />
 
-      <div className="absolute bottom-8 left-8 text-white">
-        <h2 className="mb-5 font-bold lg:text-3xl 2xl:text-4xl">
+      <div className="absolute bottom-3 w-full px-4 text-white lg:bottom-8 lg:left-8 lg:w-auto lg:px-0">
+        <h2 className="mb-1 text-xl font-bold lg:mb-5 lg:text-3xl 2xl:text-4xl">
           {type === "tvseries" ? info.name : info.title}
         </h2>
 
-        <div className="mb-5 flex items-center">
-          <AiFillStar className="mr-2 inline-block text-[26px] text-yellow-400" />
-          <p className="mr-1 text-xl font-bold">
+        <div className="mb-1 flex items-center justify-between lg:mb-5">
+          <p className="mr-1 flex items-center text-base font-bold lg:text-xl">
+            <AiFillStar className="mr-1 inline-block text-[20px] text-yellow-400 lg:mr-2 lg:text-[26px]" />
             {info.vote_average ? info.vote_average : "0"}
+            <span className="test-base font-bold text-[#545454]">/10</span>
           </p>
-          <p className="font-bold text-[#545454] ">/10</p>
+          <button
+            className="flex items-center justify-center rounded-full bg-primary p-2 font-medium outline-none transition-all hover:bg-red-400 lg:hidden"
+            onClick={btnFilmClickHandler}
+          >
+            <BsPlayCircleFill className="text-xl" />
+          </button>
         </div>
 
         <button
-          className="flex items-center rounded-[10px] bg-primary px-10 py-2 font-medium outline-none transition-all hover:bg-red-400"
+          className="hidden items-center rounded-[10px] bg-primary px-10 py-2 font-medium outline-none transition-all hover:bg-red-400 lg:flex"
           onClick={btnFilmClickHandler}
         >
           Watch

@@ -46,6 +46,10 @@ const MenuSideBar = () => {
     });
   };
 
+  const navClickHandler = () => {
+    setShowMenu("close");
+  };
+
   const logoutHandler = async () => {
     try {
       setLoading(true);
@@ -58,6 +62,7 @@ const MenuSideBar = () => {
         localStorage.clear();
         setLoginInfo({});
         setLoading(false);
+        setShowMenu("close");
       }
     } catch (error) {
       console.log(error);
@@ -100,6 +105,7 @@ const MenuSideBar = () => {
                 "flex items-center leading-[25px] transition-colors hover:text-primary"
               }
               to="movies"
+              onClick={navClickHandler}
             >
               <BsPlayCircleFill className="mr-[6px] inline-block " />
               Movies
@@ -112,6 +118,7 @@ const MenuSideBar = () => {
                 "flex items-center leading-[25px] transition-colors hover:text-primary"
               }
               to="tvseries"
+              onClick={navClickHandler}
             >
               <BsGrid1X2Fill className="mr-[6px] inline-block lg:text-[12px] 2xl:text-sm" />
               TV Series
@@ -124,6 +131,7 @@ const MenuSideBar = () => {
                 "flex items-center leading-[25px] transition-colors hover:text-primary"
               }
               to="celebs"
+              onClick={navClickHandler}
             >
               <FaUserCircle className="mr-[6px] inline-block lg:text-[15px] 2xl:text-[17px]" />
               Celebs
@@ -164,6 +172,7 @@ const MenuSideBar = () => {
             <Link
               className="flex items-center transition-colors hover:text-primary lg:text-sm 2xl:text-base"
               to="login"
+              onClick={navClickHandler}
             >
               <IoMdLogIn className="mr-[6px] inline-block text-[19px] lg:text-base 2xl:text-[18px]" />
               Log in
@@ -192,6 +201,7 @@ const MenuSideBar = () => {
         {Object.keys(loginInfo).length <= 0 && (
           <Link
             to={"signup"}
+            onClick={navClickHandler}
             className="mt-3 flex w-full items-center justify-center rounded-[10px] bg-primary py-2 font-bold uppercase transition-colors hover:bg-red-400 lg:mx-auto lg:mt-0 lg:w-full lg:text-sm 2xl:w-[82%] 2xl:text-base"
           >
             Sign up

@@ -69,10 +69,10 @@ const MoviesHomePage = () => {
       <div
         className={`${
           loading ? "hidden opacity-0 " : "opacity-1 block"
-        } MoviesHomePage transtion-all px-10 py-10`}
+        } MoviesHomePage transtion-all mt-[90px] px-3 pb-[90px] lg:my-0 lg:p-10`}
       >
         {/* Banner */}
-        <div className="relative  mb-6 overflow-hidden rounded-[20px]">
+        <div className="relative mb-6 overflow-hidden rounded-[20px]">
           <CustomSlider specifyClass="moviesBanner" paginationClass="banner">
             {movies?.nowPlaying?.results?.map((film) => {
               return (

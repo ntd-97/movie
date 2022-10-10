@@ -11,13 +11,15 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+
+
 const CustomSlider = ({ children, specifyClass, paginationClass, config }) => {
   return (
     <>
       <Swiper
         modules={[Pagination, Navigation]}
         className={`mySwiper${specifyClass}`}
-        spaceBetween={15}
+        spaceBetween={window.innerWidth < 768 ? 12 : 15}
         //add swiper custom navigation
         navigation={{
           prevEl: `.btnPrev-${specifyClass}`,
@@ -41,19 +43,19 @@ const CustomSlider = ({ children, specifyClass, paginationClass, config }) => {
 
       {/* custom navigation button */}
       <button
-        className={`slider-arrow-btn__prev ${paginationClass} btnPrev-${specifyClass}`}
+        className={`slider-arrow-btn__prev ${paginationClass} btnPrev-${specifyClass} hidden lg:block`}
       >
         <IoIosArrowBack className="slider-arrow-btn__icon--prev" />
       </button>
       <button
-        className={`slider-arrow-btn__next ${paginationClass} btnNext-${specifyClass}`}
+        className={`slider-arrow-btn__next ${paginationClass} btnNext-${specifyClass} hidden lg:block`}
       >
         <IoIosArrowForward className="slider-arrow-btn__icon--next" />
       </button>
 
       {/* custom pagination  */}
       <div
-        className={`swiper-pagination-style ${paginationClass} swiper-pagination-${specifyClass}`}
+        className={`swiper-pagination-style ${paginationClass} swiper-pagination-${specifyClass} hidden lg:block`}
       ></div>
     </>
   );
@@ -64,6 +66,5 @@ CustomSlider.propTypes = {
   paginationClass: PropTypes.string,
   children: PropTypes.node,
 };
-
 
 export default CustomSlider;

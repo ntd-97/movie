@@ -112,14 +112,16 @@
   }
 
   .slider-arrow-btn {
-    &__next.banner {
-      @include slider-arrow-btn();
-      right: 25px;
-    }
+    @media screen and (min-width: 1025px) {
+      &__next.banner {
+        @include slider-arrow-btn();
+        right: 25px;
+      }
 
-    &__prev.banner {
-      @include slider-arrow-btn();
-      right: 85px;
+      &__prev.banner {
+        @include slider-arrow-btn();
+        right: 85px;
+      }
     }
   }
 
@@ -151,34 +153,37 @@
   }
 
   .swiper-pagination {
-    &-style.banner {
-      position: absolute;
-      text-align: center;
-      z-index: 1;
-    }
+    @media screen and (min-width: 1025px) {
+      &-style.banner {
+        position: absolute;
+        text-align: center;
+        z-index: 1;
+      }
 
-    &-style.normalList {
-      position: relative;
-      text-align: center;
-      margin-top: 1rem;
-      z-index: 1;
-    }
+      &-style.normalList {
+        position: relative;
+        text-align: center;
+        margin-top: 1rem;
+        z-index: 1;
+      }
 
-    &-style &-bullet {
-      display: inline-block;
-      background-color: #7c7c7c;
-      transition: all 0.2s ease;
+      &-style &-bullet {
+        display: inline-block;
+        background-color: #7c7c7c;
+        transition: all 0.2s ease;
 
-      &-active {
-        @apply bg-primary;
-        width: 15px;
-        border-radius: 5px;
+        &-active {
+          @apply bg-primary;
+          width: 15px;
+          border-radius: 5px;
+        }
       }
     }
   }
 
   // menu animation
-  @keyframes animationShow {
+
+  @keyframes animationMenuShow {
     0% {
       height: 74px;
     }
@@ -187,23 +192,51 @@
     }
   }
 
-  @keyframes animationHide {
+  @keyframes animationMenuHide {
     0% {
       height: 418px;
     }
     100% {
       height: 74px;
+    }
+  }
+
+  @keyframes animationSidebarShow {
+    0% {
+      @apply top-[calc(100%-68px)];
+    }
+    100% {
+      @apply top-0;
+    }
+  }
+
+  @keyframes animationSidebarHide {
+    0% {
+      @apply top-0;
+    }
+    100% {
+      @apply top-[calc(100%-68px)];
     }
   }
 
   @media screen and (max-width: 1024px) {
     .menuShow {
-      animation: animationShow 0.3s ease-in;
+      animation: animationMenuShow 0.3s ease-in;
       animation-fill-mode: forwards;
     }
 
     .menuHide {
-      animation: animationHide 0.3s ease-in;
+      animation: animationMenuHide 0.3s ease-in;
+      animation-fill-mode: forwards;
+    }
+
+    .sidebarShow {
+      animation: animationSidebarShow 0.4s ease-in;
+      animation-fill-mode: forwards;
+    }
+
+    .sidebarHide {
+      animation: animationSidebarHide 0.4s ease-in;
       animation-fill-mode: forwards;
     }
   }

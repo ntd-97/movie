@@ -40,8 +40,8 @@ const CelebsHomePage = () => {
   }, [page]);
 
   return (
-    <div className="CelebsHomePage transtion-all p-10">
-      <h1 className="mb-10 text-center font-medium text-[#cecece] lg:text-2xl 2xl:text-3xl">
+    <div className="CelebsHomePage transtion-all mt-[100px] px-3 pb-[90px] lg:mt-0 lg:p-10">
+      <h1 className="mb-7 text-center text-2xl font-medium text-[#cecece] lg:mb-10 2xl:text-3xl">
         Celebs
       </h1>
 
@@ -57,7 +57,7 @@ const CelebsHomePage = () => {
       <div
         className={`${
           loading ? "hidden opacity-0 " : "opacity-1 grid"
-        } grid-cols-5 lg:gap-3 2xl:gap-5`}
+        } grid grid-cols-2 gap-3 lg:grid-cols-5 lg:gap-3 2xl:gap-5`}
       >
         {celebsList?.results
           ?.filter((celeb) => celeb.profile_path !== null)
@@ -76,7 +76,7 @@ const CelebsHomePage = () => {
         pageCount={
           celebsList?.total_pages ? parseInt(celebsList?.total_pages) : 1
         }
-        className="mt-10 flex items-center justify-center gap-x-3 text-[#ececec] "
+        className="mt-10 flex items-center justify-center gap-x-2 text-sm text-[#ececec] lg:gap-x-3 lg:text-base"
         pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
         previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
         nextClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
@@ -86,6 +86,8 @@ const CelebsHomePage = () => {
         renderOnZeroPageCount={null}
         initialPage={parseInt(page) - 1}
         disableInitialCallback={true}
+        pageRangeDisplayed={2}
+        marginPagesDisplayed={window.innerWidth <= 1024 ? 1 : 3}
         onPageChange={(e) => {
           navigate(`/celebs/page/${(e.selected + 1).toString()}`);
         }}
