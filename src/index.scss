@@ -209,14 +209,14 @@
     }
   }
 
-  // @keyframes animationSidebarHide {
-  //   0% {
-  //     @apply top-0;
-  //   }
-  //   100% {
-  //     @apply top-[calc(100%-68px)];
-  //   }
-  // }
+  @keyframes animationSidebarHide {
+    0% {
+      @apply top-0;
+    }
+    100% {
+      top: calc(100% - 68px);
+    }
+  }
 
   @media screen and (max-width: 1024px) {
     .menuShow {
@@ -229,14 +229,14 @@
       animation-fill-mode: forwards;
     }
 
-    // .sidebarShow {
-    //   animation: animationSidebarShow 0.4s ease-in;
-    //   animation-fill-mode: forwards;
-    // }
+    .sidebarShow {
+      animation: animationSidebarShow 0.4s ease-in;
+      animation-fill-mode: forwards;
+    }
 
-    // .sidebarHide {
-    //   animation: animationSidebarHide 0.4s ease-in;
-    //   animation-fill-mode: forwards;
-    // }
+    .sidebarHide {
+      animation: animationSidebarHide 0.4s ease-in;
+      animation-fill-mode: forwards;
+    }
   }
 }
