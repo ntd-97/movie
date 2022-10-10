@@ -202,19 +202,23 @@
 
   @keyframes animationSidebarShow {
     0% {
-      top: calc(100% - 68px);
+      // top: calc(100% - 68px);
+      height: 68px;
     }
     100% {
-      @apply top-0;
+      // @apply top-0;
+      height: 100%;
     }
   }
 
   @keyframes animationSidebarHide {
     0% {
-      @apply top-0;
+      // @apply top-0;
+      height: 100%;
     }
     100% {
-      top: calc(100% - 68px);
+      // top: calc(100% - 68px);
+      height: 68px;
     }
   }
 
