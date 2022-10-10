@@ -202,7 +202,7 @@
 
   @keyframes animationSidebarShow {
     0% {
-      @apply top-[calc(100%-68px)];
+      @apply top-[95%];
     }
     100% {
       @apply top-0;
