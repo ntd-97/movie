@@ -19,7 +19,7 @@ const CustomSlider = ({ children, specifyClass, paginationClass, config }) => {
       <Swiper
         modules={[Pagination, Navigation]}
         className={`mySwiper${specifyClass}`}
-        spaceBetween={window.innerWidth < 768 ? 12 : 15}
+        spaceBetween={12}
         //add swiper custom navigation
         navigation={{
           prevEl: `.btnPrev-${specifyClass}`,

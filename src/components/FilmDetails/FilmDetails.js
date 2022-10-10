@@ -209,18 +209,18 @@ const FilmDetails = () => {
       <div
         className={`${
           loading ? "hidden opacity-0 " : "opacity-1 block"
-        } FilmDetail relative grid grid-cols-1 gap-y-12 transition-all`}
+        } FilmDetail relative mt-[74px] grid grid-cols-1 gap-y-8 pb-[90px] transition-all lg:mt-0 lg:gap-y-12 lg:pb-0`}
       >
         {/* banner */}
         <div
-          className="coverImgFilmDetails relative my-auto grid grid-cols-12 gap-10 bg-cover px-10 py-16"
+          className="coverImgFilmDetails relative col-span-1 grid bg-cover px-4 py-8 lg:my-auto lg:grid-cols-12 lg:gap-10 lg:py-16 lg:px-10 2xl:py-10"
           style={{
             backgroundImage: `url(${filmDetails?.backdrop_path_full})`,
           }}
         >
           <div className="z-50 lg:col-span-5 2xl:col-span-4">
             <img
-              className="w-full  object-cover text-primary"
+              className="mx-auto w-[70%] object-cover text-primary lg:mx-0 lg:w-full"
               loading="lazy"
               src={
                 filmDetails?.poster_path
@@ -231,15 +231,15 @@ const FilmDetails = () => {
             />
           </div>
 
-          <div className="z-50 mt-5 flex flex-col justify-between text-[#ececec] lg:col-span-7 2xl:col-span-8">
-            <div className="flex flex-col gap-y-4">
-              <h1 className="text-5xl ">
+          <div className="z-50 mt-8 flex flex-col justify-between text-[#ececec] lg:col-span-7 lg:mt-5 2xl:col-span-8">
+            <div className="flex flex-col gap-y-2 text-center lg:gap-y-4 lg:text-left">
+              <h1 className="text-3xl lg:text-5xl">
                 {type.current === "movies"
                   ? filmDetails?.title
                   : filmDetails?.name}
               </h1>
 
-              <h2 className="text-2xl text-[#b5b5b5]">
+              <h2 className="text-xl text-[#b5b5b5] lg:text-2xl">
                 {type.current === "movies"
                   ? filmDetails?.original_title
                   : filmDetails?.original_name}
@@ -273,7 +273,7 @@ const FilmDetails = () => {
                 )}
               </p>
 
-              <p className="flex items-center">
+              <p className="flex items-center justify-center lg:justify-start">
                 <AiFillStar className="mr-1 inline-block text-[20px] text-yellow-400" />
                 {filmDetails?.vote_average ? filmDetails?.vote_average : "0"}
               </p>
@@ -363,7 +363,7 @@ const FilmDetails = () => {
                   return (
                     <span
                       key={genre.id}
-                      className="rounded-[10px] border-2 border-[#474749] bg-[#292326] bg-opacity-70 px-[10px] py-[5px] transition-all hover:cursor-pointer hover:border-white"
+                      className="rounded-[10px] border-2 border-[#474749] bg-[#292326] bg-opacity-70 px-[10px] py-[5px] text-sm transition-all hover:cursor-pointer hover:border-white lg:text-base"
                       onClick={() => {
                         navigate(
                           `/${type.current}/list/page/1?with_genres=${genre.id}`
@@ -380,8 +380,10 @@ const FilmDetails = () => {
         </div>
 
         {/* actors list */}
-        <div className="relative col-span-12 px-10 text-[#ececec]">
-          <h4 className="mb-10 font-medium lg:text-xl 2xl:text-2xl">Actors</h4>
+        <div className="relative col-span-1 mx-3 text-[#ececec] lg:col-span-12 lg:mx-10">
+          <h4 className="mb-6 text-xl font-medium lg:mb-10 2xl:text-2xl">
+            Actors
+          </h4>
           {filmDetails?.credits?.cast?.filter((actor) => actor.profile_path)
             .length > 0 ? (
             <FDActorList
@@ -396,8 +398,8 @@ const FilmDetails = () => {
         </div>
 
         {/* trailers list */}
-        <div className="relative col-span-12 px-10 text-[#ececec]">
-          <h4 className="mb-10 font-medium lg:text-xl 2xl:text-2xl">
+        <div className="relative col-span-1 mx-3 text-[#ececec] lg:col-span-12 lg:mx-10">
+          <h4 className="mb-6 text-xl font-medium lg:mb-10 2xl:text-2xl">
             Trailers
           </h4>
           {filmDetails?.videos?.results.length > 0 ? (
@@ -413,7 +415,7 @@ const FilmDetails = () => {
         </div>
 
         {/* similar films list */}
-        <div className="relative col-span-12 px-10 text-[#ececec]">
+        <div className="relative col-span-1 mx-3 text-[#ececec] lg:col-span-12 lg:mx-10">
           <FilmList
             title={
               type.current === "movies" ? "Similar Movies" : "Similar TV Series"

@@ -81,7 +81,7 @@ const FilmsListPage = () => {
           <div
             className={`${
               loading ? "hidden opacity-0" : "opacity-1 grid"
-            } grid-cols-2 gap-3 transition-all lg:grid-cols-4 lg:gap-5`}
+            } grid-cols-2 gap-3 transition-all lg:grid-cols-4 2xl:grid-cols-5`}
           >
             {filmsList?.results
               ?.filter((film) => film.poster_path)

@@ -28,26 +28,14 @@ const MenuSideBar = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const [showMenu, setShowMenu] = useState("init");
+  const [showMenu, setShowMenu] = useState(false);
 
   const menuClickHanler = () => {
-    setShowMenu((prevState) => {
-      if (prevState === "init") {
-        return "open";
-      }
-
-      if (prevState === "open") {
-        return "close";
-      }
-
-      if (prevState === "close") {
-        return "open";
-      }
-    });
+    setShowMenu(!showMenu);
   };
 
-  const navClickHandler = () => {
-    setShowMenu("close");
+  const navClickHandler = async (e) => {
+    setShowMenu(false);
   };
 
   const logoutHandler = async () => {
@@ -69,13 +57,13 @@ const MenuSideBar = () => {
     }
   };
 
+  console.log("menu-render");
+
   return (
     <div
-      className={`fixed top-0 right-0 left-0 z-[100] flex h-[74px] select-none transition-all lg:relative lg:z-auto ${
-        showMenu === "open" ? "menuShow" : ""
-      } ${
-        showMenu === "close" ? "menuHide" : ""
-      } flex-col justify-between overflow-hidden bg-[#181818] p-5 text-[#ececec] lg:col-span-1 lg:h-screen lg:border-r-2 lg:border-[#353535] lg:px-2 2xl:px-0`}
+      className={`${
+        showMenu ? "h-[428px]" : "h-[74px]"
+      } fixed top-0 right-0 left-0 z-[100] flex select-none flex-col overflow-hidden bg-[#181818] p-5 text-[#ececec] transition-all duration-300 ease-in lg:relative lg:z-auto lg:col-span-1 lg:h-screen lg:justify-between lg:border-r-2 lg:border-[#353535] lg:px-2 2xl:px-0`}
     >
       <HiOutlineMenuAlt1
         onClick={menuClickHanler}
@@ -140,7 +128,7 @@ const MenuSideBar = () => {
         </div>
       </div>
 
-      <div className="mt-6 flex flex-col gap-y-3 lg:mt-0 lg:gap-y-4 2xl:gap-y-6">
+      <div className="mt-8 flex flex-col gap-y-3 lg:mt-0 lg:gap-y-4 2xl:gap-y-6">
         <h4 className="text-sm font-medium uppercase text-[#505050] 2xl:ml-4 2xl:tracking-[4px]">
           General
         </h4>
@@ -202,7 +190,7 @@ const MenuSideBar = () => {
           <Link
             to={"signup"}
             onClick={navClickHandler}
-            className="mt-3 flex w-full items-center justify-center rounded-[10px] bg-primary py-2 font-bold uppercase transition-colors hover:bg-red-400 lg:mx-auto lg:mt-0 lg:w-full lg:text-sm 2xl:w-[82%] 2xl:text-base"
+            className="mt-9 flex w-full items-center justify-center rounded-[10px] bg-primary py-2 font-bold uppercase transition-colors hover:bg-red-400 lg:mx-auto lg:mt-0 lg:w-full lg:text-sm 2xl:w-[82%] 2xl:text-base"
           >
             Sign up
             <BsArrowRightCircleFill className="ml-[6px] inline-block lg:text-sm 2xl:text-[18px]" />

@@ -119,48 +119,48 @@ const LoginPage = () => {
 
   return (
     <div
-      className="LoginPage bg_overlay w-full h-[100vh] flex justify-center items-center  select-none"
+      className="LoginPage bg_overlay flex h-[100vh] w-full items-center  justify-center"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
-      <div className="bg-[#181818] w-[45%] bg-opacity-90 text-[#ececec] z-50 p-10 rounded-[15px]">
-        <h3 className="text-2xl mb-4 font-bold tracking-[2px]">LOGIN</h3>
+      <div className="z-50 w-[94%] rounded-[15px] bg-[#181818] bg-opacity-90 p-10 text-[#ececec] lg:w-[45%]">
+        <h3 className="mb-4 text-2xl font-bold tracking-[2px]">LOGIN</h3>
         <form
-          className="flex flex-col gap-y-5"
+          className="flex flex-col gap-y-6 lg:gap-y-5"
           onSubmit={handleSubmit(loginHandler)}
         >
-          <div className="flex flex-col relative">
+          <div className="relative flex flex-col">
             <label htmlFor="username">User name:</label>
             <input
               {...register("username")}
-              className="text-[#181818] bg-[#ececec]  focus:outline-none p-[6px] rounded-[10px] mt-2 border-2 border-transparent hover:border-primary focus:border-primary"
+              className="mt-2 rounded-[10px]  border-2 border-transparent bg-[#ececec] p-[6px] text-[#181818] hover:border-primary focus:border-primary focus:outline-none"
               type="text"
               id="username"
               name="username"
               placeholder="Enter Username"
             />
             {errors?.username && (
-              <p className="absolute font-medium -bottom-7 right-0 text-primary text-base">
+              <p className="absolute -bottom-7 right-0 text-base font-medium text-primary">
                 {errors.username?.message}
               </p>
             )}
           </div>
-          <div className="flex flex-col relative">
+          <div className="relative flex flex-col">
             <label htmlFor="password">Password:</label>
             <input
               {...register("password")}
-              className="text-[#181818] bg-[#ececec]  focus:outline-none p-[6px] rounded-[10px] mt-2 border-2 border-transparent hover:border-primary focus:border-primary"
+              className="mt-2 rounded-[10px]  border-2 border-transparent bg-[#ececec] p-[6px] text-[#181818] hover:border-primary focus:border-primary focus:outline-none"
               type={checked ? "text" : "password"}
               id="password"
               name="password"
               placeholder="Enter Password"
             />
             {errors?.password && (
-              <p className="absolute font-medium -bottom-7 right-0 text-primary text-base">
+              <p className="absolute -bottom-7 right-0 text-base font-medium text-primary">
                 {errors.password?.message}
               </p>
             )}
           </div>
-          <div className="flex items-center gap-x-1 relative">
+          <div className="relative flex items-center gap-x-1">
             <input
               {...register("showPassword")}
               type="checkbox"
@@ -176,12 +176,12 @@ const LoginPage = () => {
               htmlFor="showPass"
               className={`${
                 checked ? "bg-primary" : "bg-gray-400"
-              } w-4 h-4 absolute rounded top-1/2 -translate-y-1/2  cursor-pointer flex items-center justify-center transition-all`}
+              } absolute top-1/2 flex h-4 w-4 -translate-y-1/2  cursor-pointer items-center justify-center rounded transition-all`}
             >
               <BsCheckLg
                 className={`text-xs ${
                   checked ? "opacity-100" : "opacity-0"
-                } transition-all z-50`}
+                } z-50 transition-all`}
               />
             </label>
             <label htmlFor="showPass" className="ml-5 cursor-pointer">
@@ -199,11 +199,11 @@ const LoginPage = () => {
               isSubmitting
                 ? "hover:cursor-default"
                 : "hover:cursor-pointer hover:bg-red-400"
-            } font-bold text-[18px] h-[43px] bg-primary py-2 rounded-[10px] flex items-center justify-center`}
+            } flex h-[43px] select-none items-center justify-center rounded-[10px] bg-primary py-2 text-[18px] font-bold`}
             aria-disabled={isSubmitting ? true : false}
           >
             {isSubmitting ? (
-              <div className="mx-auto w-5 h-5 border-2 border-white border-t-2 border-t-transparent rounded-full animate-spin"></div>
+              <div className="mx-auto h-5 w-5 animate-spin rounded-full border-2 border-t-2 border-white border-t-transparent"></div>
             ) : (
               "LOGIN"
             )}

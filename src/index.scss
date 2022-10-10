@@ -131,7 +131,10 @@
       width: 25px;
       height: 25px;
       top: 27px;
-      right: 25px;
+      right: 0;
+      @media screen and (min-width: 1025px) {
+        right: 25px;
+      }
     }
 
     &__prev.normalList {
@@ -139,7 +142,10 @@
       width: 25px;
       height: 25px;
       top: 27px;
-      right: 55px;
+      right: 30px;
+      @media screen and (min-width: 1025px) {
+        right: 55px;
+      }
     }
   }
 
@@ -178,69 +184,6 @@
           border-radius: 5px;
         }
       }
-    }
-  }
-
-  // menu animation
-  @keyframes animationMenuShow {
-    0% {
-      height: 74px;
-    }
-    100% {
-      height: 418px;
-    }
-  }
-
-  @keyframes animationMenuHide {
-    0% {
-      height: 418px;
-    }
-    100% {
-      height: 74px;
-    }
-  }
-
-  @keyframes animationSidebarShow {
-    0% {
-      // top: calc(100% - 68px);
-      height: 68px;
-    }
-    100% {
-      // @apply top-0;
-      height: 100%;
-    }
-  }
-
-  @keyframes animationSidebarHide {
-    0% {
-      // @apply top-0;
-      height: 100%;
-    }
-    100% {
-      // top: calc(100% - 68px);
-      height: 68px;
-    }
-  }
-
-  @media screen and (max-width: 1024px) {
-    .menuShow {
-      animation: animationMenuShow 0.3s ease-in;
-      animation-fill-mode: forwards;
-    }
-
-    .menuHide {
-      animation: animationMenuHide 0.3s ease-in;
-      animation-fill-mode: forwards;
-    }
-
-    .sidebarShow {
-      animation: animationSidebarShow 0.4s ease-in;
-      animation-fill-mode: forwards;
-    }
-
-    .sidebarHide {
-      animation: animationSidebarHide 0.4s ease-in;
-      animation-fill-mode: forwards;
     }
   }
 }

@@ -57,7 +57,7 @@ const CelebsHomePage = () => {
       <div
         className={`${
           loading ? "hidden opacity-0 " : "opacity-1 grid"
-        } grid grid-cols-2 gap-3 lg:grid-cols-5 lg:gap-3 2xl:gap-5`}
+        } grid grid-cols-2 gap-3 lg:grid-cols-5 2xl:gap-5`}
       >
         {celebsList?.results
           ?.filter((celeb) => celeb.profile_path !== null)
@@ -76,7 +76,7 @@ const CelebsHomePage = () => {
         pageCount={
           celebsList?.total_pages ? parseInt(celebsList?.total_pages) : 1
         }
-        className="mt-10 flex items-center justify-center gap-x-2 text-sm text-[#ececec] lg:gap-x-3 lg:text-base"
+        className="mt-10 flex items-center justify-center gap-x-2 text-[#ececec] lg:gap-x-3 lg:text-base"
         pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
         previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
         nextClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"

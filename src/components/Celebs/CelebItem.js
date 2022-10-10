@@ -13,7 +13,7 @@ const CelebItem = ({ celebId, name, profilePath }) => {
       }}
     >
       <img
-        className="w-full rounded-[10px] object-cover transition-all lg:h-[200px] 2xl:h-[300px]"
+        className="h-[230px] w-full rounded-[10px] object-cover transition-all lg:h-[200px] 2xl:h-[300px]"
         loading="lazy"
         src={`${process.env.REACT_APP_API_PATH_IMG_W500}${profilePath}`}
         alt="actor img"

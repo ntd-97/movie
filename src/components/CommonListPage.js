@@ -100,8 +100,8 @@ const CommonListPage = () => {
 
   return (
     <>
-      <div className="MoviesListPage p-10">
-        <h1 className="mb-10 text-center font-medium text-[#cecece] lg:text-2xl 2xl:text-3xl">
+      <div className="MoviesListPage mt-[100px] px-3 pb-[90px] lg:mt-0 lg:p-10">
+        <h1 className="mb-7 text-center text-2xl font-medium text-[#cecece] lg:mb-10 2xl:text-3xl">
           {type?.current?.title}
         </h1>
 
@@ -129,7 +129,7 @@ const CommonListPage = () => {
           <div
             className={`${
               loading ? "hidden opacity-0" : "opacity-1 grid"
-            } grid-cols-4 gap-5 transition-all`}
+            } grid-cols-2 gap-3 transition-all lg:grid-cols-4 2xl:grid-cols-5`}
           >
             {films?.results
               ?.filter((film) => film.poster_path)
@@ -158,6 +158,8 @@ const CommonListPage = () => {
             renderOnZeroPageCount={null}
             forcePage={parseInt(page) - 1}
             disableInitialCallback={true}
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={window.innerHeight <= 1024 ? 1 : 3}
             onPageChange={(e) => {
               navigate(
                 `${type.current.pathPagination}/page/${(

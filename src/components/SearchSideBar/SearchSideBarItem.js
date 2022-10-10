@@ -82,7 +82,7 @@ const SearchSideBarItem = ({ film, type }) => {
               key={genre?.id}
               className={`${
                 genres.length > 1 ? "flex-1" : ""
-              } flex items-center justify-center rounded-[10px] border-2 border-[#474749] px-2 py-1 text-center text-xs transition-all hover:cursor-pointer hover:border-white 2xl:py-0 2xl:text-[13.5px]`}
+              } flex items-center justify-center rounded-[10px] border-2 border-[#474749] px-2 py-[2px] text-center text-sm transition-all hover:cursor-pointer hover:border-white 2xl:py-0 2xl:text-[13.5px]`}
             >
               {genre?.name}
             </p>
