@@ -38,6 +38,8 @@ const FilmDetails = () => {
   const userId = localStorage.getItem("user_id");
   const sessionId = localStorage.getItem("session_id");
 
+  const timeOutId = useRef();
+
   const watchlistClickHandler = async () => {
     try {
       setLoadingBtnWatchList(true);
@@ -180,9 +182,9 @@ const FilmDetails = () => {
         return res.data;
       });
 
-      setTimeout(() => {
+      timeOutId.current = setTimeout(() => {
         setLoading(false);
-      }, [300]);
+      }, [400]);
     } catch (error) {
       console.log(error);
     }
@@ -193,6 +195,10 @@ const FilmDetails = () => {
     type.current = pathname.includes("tvseries") ? "tvseries" : "movies";
     // call function getData
     getFilmDetails.current(filmId, pathname);
+
+    return () => {
+      clearTimeout(timeOutId.current);
+    };
   }, [pathname, filmId]);
 
   return (
@@ -202,7 +208,7 @@ const FilmDetails = () => {
         classWidth="w-[50px]"
         classHeight="h-[50px]"
         classBorder="border-[4px]"
-        classMargin="mt-10"
+        classMargin="mt-[100px] lg:mt-10"
         loading={loading}
       />
 
@@ -363,7 +369,7 @@ const FilmDetails = () => {
                   return (
                     <span
                       key={genre.id}
-                      className="rounded-[10px] border-2 border-[#474749] bg-[#292326] bg-opacity-70 px-[10px] py-[5px] text-sm transition-all hover:cursor-pointer hover:border-white lg:text-base"
+                      className="my-auto rounded-[10px] border-2 border-[#474749] bg-[#292326] bg-opacity-70 px-[10px] py-[5px] text-sm transition-all hover:cursor-pointer hover:border-white lg:text-base"
                       onClick={() => {
                         navigate(
                           `/${type.current}/list/page/1?with_genres=${genre.id}`
@@ -384,8 +390,7 @@ const FilmDetails = () => {
           <h4 className="mb-6 text-xl font-medium lg:mb-10 2xl:text-2xl">
             Actors
           </h4>
-          {filmDetails?.credits?.cast?.filter((actor) => actor.profile_path)
-            .length > 0 ? (
+          {filmDetails?.credits?.cast?.length > 0 ? (
             <FDActorList
               specifyClass="film-details-actor-list"
               actors={filmDetails?.credits?.cast}

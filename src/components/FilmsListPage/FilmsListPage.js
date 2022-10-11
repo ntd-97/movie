@@ -19,7 +19,9 @@ const FilmsListPage = () => {
   let { pathname, search } = useLocation();
   let { page } = useParams();
 
-  const getFilmsList = useRef(async (page, search) => {
+  const timeOutId = useRef();
+
+  const getFilmsList = useRef(async (page, search, pathname) => {
     try {
       setLoading(true);
 
@@ -33,7 +35,7 @@ const FilmsListPage = () => {
           "?",
           "&"
         )}`;
-      } else {
+      } else if (pathname.includes("tvseries")) {
         path = `${process.env.REACT_APP_API_PATH_DISCOVER_TV}${
           process.env.REACT_APP_API_KEY
         }&language=en-US&page=${page}${search.replace("?", "&")}`;
@@ -44,7 +46,7 @@ const FilmsListPage = () => {
       setFilmsList(res.data);
 
       // set timeout to prevent jerking
-      setTimeout(() => {
+      timeOutId.current = setTimeout(() => {
         setLoading(false);
       }, [200]);
     } catch (error) {
@@ -54,8 +56,12 @@ const FilmsListPage = () => {
 
   // get data when page, search are changed
   useEffect(() => {
-    getFilmsList.current(page, search);
-  }, [page, search]);
+    getFilmsList.current(page, search, pathname);
+
+    return () => {
+      clearTimeout(timeOutId.current);
+    };
+  }, [page, search, pathname]);
 
   return (
     <>
@@ -110,7 +116,7 @@ const FilmsListPage = () => {
             pageCount={
               filmsList?.total_pages >= 500 ? 500 : filmsList?.total_pages
             }
-            className="mt-10 flex items-center justify-center gap-x-3 text-[#ececec] "
+            className="mt-10 flex items-center justify-center gap-x-2 text-[15px] text-[#ececec] lg:gap-x-3 lg:text-base"
             pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             nextClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"

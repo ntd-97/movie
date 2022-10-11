@@ -20,6 +20,8 @@ const CommonListPage = () => {
 
   const type = useRef({});
 
+  const timeOutId = useRef();
+
   const getFilms = useRef(async (page, pathname) => {
     try {
       setLoading(true);
@@ -84,10 +86,10 @@ const CommonListPage = () => {
       const res = await axios.get(type.current.path);
 
       // set timeout to prevent jerking
-      setTimeout(() => {
+      timeOutId.current = setTimeout(() => {
         setLoading(false);
         setFilms(res.data);
-      }, [200]);
+      }, [300]);
     } catch (error) {
       console.log(error);
     }
@@ -96,6 +98,10 @@ const CommonListPage = () => {
   // get data when page was changed
   useEffect(() => {
     getFilms.current(page, pathname);
+
+    return () => {
+      clearTimeout(timeOutId.current);
+    };
   }, [page, pathname]);
 
   return (
@@ -110,7 +116,7 @@ const CommonListPage = () => {
           classWidth="w-[50px]"
           classHeight="h-[50px]"
           classBorder="border-[4px]"
-          classMargin="mt-10"
+          classMargin="mt-20 lg:mt-10"
           loading={loading}
         />
 
@@ -148,7 +154,7 @@ const CommonListPage = () => {
         {films?.results?.filter((film) => film.poster_path).length > 0 ? (
           <ReactPaginate
             pageCount={films?.total_pages >= 500 ? 500 : films?.total_pages}
-            className="mt-10 flex items-center justify-center gap-x-3 text-[#ececec] "
+            className="mt-10 flex items-center justify-center gap-x-2 text-[15px] text-[#ececec] lg:gap-x-3 lg:text-base"
             pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
             nextClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"

@@ -16,6 +16,8 @@ const CelebProfile = () => {
 
   const [loading, setLoanding] = useState(true);
 
+  const timeOutId = useRef();
+
   const getCelebInfo = useRef(async () => {
     try {
       const res = await axios.get(
@@ -59,7 +61,10 @@ const CelebProfile = () => {
       };
 
       setCelebInfo(res.data);
-      setLoanding(false);
+
+      timeOutId.current = setTimeout(() => {
+        setLoanding(false);
+      }, 300);
     } catch (error) {
       console.log(error);
     }
@@ -67,6 +72,10 @@ const CelebProfile = () => {
 
   useEffect(() => {
     getCelebInfo.current();
+
+    return () => {
+      clearTimeout(timeOutId.current);
+    };
   }, []);
 
   return (
@@ -76,7 +85,7 @@ const CelebProfile = () => {
         classWidth="w-[50px]"
         classHeight="h-[50px]"
         classBorder="border-[4px]"
-        classMargin="mt-10"
+        classMargin="mt-[100px] lg:mt-10"
         loading={loading}
       />
 

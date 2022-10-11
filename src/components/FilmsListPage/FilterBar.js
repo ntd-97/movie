@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, memo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import axios from "axios";
 
@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 
-const FilterBar = memo(({ type }) => {
+const FilterBar = ({ type }) => {
   const [filters, setFilters] = useState({});
 
   const [filterSelected, setFilterSelected] = useState({});
@@ -63,7 +63,7 @@ const FilterBar = memo(({ type }) => {
     });
   };
 
-  const getFilters = useRef(async () => {
+  const getFilters = useRef(async (type) => {
     // get genres data
     const resGenres = await axios.get(
       `${process.env.REACT_APP_API_PATH_GENRES}${type}/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
@@ -145,7 +145,7 @@ const FilterBar = memo(({ type }) => {
 
   // Get data when type change
   useEffect(() => {
-    getFilters.current();
+    getFilters.current(type);
   }, [type]);
 
   // get filter params from URL when page reloaded and bind to select's value
@@ -191,7 +191,7 @@ const FilterBar = memo(({ type }) => {
             -- genes --
           </option>
           {filters?.genres?.map((genre) => (
-            <option key={genre.id} value={genre.id}>
+            <option key={genre.id} value={genre.id.toString()}>
               {genre.name}
             </option>
           ))}
@@ -315,7 +315,7 @@ const FilterBar = memo(({ type }) => {
       </div>
     </div>
   );
-});
+};
 
 FilterBar.propTypes = { type: PropTypes.string };
 

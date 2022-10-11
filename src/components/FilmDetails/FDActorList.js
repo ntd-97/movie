@@ -24,19 +24,23 @@ const swiperResponsiveConfig = {
 
 const FDActorList = ({ specifyClass, actors }) => {
   return (
-    <div className="rounded-[20px] overflow-hidden">
+    <div className="overflow-hidden rounded-[20px]">
       <CustomSlider
         specifyClass={specifyClass}
         paginationClass="normalList"
         config={swiperResponsiveConfig}
       >
-        {actors
-          ?.filter((actor) => actor.profile_path)
-          .map((actor) => (
-            <SwiperSlide key={actor.id}>
-              <FDActorItem actor={actor} />
-            </SwiperSlide>
-          ))}
+        {[
+          ...new Map(
+            actors
+              ?.filter((actor) => actor.profile_path)
+              .map((item) => [item.id, item])
+          ).values(),
+        ].map((actor) => (
+          <SwiperSlide key={actor.id}>
+            <FDActorItem actor={actor} />
+          </SwiperSlide>
+        ))}
       </CustomSlider>
     </div>
   );

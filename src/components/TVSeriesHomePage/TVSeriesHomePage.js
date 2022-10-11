@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 
@@ -23,6 +23,8 @@ const TVSeriesHomePage = () => {
 
   const navigate = useNavigate();
 
+  const timeOutId = useRef();
+
   const getTvSeries = async () => {
     try {
       // tv series now playing data
@@ -44,7 +46,10 @@ const TVSeriesHomePage = () => {
         topRated: resTopRated.data,
       });
 
-      setLoading(false);
+// set timeout to prevent jerking
+      timeOutId.current = setTimeout(() => {
+        setLoading(false);
+      }, 400);
     } catch (error) {
       console.log(error);
     }
@@ -52,6 +57,10 @@ const TVSeriesHomePage = () => {
 
   useEffect(() => {
     getTvSeries();
+
+    return () => {
+      clearTimeout(timeOutId.current);
+    };
   }, []);
 
   return (
@@ -61,7 +70,7 @@ const TVSeriesHomePage = () => {
         classWidth="w-[50px]"
         classHeight="h-[50px]"
         classBorder="border-[4px]"
-        classMargin="mt-10"
+        classMargin="mt-[100px] lg:mt-10"
         loading={loading}
       />
 

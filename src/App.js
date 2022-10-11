@@ -53,7 +53,7 @@ function App() {
         <FDTrailerModal
           visible={openModal}
           onClose={() => setOpenModal(false)}
-          bodyClassName="w-1/2 h-1/2 bg-black flex items-center relative"
+          bodyClassName="w-[90%] h-[30%] lg:w-1/2 lg:h-1/2 bg-black flex items-center relative"
         >
           {/* loader */}
           <div

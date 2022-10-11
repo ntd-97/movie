@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import CustomSlider from "../CustomSlider";
 import BannerItem from "../BannerItem";
@@ -24,6 +24,8 @@ const MoviesHomePage = () => {
 
   const navigate = useNavigate();
 
+  const timeOutId = useRef();
+
   const getMovies = async () => {
     try {
       // now playing movies data
@@ -45,7 +47,10 @@ const MoviesHomePage = () => {
         topRated: resTopRated.data,
       });
 
-      setLoading(false);
+      // set timeout to prevent jerking
+      timeOutId.current = setTimeout(() => {
+        setLoading(false);
+      }, 400);
     } catch (error) {
       console.log(error);
     }
@@ -53,6 +58,10 @@ const MoviesHomePage = () => {
 
   useEffect(() => {
     getMovies();
+
+    return () => {
+      clearTimeout(timeOutId.current);
+    };
   }, []);
 
   return (
@@ -62,7 +71,7 @@ const MoviesHomePage = () => {
         classWidth="w-[50px]"
         classHeight="h-[50px]"
         classBorder="border-[4px]"
-        classMargin="mt-10"
+        classMargin="mt-[100px] lg:mt-10"
         loading={loading}
       />
 

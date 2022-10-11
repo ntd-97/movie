@@ -21,6 +21,8 @@ const ResultSearchPage = () => {
 
   const type = useRef({});
 
+  const timeOutId = useRef();
+
   const getResultSearch = useRef(async (page, search) => {
     try {
       setLoading(true);
@@ -59,8 +61,9 @@ const ResultSearchPage = () => {
       const res = await axios.get(path);
 
       setResultSearch(res.data);
+
       // set timeout to prevent jerking
-      setTimeout(() => {
+      timeOutId.current = setTimeout(() => {
         setLoading(false);
       }, [200]);
     } catch (error) {
@@ -71,6 +74,10 @@ const ResultSearchPage = () => {
   // get data when page, search was changed
   useEffect(() => {
     getResultSearch.current(page, search);
+
+    return () => {
+      clearTimeout(timeOutId.current);
+    };
   }, [page, search]);
 
   return (

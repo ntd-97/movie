@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 
 import LogoImg from "../../assets/images/logo.png";
 
@@ -50,17 +50,34 @@ const MenuSideBar = () => {
         localStorage.clear();
         setLoginInfo({});
         setLoading(false);
-        setShowMenu("close");
+        setShowMenu(false);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log("menu-render");
+  // close menu when click outside
+  const menu = useRef();
+
+  useEffect(() => {
+    const clickOutSideHandler = (event) => {
+      const { target } = event;
+      if (!menu.current.contains(target)) {
+        setShowMenu(false);
+      }
+    };
+
+    window.addEventListener("click", clickOutSideHandler);
+
+    return () => {
+      window.removeEventListener("click", clickOutSideHandler);
+    };
+  }, []);
 
   return (
     <div
+      ref={menu}
       className={`${
         showMenu ? "h-[428px]" : "h-[74px]"
       } fixed top-0 right-0 left-0 z-[100] flex select-none flex-col overflow-hidden bg-[#181818] p-5 text-[#ececec] transition-all duration-300 ease-in lg:relative lg:z-auto lg:col-span-1 lg:h-screen lg:justify-between lg:border-r-2 lg:border-[#353535] lg:px-2 2xl:px-0`}

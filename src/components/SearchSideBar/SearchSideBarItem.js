@@ -10,7 +10,7 @@ import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 
-const SearchSideBarItem = ({ film, type }) => {
+const SearchSideBarItem = ({ film, type, showSearchOnMobile }) => {
   const [genres, setGenres] = useState([]);
 
   const navigate = useNavigate();
@@ -36,6 +36,7 @@ const SearchSideBarItem = ({ film, type }) => {
   return (
     <div
       onClick={() => {
+        showSearchOnMobile(false);
         navigate(`/${type === "movie" ? "movies" : "tvseries"}/${film?.id}`);
       }}
       className="SearchSideBarItem grid grid-cols-12 rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-105 hover:cursor-pointer lg:grid-cols-8 2xl:grid-cols-4"
@@ -47,11 +48,11 @@ const SearchSideBarItem = ({ film, type }) => {
             : posterImgNotFound
         }
         alt="poster film"
-        className="col-span-3 w-full rounded-[10px] object-cover lg:col-span-3 lg:h-[145px] 2xl:col-span-1 2xl:h-[135px]"
+        className="col-span-4 my-auto w-full rounded-[10px] object-cover lg:col-span-3 lg:h-[145px] 2xl:col-span-1 2xl:h-[135px]"
       />
 
-      <div className="grid-row-4 col-span-9 ml-[10px] grid lg:col-span-5 2xl:col-span-3">
-        <h4 className="row-span-1 truncate lg:text-base 2xl:text-[17px]">
+      <div className="grid-row-4 col-span-8 ml-[10px] grid lg:col-span-5 2xl:col-span-3">
+        <h4 className="row-span-1 truncate text-[17px] lg:text-base 2xl:text-[17px]">
           {type === "tv" ? film?.name : film?.title}
         </h4>
         <div className="items-top row-span-2 flex justify-between text-[13.5px] text-[#AFAFAF]">
@@ -73,10 +74,11 @@ const SearchSideBarItem = ({ film, type }) => {
             <p
               onClick={(e) => {
                 e.stopPropagation();
+                showSearchOnMobile(false);
                 navigate(
                   `/${
                     type === "movie" ? "movies" : "tvseries"
-                  }/list/page/1?with_genres=${genre?.id}`
+                  }/list/page/1?with_genres=${genre?.id?.toString()}`
                 );
               }}
               key={genre?.id}

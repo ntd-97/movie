@@ -11,7 +11,7 @@ const FilmItem = ({ type, filmID, info }) => {
   const navigate = useNavigate();
 
   const btnFilmClickHandler = () => {
-    navigate(`/${type}/${filmID}`);
+    navigate(`/${type}/${filmID?.toString()}`);
   };
 
   return (
@@ -20,27 +20,27 @@ const FilmItem = ({ type, filmID, info }) => {
         loading="lazy"
         className="mb-3 h-[230px] w-full rounded-[10px] object-cover lg:mb-4 lg:h-[250px]  2xl:h-[310px]"
         src={
-          info.poster_path
-            ? `${process.env.REACT_APP_API_PATH_IMG_W500}${info.poster_path}`
+          info?.poster_path
+            ? `${process.env.REACT_APP_API_PATH_IMG_W500}${info?.poster_path}`
             : posterImgNotFound
         }
         alt="poster film"
       />
 
       <h3 className="mb-2 truncate lg:mb-3 lg:text-base 2xl:text-lg">
-        {type === "tvseries" ? info.name : info.title}
+        {type === "tvseries" ? info?.name : info?.title}
       </h3>
 
       <div className="mb-3 flex items-center justify-between text-sm font-medium text-[#7D7D7D] lg:mb-4">
         <span>
           {new Date(
-            type === "tvseries" ? info.first_air_date : info.release_date
+            type === "tvseries" ? info?.first_air_date : info?.release_date
           ).getFullYear()}
         </span>
 
         <span className="flex items-center">
-          {info.vote_average > 0
-            ? info.vote_average.toString().slice(0, 3)
+          {info?.vote_average > 0
+            ? info?.vote_average?.toString().slice(0, 3)
             : "0"}
           <AiFillStar className="ml-1 inline-block text-[20px] text-yellow-400" />
         </span>

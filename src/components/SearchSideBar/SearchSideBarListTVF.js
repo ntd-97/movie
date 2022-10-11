@@ -12,7 +12,13 @@ import { AccountStateContext } from "../../App";
 
 import Loader from "../Loader";
 
-const SearchSideBarListTVF = ({ title, type, pathNavigate, apiPath }) => {
+const SearchSideBarListTVF = ({
+  title,
+  type,
+  pathNavigate,
+  apiPath,
+  showSearchOnMobile,
+}) => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -71,11 +77,17 @@ const SearchSideBarListTVF = ({ title, type, pathNavigate, apiPath }) => {
         <>
           <div className="flex flex-col gap-y-[15px]">
             {films?.map((film) => (
-              <SearchSideBarItem key={film?.id} type={type} film={film} />
+              <SearchSideBarItem
+                key={film?.id}
+                type={type}
+                film={film}
+                showSearchOnMobile={showSearchOnMobile}
+              />
             ))}
           </div>
           <button
             onClick={() => {
+              showSearchOnMobile(false);
               navigate(`${pathNavigate}/page/1`);
             }}
             className="mt-[15px] w-full rounded-[10px] bg-primary px-5 py-2 font-medium outline-none transition-all hover:bg-red-400 lg:text-base 2xl:text-[18px] "

@@ -18,6 +18,8 @@ const CelebsHomePage = () => {
 
   const navigate = useNavigate();
 
+  const timeOutId = useRef();
+
   const getCelebsList = useRef(async (page) => {
     try {
       setLoading(true);
@@ -27,9 +29,10 @@ const CelebsHomePage = () => {
 
       setCelebsList(res.data);
 
-      setTimeout(() => {
+      // set timeout to prevent jerking
+      timeOutId.current = setTimeout(() => {
         setLoading(false);
-      }, [300]);
+      }, [400]);
     } catch (error) {
       console.log(error);
     }
@@ -37,6 +40,10 @@ const CelebsHomePage = () => {
 
   useEffect(() => {
     getCelebsList.current(page);
+
+    return () => {
+      clearTimeout(timeOutId.current);
+    };
   }, [page]);
 
   return (
@@ -76,7 +83,7 @@ const CelebsHomePage = () => {
         pageCount={
           celebsList?.total_pages ? parseInt(celebsList?.total_pages) : 1
         }
-        className="mt-10 flex items-center justify-center gap-x-2 text-[#ececec] lg:gap-x-3 lg:text-base"
+        className="mt-10 flex items-center justify-center gap-x-2 text-[15px] text-[#ececec] lg:gap-x-3 lg:text-base"
         pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
         previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
         nextClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"

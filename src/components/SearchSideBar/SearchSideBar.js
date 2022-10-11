@@ -98,7 +98,6 @@ const SearchSideBar = () => {
     setOpenSearchSidebar(!openSearchSidebar);
   };
 
-
   useEffect(() => {
     // set search placeholder and path to navigate base on the pathname
     if (pathname.includes("movies")) {
@@ -136,6 +135,7 @@ const SearchSideBar = () => {
   useEffect(() => {
     // navigation when the user types in the search input
     if (debouncedSearchQuery) {
+      setOpenSearchSidebar(false);
       navigate.current(
         `/${typeRef.current}/search/page/1?query=${debouncedSearchQuery}`
       );
@@ -189,6 +189,7 @@ const SearchSideBar = () => {
             type={list.type}
             pathNavigate={list.pathNavigate}
             apiPath={list.apiPath}
+            showSearchOnMobile={setOpenSearchSidebar}
           />
         ))}
 
@@ -204,6 +205,7 @@ const SearchSideBar = () => {
                 type={lists?.movieWatchlist?.type}
                 pathNavigate={lists?.movieWatchlist?.pathNavigate}
                 apiPath={lists?.movieWatchlist?.apiPath}
+                showSearchOnMobile={setOpenSearchSidebar}
               />
 
               <SearchSideBarListMF
@@ -212,6 +214,7 @@ const SearchSideBar = () => {
                 type={lists?.movieFavorite?.type}
                 pathNavigate={lists?.movieFavorite?.pathNavigate}
                 apiPath={lists?.movieFavorite?.apiPath}
+                showSearchOnMobile={setOpenSearchSidebar}
               />
 
               <SearchSideBarListTVW
@@ -220,6 +223,7 @@ const SearchSideBar = () => {
                 type={lists?.tvWatchlist?.type}
                 pathNavigate={lists?.tvWatchlist?.pathNavigate}
                 apiPath={lists?.tvWatchlist?.apiPath}
+                showSearchOnMobile={setOpenSearchSidebar}
               />
 
               <SearchSideBarListTVF
@@ -228,6 +232,7 @@ const SearchSideBar = () => {
                 type={lists?.tvFavorite?.type}
                 pathNavigate={lists?.tvFavorite?.pathNavigate}
                 apiPath={lists?.tvFavorite?.apiPath}
+                showSearchOnMobile={setOpenSearchSidebar}
               />
             </>
           )}
