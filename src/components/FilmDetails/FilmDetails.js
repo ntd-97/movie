@@ -184,7 +184,7 @@ const FilmDetails = () => {
 
       timeOutId.current = setTimeout(() => {
         setLoading(false);
-      }, [400]);
+      }, [200]);
     } catch (error) {
       console.log(error);
     }

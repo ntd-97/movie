@@ -35,7 +35,9 @@ const FilmItem = ({ type, filmID, info }) => {
         <span>
           {new Date(
             type === "tvseries" ? info?.first_air_date : info?.release_date
-          ).getFullYear()}
+          )
+            .getFullYear()
+            .toString()}
         </span>
 
         <span className="flex items-center">
