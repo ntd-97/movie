@@ -25,7 +25,7 @@ const BannerItem = ({ type, filmID, info }) => {
             : coverImgNotFound
         }
         alt="banner img not found"
-        className="h-[260px] w-full rounded-[20px] object-cover text-primary md:h-[310px] lg:h-[465px]  2xl:h-[570px]"
+        className="h-[210px] w-full rounded-[20px] object-cover text-primary sm:h-[260px] md:h-[310px] lg:h-[465px]  2xl:h-[570px]"
       />
 
       <div className="absolute bottom-3 w-full px-4 text-white lg:bottom-8 lg:left-8 lg:w-auto lg:px-0">
