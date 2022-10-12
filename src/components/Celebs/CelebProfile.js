@@ -100,7 +100,7 @@ const CelebProfile = () => {
       >
         <div className="col-span-1 lg:col-span-4">
           <img
-            className="mx-auto w-[70%] md:w-[50%] lg:w-full"
+            className="mx-auto w-[70%] sm:w-[50%] lg:w-full"
             loading="lazy"
             src={`${process.env.REACT_APP_API_PATH_IMG_W500}${celebInfo?.profile_path}`}
             alt="profile img"

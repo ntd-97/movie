@@ -14,6 +14,10 @@ const swiperResponsiveConfig = {
     slidesPerView: 4,
     slidesPerGroup: 4,
   },
+  600: {
+    slidesPerView: 3,
+    slidesPerGroup: 3,
+  },
   200: {
     slidesPerView: 2,
     slidesPerGroup: 2,

@@ -48,10 +48,10 @@ const SearchSideBarItem = ({ film, type, showSearchOnMobile }) => {
             : posterImgNotFound
         }
         alt="poster film"
-        className="col-span-3 my-auto w-full rounded-[10px] object-cover md:col-span-2 lg:col-span-4 lg:h-[145px] 2xl:col-span-3 2xl:h-[135px]"
+        className="col-span-3 my-auto w-full rounded-[10px] object-cover sm:col-span-2 lg:col-span-4 lg:h-[145px] 2xl:col-span-3 2xl:h-[135px]"
       />
 
-      <div className="grid-row-4 col-span-9 ml-[10px] grid md:col-span-10 lg:col-span-8 2xl:col-span-9">
+      <div className="grid-row-4 col-span-9 ml-[10px] grid sm:col-span-10 lg:col-span-8 2xl:col-span-9">
         <h4 className="row-span-1 truncate text-base md:text-xl lg:text-[17px]">
           {type === "tv" ? film?.name : film?.title}
         </h4>

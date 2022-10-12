@@ -119,7 +119,7 @@ const ResultSearchPage = () => {
             <div
               className={`${
                 loading ? "hidden opacity-0" : "opacity-1 grid"
-              } grid-cols-2 gap-3 transition-all md:grid-cols-4 2xl:grid-cols-5`}
+              } grid-cols-2 gap-3 transition-all sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-5`}
             >
               {resultSearch?.results
                 ?.filter((film) => film.poster_path)
@@ -141,7 +141,7 @@ const ResultSearchPage = () => {
             <div
               className={`${
                 loading ? "hidden opacity-0" : "opacity-1 grid"
-              } grid-cols-2 gap-3 transition-all md:grid-cols-4 lg:grid-cols-5`}
+              } grid-cols-2 gap-3 transition-all sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5`}
             >
               {resultSearch?.results
                 ?.filter((celeb) => celeb.profile_path)
