@@ -5,17 +5,21 @@ import bgImage from "../../assets/images/login_bg.jpg";
 const SignUpPage = () => {
   return (
     <div
-      className="SignUpPage bg_overlay w-full h-[100vh] p-10 flex items-center"
-      style={{ backgroundImage: `url(${bgImage})` }}
+      className="SignUpPage bg_overlay flex h-[100vh] w-full items-center p-10"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        objectFit: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
     >
-      <h2 className="text-3xl text-center text-[#ececec] leading-[45px] z-50">
+      <h2 className="z-50 text-center text-3xl leading-[45px] text-[#ececec]">
         This web uses The movie DB API, so please go to the main page of The
         movie DB
         <a
           href="https://www.themoviedb.org/signup"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary px-2 hover:text-red-400 trasition-all"
+          className="trasition-all px-2 text-primary hover:text-red-400"
         >
           here
         </a>
