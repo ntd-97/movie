@@ -76,50 +76,52 @@ const TVSeriesHomePage = () => {
         loading={loading}
       />
 
-      <div
-        className={`${
-          loading ? "hidden opacity-0 " : "opacity-1 block"
-        } TVSeriesHomePage mt-[86px] px-3 pb-[90px] lg:mt-0 lg:p-10`}
-      >
-        {/* banner */}
-        <div className="relative  mb-6 overflow-hidden rounded-[20px]">
-          <CustomSlider specifyClass="TVSeriesBanner" paginationClass="banner">
-            {tvSeries?.nowPlaying?.results?.map((film) => {
-              return (
-                <SwiperSlide key={film.id}>
-                  <BannerItem type="tvseries" filmID={film.id} info={film} />
-                </SwiperSlide>
-              );
-            })}
-          </CustomSlider>
+      {!loading && (
+        <div className=" TVSeriesHomePage mt-[86px] px-3 pb-[90px] lg:mt-0 lg:p-10">
+          {/* banner */}
+          <div className="relative  mb-6 overflow-hidden rounded-[20px]">
+            <CustomSlider
+              specifyClass="TVSeriesBanner"
+              paginationClass="banner"
+              autoPlay={true}
+            >
+              {tvSeries?.nowPlaying?.results?.map((film) => {
+                return (
+                  <SwiperSlide key={film.id}>
+                    <BannerItem type="tvseries" filmID={film.id} info={film} />
+                  </SwiperSlide>
+                );
+              })}
+            </CustomSlider>
+          </div>
+
+          {/* Popular TV series */}
+          <FilmList
+            type="tvseries"
+            title="Popular TV series"
+            films={tvSeries.popular.results}
+            specifyClass="TVSeriesPopList"
+          />
+
+          {/* Top rated TV series */}
+          <FilmList
+            type="tvseries"
+            title="Top rated TV series"
+            films={tvSeries.topRated.results}
+            specifyClass="TVSeriesTopList"
+          />
+
+          <button
+            onClick={() => {
+              navigate("/tvseries/list/page/1");
+            }}
+            className="ml-auto flex items-center justify-center rounded-[10px] bg-transparent px-5 py-2 font-medium text-primary outline-none transition-all hover:bg-primary hover:text-white lg:text-lg 2xl:text-xl"
+          >
+            See more
+            <BsArrowRight className="ml-2 inline-block font-bold lg:text-xl 2xl:text-2xl" />
+          </button>
         </div>
-
-        {/* Popular TV series */}
-        <FilmList
-          type="tvseries"
-          title="Popular TV series"
-          films={tvSeries.popular.results}
-          specifyClass="TVSeriesPopList"
-        />
-
-        {/* Top rated TV series */}
-        <FilmList
-          type="tvseries"
-          title="Top rated TV series"
-          films={tvSeries.topRated.results}
-          specifyClass="TVSeriesTopList"
-        />
-
-        <button
-          onClick={() => {
-            navigate("/tvseries/list/page/1");
-          }}
-          className="ml-auto flex items-center justify-center rounded-[10px] bg-transparent px-5 py-2 font-medium text-primary outline-none transition-all hover:bg-primary hover:text-white lg:text-lg 2xl:text-xl"
-        >
-          See more
-          <BsArrowRight className="ml-2 inline-block font-bold lg:text-xl 2xl:text-2xl" />
-        </button>
-      </div>
+      )}
     </>
   );
 };

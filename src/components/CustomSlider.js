@@ -4,20 +4,24 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import PropTypes from "prop-types";
 
-import { Pagination, Navigation } from "swiper";
+import { Pagination, Navigation, Autoplay } from "swiper";
 import { Swiper } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-
-
-const CustomSlider = ({ children, specifyClass, paginationClass, config }) => {
+const CustomSlider = ({
+  children,
+  specifyClass,
+  paginationClass,
+  config,
+  autoPlay = false,
+}) => {
   return (
     <>
       <Swiper
-        modules={[Pagination, Navigation]}
+        modules={[Autoplay, Pagination, Navigation]}
         className={`mySwiper${specifyClass}`}
         spaceBetween={12}
         //add swiper custom navigation
@@ -31,6 +35,13 @@ const CustomSlider = ({ children, specifyClass, paginationClass, config }) => {
           type: "bullets",
           clickable: true,
         }}
+        autoplay={
+          autoPlay && {
+            delay: 2500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }
+        }
         centerInsufficientSlides={true}
         breakpoints={config ? config : ""}
         lazy={{

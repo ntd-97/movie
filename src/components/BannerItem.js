@@ -24,7 +24,6 @@ const BannerItem = ({ type, filmID, info }) => {
             ? `${process.env.REACT_APP_API_PATH_IMG_ORIGINAL}${info.backdrop_path}`
             : coverImgNotFound
         }
-        loading="lazy"
         alt="banner img not found"
         className="h-[210px] w-full rounded-[20px] object-cover text-primary lg:h-[465px]  2xl:h-[570px]"
       />
