@@ -122,14 +122,7 @@ const LoginPage = () => {
   }, [setFocus]);
 
   return (
-    <div
-      className="LoginPage bg_overlay relative flex h-screen w-full items-center justify-center"
-      // style={{
-      //   backgroundImage: `url(${bgImage})`,
-      //   objectFit: "cover",
-      //   backgroundRepeat: "no-repeat",
-      // }}
-    >
+    <div className="LoginPage bg_overlay relative flex h-screen w-full items-center justify-center">
       <img
         src={bgImage}
         alt="bg-img"
@@ -144,7 +137,7 @@ const LoginPage = () => {
         classWidth="w-[50px]"
         classHeight="h-[50px]"
         classBorder="border-[4px]"
-        classMargin="mt-0"
+        classMargin="mt-0 z-50"
         loading={loading}
       />
 
