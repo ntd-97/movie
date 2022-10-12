@@ -96,11 +96,11 @@ const CelebProfile = () => {
       <div
         className={`${
           loading ? "hidden opacity-0 " : "opacity-1 block"
-        } CelebProfile mt-[74px] grid grid-cols-1 gap-y-4 px-3 py-8 pb-[90px] text-[#ececec] lg:mt-0 lg:grid-cols-12 lg:gap-y-14 lg:gap-x-10 lg:p-10`}
+        } CelebProfile mt-[74px] grid grid-cols-1 gap-y-4 px-3 py-8 pb-[90px] text-[#ececec] md:px-5 lg:mt-0 lg:grid-cols-12 lg:gap-y-14 lg:gap-x-10 lg:p-10`}
       >
         <div className="col-span-1 lg:col-span-4">
           <img
-            className="mx-auto w-[70%] lg:w-full"
+            className="mx-auto w-[70%] md:w-[50%] lg:w-full"
             loading="lazy"
             src={`${process.env.REACT_APP_API_PATH_IMG_W500}${celebInfo?.profile_path}`}
             alt="profile img"

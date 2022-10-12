@@ -82,7 +82,7 @@ const SearchSideBarList = ({
               showSearchOnMobile(false);
               navigate(`${pathNavigate}/page/1`);
             }}
-            className="mt-[15px] w-full rounded-[10px] bg-primary px-5 py-2 font-medium outline-none transition-all hover:bg-red-400 lg:text-base 2xl:text-[18px] "
+            className="mt-[15px] w-full rounded-[10px] bg-primary px-5 py-2 font-medium outline-none transition-all hover:bg-red-400 md:text-lg lg:text-base 2xl:text-[18px] "
           >
             See more
           </button>

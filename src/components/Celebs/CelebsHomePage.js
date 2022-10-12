@@ -49,7 +49,7 @@ const CelebsHomePage = () => {
   }, [page]);
 
   return (
-    <div className="CelebsHomePage transtion-all mt-[100px] px-3 pb-[90px] lg:mt-0 lg:p-10">
+    <div className="CelebsHomePage transtion-all mt-[100px] px-3 pb-[90px] md:px-5 lg:mt-0 lg:p-10">
       <h1 className="mb-7 text-center text-2xl font-medium text-[#cecece] lg:mb-10 2xl:text-3xl">
         Celebs
       </h1>
@@ -66,7 +66,7 @@ const CelebsHomePage = () => {
       <div
         className={`${
           loading ? "hidden opacity-0 " : "opacity-1 grid"
-        } grid grid-cols-2 gap-3 lg:grid-cols-5 2xl:gap-5`}
+        } grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-5 2xl:gap-5`}
       >
         {celebsList?.results
           ?.filter((celeb) => celeb.profile_path !== null)

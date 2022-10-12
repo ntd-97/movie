@@ -48,11 +48,11 @@ const SearchSideBarItem = ({ film, type, showSearchOnMobile }) => {
             : posterImgNotFound
         }
         alt="poster film"
-        className="col-span-3 my-auto w-full rounded-[10px] object-cover lg:col-span-4 lg:h-[145px] 2xl:col-span-3 2xl:h-[135px]"
+        className="col-span-3 my-auto w-full rounded-[10px] object-cover md:col-span-2 lg:col-span-4 lg:h-[145px] 2xl:col-span-3 2xl:h-[135px]"
       />
 
-      <div className="grid-row-4 col-span-9 ml-[10px] grid lg:col-span-8 2xl:col-span-9">
-        <h4 className="row-span-1 truncate text-base 2xl:text-[17px]">
+      <div className="grid-row-4 col-span-9 ml-[10px] grid md:col-span-10 lg:col-span-8 2xl:col-span-9">
+        <h4 className="row-span-1 truncate text-base md:text-xl lg:text-[17px]">
           {type === "tv" ? film?.name : film?.title}
         </h4>
         <div className="items-top row-span-2 flex justify-between text-[13.5px] text-[#AFAFAF]">
@@ -84,7 +84,7 @@ const SearchSideBarItem = ({ film, type, showSearchOnMobile }) => {
               key={genre?.id}
               className={`${
                 genres.length > 1 ? "flex-1" : ""
-              } flex items-center justify-center rounded-[10px] border-2 border-[#474749] px-2 py-[2px] text-center text-sm transition-all hover:cursor-pointer hover:border-white 2xl:py-0 2xl:text-[13.5px]`}
+              } flex items-center justify-center rounded-[10px] border-2 border-[#474749] px-2 py-[2px] text-center text-sm transition-all hover:cursor-pointer hover:border-white md:text-base lg:text-sm 2xl:py-0 2xl:text-[13.5px]`}
             >
               {genre?.name}
             </p>

@@ -172,7 +172,7 @@ const FilterBar = ({ type }) => {
   }, [search]);
 
   return (
-    <div className="FilterBar mb-5 grid w-full grid-cols-2 justify-between gap-x-2 gap-y-3 rounded-[20px] bg-[#33292E] bg-opacity-60 py-5 px-1 lg:grid-cols-4 lg:gap-x-5">
+    <div className="FilterBar mb-5 grid w-full grid-cols-2 justify-between gap-x-2 gap-y-3 rounded-[20px] bg-[#33292E] bg-opacity-60 py-5 px-1 md:grid-cols-4 lg:gap-x-5">
       {/* Genres */}
       <div className="flex flex-col items-start justify-center px-[10px]">
         <label className="mr-2 text-[#ececec]" htmlFor="genres">

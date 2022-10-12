@@ -77,7 +77,7 @@ const MoviesHomePage = () => {
       />
 
       {!loading && (
-        <div className="MoviesHomePage mt-[90px] px-3 pb-[90px] lg:my-0 lg:p-10">
+        <div className="MoviesHomePage mt-[90px] px-3 pb-[90px] md:mt-[100px] md:mb-[100px] md:px-5 lg:my-0 lg:p-10">
           {/* Banner */}
           <div className="relative mb-6 overflow-hidden rounded-[20px]">
             <CustomSlider

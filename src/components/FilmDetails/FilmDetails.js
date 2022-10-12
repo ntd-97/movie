@@ -225,14 +225,14 @@ const FilmDetails = () => {
       >
         {/* banner */}
         <div
-          className="coverImgFilmDetails relative col-span-1 grid bg-cover px-4 py-8 lg:my-auto lg:grid-cols-12 lg:gap-10 lg:py-16 lg:px-10 2xl:py-10"
+          className="coverImgFilmDetails relative col-span-1 grid bg-cover px-4 py-8 md:px-5 lg:my-auto lg:grid-cols-12 lg:gap-10 lg:py-16 lg:px-10 2xl:py-10"
           style={{
             backgroundImage: `url(${filmDetails?.backdrop_path_full})`,
           }}
         >
           <div className="z-50 lg:col-span-5 2xl:col-span-4">
             <img
-              className="mx-auto w-[70%] object-cover text-primary lg:mx-0 lg:w-full"
+              className="mx-auto w-[70%] object-cover text-primary md:w-[50%] lg:mx-0 lg:w-full"
               loading="lazy"
               src={
                 filmDetails?.poster_path

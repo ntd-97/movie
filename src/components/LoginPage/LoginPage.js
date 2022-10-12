@@ -142,7 +142,7 @@ const LoginPage = () => {
       />
 
       {!loading && (
-        <div className="z-50 w-[94%] rounded-[15px] bg-[#181818] bg-opacity-90 p-10 text-[#ececec] lg:w-[45%]">
+        <div className="z-50 w-[94%] rounded-[15px] bg-[#181818] bg-opacity-90 p-10 text-[#ececec] md:w-[75%] lg:w-[45%]">
           <h3 className="mb-4 text-2xl font-bold tracking-[2px]">LOGIN</h3>
           <form
             className="flex flex-col gap-y-6 lg:gap-y-5"
