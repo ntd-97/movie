@@ -91,6 +91,7 @@ const SearchSideBar = () => {
       setLists(results);
     } catch (error) {
       console.log(error);
+      navigate("/error");
     }
   });
 

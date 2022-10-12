@@ -64,6 +64,8 @@ const FilmDetails = () => {
       setLoadingBtnWatchList(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      navigate("/error");
     }
   };
 
@@ -91,6 +93,8 @@ const FilmDetails = () => {
       setLoadingBtnFavorite(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      navigate("/error");
     }
   };
 
@@ -187,6 +191,8 @@ const FilmDetails = () => {
       }, [400]);
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      navigate("/error");
     }
   });
 
@@ -364,7 +370,7 @@ const FilmDetails = () => {
                   </button>
                 )}
               </div>
-              <div className="flex flex-wrap gap-x-5 gap-y-3">
+              <div className="flex flex-wrap justify-end gap-x-5 gap-y-3">
                 {filmDetails?.genres?.map((genre) => {
                   return (
                     <span
@@ -396,7 +402,7 @@ const FilmDetails = () => {
               actors={filmDetails?.credits?.cast}
             />
           ) : (
-            <h3 className="text-center text-primary lg:text-xl 2xl:text-2xl">
+            <h3 className="text-center text-xl text-primary 2xl:text-2xl">
               Actor not found
             </h3>
           )}
@@ -413,7 +419,7 @@ const FilmDetails = () => {
               trailers={filmDetails?.videos?.results}
             />
           ) : (
-            <h3 className="text-center text-primary lg:text-xl 2xl:text-2xl">
+            <h3 className="text-center text-xl text-primary 2xl:text-2xl">
               Trailer not found
             </h3>
           )}

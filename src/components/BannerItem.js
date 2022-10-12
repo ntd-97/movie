@@ -17,7 +17,7 @@ const BannerItem = ({ type, filmID, info }) => {
   };
 
   return (
-    <div className="BannerItem relative">
+    <div className="BannerItem relative select-none">
       <img
         src={
           info.backdrop_path

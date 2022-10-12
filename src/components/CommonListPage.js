@@ -92,6 +92,8 @@ const CommonListPage = () => {
       }, [300]);
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      navigate("/error");
     }
   });
 
@@ -124,7 +126,7 @@ const CommonListPage = () => {
           <h3
             className={`${
               loading ? "hidden opacity-0" : "opacity-1 block"
-            } mt-20 text-center text-2xl text-primary transition-all`}
+            } mt-20 text-center text-xl text-primary transition-all 2xl:text-2xl`}
           >
             Not found
           </h3>

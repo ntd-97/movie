@@ -25,7 +25,7 @@ const TVSeriesHomePage = () => {
 
   const timeOutId = useRef();
 
-  const getTvSeries = async () => {
+  const getTvSeries = useRef(async () => {
     try {
       // tv series now playing data
       const resNowPlaying = await axios.get(
@@ -46,17 +46,19 @@ const TVSeriesHomePage = () => {
         topRated: resTopRated.data,
       });
 
-// set timeout to prevent jerking
+      // set timeout to prevent jerking
       timeOutId.current = setTimeout(() => {
         setLoading(false);
       }, 400);
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      navigate("/error");
     }
-  };
+  });
 
   useEffect(() => {
-    getTvSeries();
+    getTvSeries.current();
 
     return () => {
       clearTimeout(timeOutId.current);

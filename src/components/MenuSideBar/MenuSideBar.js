@@ -54,6 +54,8 @@ const MenuSideBar = () => {
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      navigate("/error");
     }
   };
 

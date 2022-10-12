@@ -35,6 +35,8 @@ const CelebsHomePage = () => {
       }, [400]);
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      navigate("/error");
     }
   });
 

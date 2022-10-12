@@ -68,6 +68,8 @@ const ResultSearchPage = () => {
       }, [200]);
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      navigate("/error");
     }
   });
 

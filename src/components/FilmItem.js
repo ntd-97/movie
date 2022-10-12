@@ -15,7 +15,7 @@ const FilmItem = ({ type, filmID, info }) => {
   };
 
   return (
-    <div className="FilmItem relative rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95">
+    <div className="FilmItem relative select-none rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95">
       <img
         loading="lazy"
         className="mb-3 h-[230px] w-full rounded-[10px] object-cover lg:mb-4 lg:h-[250px]  2xl:h-[310px]"

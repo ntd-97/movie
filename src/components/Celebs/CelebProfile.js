@@ -4,7 +4,7 @@ import React from "react";
 
 import { useRef, useState, useEffect } from "react";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import FilmList from "../FilmList";
 import Loader from "../Loader";
@@ -17,6 +17,8 @@ const CelebProfile = () => {
   const [loading, setLoanding] = useState(true);
 
   const timeOutId = useRef();
+
+  const navigate = useNavigate();
 
   const getCelebInfo = useRef(async () => {
     try {
@@ -67,6 +69,8 @@ const CelebProfile = () => {
       }, 300);
     } catch (error) {
       console.log(error);
+      setLoanding(false);
+      navigate("/error");
     }
   });
 
@@ -92,7 +96,7 @@ const CelebProfile = () => {
       <div
         className={`${
           loading ? "hidden opacity-0 " : "opacity-1 block"
-        } CelebProfile mt-[74px] grid grid-cols-1 gap-y-8 px-3 py-8 pb-[90px] text-[#ececec] lg:mt-0 lg:grid-cols-12 lg:gap-y-14 lg:gap-x-10 lg:p-10`}
+        } CelebProfile mt-[74px] grid grid-cols-1 gap-y-4 px-3 py-8 pb-[90px] text-[#ececec] lg:mt-0 lg:grid-cols-12 lg:gap-y-14 lg:gap-x-10 lg:p-10`}
       >
         <div className="col-span-1 lg:col-span-4">
           <img
@@ -118,11 +122,13 @@ const CelebProfile = () => {
               {celebInfo?.biography}
             </p>
           ) : (
-            <h3 className="text-2xl text-primary">Info not found</h3>
+            <h3 className="text-xl text-primary 2xl:text-2xl">
+              Info not found
+            </h3>
           )}
         </div>
 
-        <div className="col-span-1 lg:col-span-12">
+        <div className="col-span-1 mt-3 lg:col-span-12 lg:mt-0">
           <FilmList
             title="Movies"
             specifyClass="moviesCelebProfile"

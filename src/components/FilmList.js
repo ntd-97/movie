@@ -48,7 +48,7 @@ const FilmList = ({ title, type, specifyClass, films }) => {
           </CustomSlider>
         </div>
       ) : (
-        <h3 className="mb-10 text-center text-2xl text-primary">{`${
+        <h3 className="mb-10 text-center text-xl text-primary 2xl:text-2xl">{`${
           type === "movies" ? "Movies" : "TV Series"
         } not found`}</h3>
       )}

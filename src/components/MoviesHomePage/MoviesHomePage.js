@@ -26,7 +26,7 @@ const MoviesHomePage = () => {
 
   const timeOutId = useRef();
 
-  const getMovies = async () => {
+  const getMovies = useRef(async () => {
     try {
       // now playing movies data
       const resNowPlaying = await axios.get(
@@ -53,11 +53,12 @@ const MoviesHomePage = () => {
       }, 400);
     } catch (error) {
       console.log(error);
+      navigate("/error");
     }
-  };
+  });
 
   useEffect(() => {
-    getMovies();
+    getMovies.current();
 
     return () => {
       clearTimeout(timeOutId.current);

@@ -6,18 +6,16 @@ import CelebsHomePage from "./Celebs/CelebsHomePage";
 import FilmDetails from "./FilmDetails/FilmDetails";
 import MoviesHomePage from "./MoviesHomePage/MoviesHomePage";
 import FilmsListPage from "./FilmsListPage/FilmsListPage";
-// import Navbar from "./Navbar";
-import PageNotFound from "./PageNotFound";
 import TVSeriesHomePage from "./TVSeriesHomePage/TVSeriesHomePage";
 import SignUpPage from "./SignUpPage/SignUpPage";
 import LoginPage from "./LoginPage/LoginPage";
 import ResultSearchPage from "./ResultSearchPage/ResultSearchPage";
 import CommonListPage from "./CommonListPage";
+import ErrorPage from "./ErrorPage";
 
 const Main = () => {
   return (
     <div className="Main no-scrollbar relative col-span-8 h-screen lg:overflow-scroll">
-      {/* <Navbar /> */}
       <div>
         <Routes>
           <Route path="/" element={<Navigate to="movies" />}></Route>
@@ -84,8 +82,15 @@ const Main = () => {
           {/* login, signup route */}
           <Route path="signup" element={<SignUpPage />}></Route>
           <Route path="login" element={<LoginPage />}></Route>
+          {/* Error page */}
+          <Route
+            path="error"
+            element={
+              <ErrorPage msg="Something went wrong, please try again!" />
+            }
+          ></Route>
           {/* Route not found */}
-          <Route path="*" element={<PageNotFound />}></Route>
+          <Route path="*" element={<ErrorPage msg="Page not found." />}></Route>
         </Routes>
       </div>
     </div>
