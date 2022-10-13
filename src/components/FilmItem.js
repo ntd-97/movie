@@ -10,12 +10,16 @@ import posterImgNotFound from "../assets/images/poster_not_found.jpg";
 const FilmItem = ({ type, filmID, info }) => {
   const navigate = useNavigate();
 
-  const btnFilmClickHandler = () => {
+  const clickFilmItemHandler = (event) => {
+    event.stopPropagation();
     navigate(`/${type}/${filmID?.toString()}`);
   };
 
   return (
-    <div className="FilmItem relative select-none rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95">
+    <div
+      onClick={clickFilmItemHandler}
+      className="FilmItem relative select-none rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95 hover:cursor-pointer"
+    >
       <img
         loading="lazy"
         className="mb-3 h-[230px] w-full rounded-[10px] object-cover sm:h-[250px] md:h-[250px] lg:mb-4 xl:h-[250px]  2xl:h-[310px]"
@@ -49,7 +53,7 @@ const FilmItem = ({ type, filmID, info }) => {
       </div>
 
       <button
-        onClick={btnFilmClickHandler}
+        onClick={clickFilmItemHandler}
         className="flex w-full items-center justify-center rounded-[10px] bg-primary py-2 font-medium outline-none transition-all hover:bg-red-400"
       >
         Watch now

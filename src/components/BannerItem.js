@@ -12,12 +12,16 @@ import PropTypes from "prop-types";
 const BannerItem = ({ type, filmID, info }) => {
   const navigate = useNavigate();
 
-  const btnFilmClickHandler = () => {
+  const clickFilmBannerHandler = (event) => {
+    event.stopPropagation();
     navigate(`/${type}/${filmID}`);
   };
 
   return (
-    <div className="BannerItem relative select-none">
+    <div
+      onClick={clickFilmBannerHandler}
+      className="BannerItem relative select-none hover:cursor-pointer"
+    >
       <img
         src={
           info.backdrop_path
@@ -41,7 +45,7 @@ const BannerItem = ({ type, filmID, info }) => {
           </p>
           <button
             className="flex items-center justify-center rounded-full bg-primary p-2 font-medium outline-none transition-all hover:bg-red-400 sm:hidden"
-            onClick={btnFilmClickHandler}
+            onClick={clickFilmBannerHandler}
           >
             <BsPlayCircleFill className="text-xl" />
           </button>
@@ -49,7 +53,7 @@ const BannerItem = ({ type, filmID, info }) => {
 
         <button
           className="hidden items-center rounded-[10px] bg-primary px-10 py-2 font-medium outline-none transition-all hover:bg-red-400 sm:flex"
-          onClick={btnFilmClickHandler}
+          onClick={clickFilmBannerHandler}
         >
           Watch
           <BsPlayCircleFill className="ml-1 inline-block text-xl" />
