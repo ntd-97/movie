@@ -58,7 +58,7 @@ const SearchSideBarListMW = ({
 
   return (
     <div className="SearchSideBarList">
-      <h2 className="mb-5 text-xl font-medium text-[#ECECEC] 2xl:text-2xl">
+      <h2 className="mb-5 text-xl font-medium text-[#ECECEC] lg:text-center lg:text-lg xl:text-left xl:text-xl 2xl:text-2xl">
         {title}
       </h2>
 

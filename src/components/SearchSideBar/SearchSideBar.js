@@ -153,10 +153,17 @@ const SearchSideBar = () => {
         openSearchSidebar
           ? "h-full overflow-scroll"
           : "h-[68px] overflow-hidden"
-      } no-scrollbar fixed bottom-0 left-0 right-0 z-[100] flex flex-col bg-[#181818] px-3  pb-4  text-[#ececec] transition-all duration-[300ms] ease-in lg:relative  lg:z-auto lg:col-span-3 lg:h-screen lg:overflow-scroll lg:border-l-2 lg:border-[#353535] lg:px-6 lg:pb-5`}
+      } no-scrollbar fixed bottom-0 left-0 right-0 z-[100] flex w-full flex-col bg-[#181818] px-3 pb-4 text-[#ececec] transition-all duration-[300ms] ease-in lg:relative  lg:z-auto  lg:h-screen lg:w-[30%] lg:overflow-scroll lg:border-l-2 lg:border-[#353535] lg:px-3 lg:pb-5 xl:w-[40%] xl:px-6 2xl:w-[35%]`}
     >
+      {/* <div
+      className={`${
+        openSearchSidebar
+          ? "h-full overflow-scroll"
+          : "h-[68px] overflow-hidden"
+      } no-scrollbar fixed bottom-0 left-0 right-0 z-[100] flex flex-col bg-[#181818] px-3 pb-4 text-[#ececec] transition-all duration-[300ms] ease-in lg:relative  lg:z-auto lg:col-span-2 lg:h-screen lg:overflow-scroll lg:border-l-2 lg:border-[#353535] lg:px-3 lg:pb-5 xl:col-span-3 xl:px-6`}
+    > */}
       <div className="sticky top-0 z-50 flex gap-x-2 bg-[#181818] bg-opacity-95 py-3 lg:py-5">
-        <FiSearch className="absolute top-1/2 right-[15px] -translate-y-1/2 text-[22px] text-[#9CA3AF]" />
+        <FiSearch className="absolute top-1/2 right-[15px] -translate-y-1/2 text-[22px] text-[#9CA3AF] lg:hidden xl:block" />
         {!openSearchSidebar && (
           <IoIosArrowUp
             onClick={clickOpenSideBarHandler}
@@ -174,7 +181,7 @@ const SearchSideBar = () => {
         <input
           type="text"
           placeholder={`Search ${type.name}`}
-          className="w-full rounded-[10px] bg-[#252229] px-[15px] py-[10px] outline-none focus:outline-[#353535]"
+          className="w-full truncate rounded-[10px] bg-[#252229] px-[15px] py-[10px] outline-none focus:outline-[#353535]"
           onChange={(e) => {
             setSearchQuery(e.target.value);
           }}

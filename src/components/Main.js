@@ -15,7 +15,8 @@ import ErrorPage from "./ErrorPage";
 
 const Main = () => {
   return (
-    <div className="Main no-scrollbar relative col-span-8 h-screen lg:overflow-scroll">
+    <div className="Main no-scrollbar relative h-screen w-full lg:overflow-scroll">
+      {/* <div className="Main no-scrollbar relative col-span-12 h-screen  lg:col-span-8 lg:overflow-scroll"> */}
       <div>
         <Routes>
           <Route path="/" element={<Navigate to="movies" />}></Route>

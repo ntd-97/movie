@@ -6,9 +6,17 @@ import FilmItem from "./FilmItem";
 import PropTypes from "prop-types";
 
 const swiperResponsiveConfig = {
-  1367: {
+  1536: {
     slidesPerView: 5,
     slidesPerGroup: 5,
+  },
+  1280: {
+    slidesPerView: 4,
+    slidesPerGroup: 4,
+  },
+  1024: {
+    slidesPerView: 3,
+    slidesPerGroup: 3,
   },
   768: {
     slidesPerView: 4,

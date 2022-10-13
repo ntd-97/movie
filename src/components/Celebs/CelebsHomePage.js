@@ -66,7 +66,7 @@ const CelebsHomePage = () => {
       <div
         className={`${
           loading ? "hidden opacity-0 " : "opacity-1 grid"
-        } grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:gap-5`}
+        } grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:gap-5`}
       >
         {celebsList?.results
           ?.filter((celeb) => celeb.profile_path !== null)

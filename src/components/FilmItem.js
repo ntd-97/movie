@@ -18,7 +18,7 @@ const FilmItem = ({ type, filmID, info }) => {
     <div className="FilmItem relative select-none rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95">
       <img
         loading="lazy"
-        className="mb-3 h-[230px] w-full rounded-[10px] object-cover sm:h-[250px] md:h-[230px] lg:mb-4 lg:h-[250px]  2xl:h-[310px]"
+        className="mb-3 h-[230px] w-full rounded-[10px] object-cover sm:h-[250px] md:h-[250px] lg:mb-4 xl:h-[250px]  2xl:h-[310px]"
         src={
           info?.poster_path
             ? `${process.env.REACT_APP_API_PATH_IMG_W500}${info?.poster_path}`
@@ -50,10 +50,10 @@ const FilmItem = ({ type, filmID, info }) => {
 
       <button
         onClick={btnFilmClickHandler}
-        className="flex w-full items-center justify-center rounded-[10px] bg-primary px-5 py-2 font-medium outline-none transition-all hover:bg-red-400"
+        className="flex w-full items-center justify-center rounded-[10px] bg-primary py-2 font-medium outline-none transition-all hover:bg-red-400"
       >
         Watch now
-        <BsPlayCircleFill className="ml-2 hidden text-xl lg:inline-block" />
+        <BsPlayCircleFill className="ml-2 hidden text-xl xl:inline-block" />
       </button>
     </div>
   );

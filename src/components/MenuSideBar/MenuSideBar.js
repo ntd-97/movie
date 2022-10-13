@@ -81,17 +81,23 @@ const MenuSideBar = () => {
     <div
       ref={menu}
       className={`${
-        showMenu ? "h-[428px]" : "h-[74px]"
-      } fixed top-0 right-0 left-0 z-[100] flex select-none flex-col overflow-hidden bg-[#181818] p-5 text-[#ececec] transition-all duration-300 ease-in lg:relative lg:z-auto lg:col-span-1 lg:h-screen lg:justify-between lg:border-r-2 lg:border-[#353535] lg:px-2 2xl:px-0`}
+        showMenu ? "h-[456px]" : "h-[74px]"
+      } fixed top-0 right-0 left-0 z-[100] flex w-full select-none flex-col overflow-hidden bg-[#181818] p-5 text-[#ececec] transition-all duration-300 ease-in lg:relative lg:z-auto lg:h-screen lg:w-[24%] lg:justify-between lg:border-r-2 lg:border-[#353535] lg:px-2 xl:w-[17%] 2xl:w-[13%] 2xl:px-0`}
     >
+      {/* <div
+      ref={menu}
+      className={`${
+        showMenu ? "h-[428px]" : "h-[74px]"
+      } fixed top-0 right-0 left-0 z-[100] flex select-none flex-col overflow-hidden bg-[#181818] p-5 text-[#ececec] transition-all duration-300 ease-in lg:relative lg:z-auto lg:col-span-2 lg:h-screen lg:justify-between lg:border-r-2 lg:border-[#353535] lg:px-2 xl:col-span-1 2xl:px-0`}
+    > */}
       <HiOutlineMenuAlt1
         onClick={menuClickHanler}
         className="visible absolute right-5 top-0 flex h-[74px]  text-3xl transition-all hover:cursor-pointer hover:text-primary lg:hidden"
       ></HiOutlineMenuAlt1>
 
-      <div className="flex flex-col gap-y-6 lg:gap-y-10 2xl:ml-4">
+      <div className="flex flex-col gap-y-6 lg:ml-2 lg:gap-y-10 xl:ml-3">
         <img
-          className="w-[55px] justify-self-center hover:cursor-pointer lg:w-[55%]"
+          className="w-[55px] justify-self-center hover:cursor-pointer lg:w-[45%] xl:w-[65%] 2xl:ml-1 2xl:w-[55%]"
           src={LogoImg}
           alt="logo"
           onClick={() => {
@@ -99,17 +105,17 @@ const MenuSideBar = () => {
           }}
         />
 
-        <div className="flex flex-col gap-y-3 lg:gap-y-4 lg:text-sm 2xl:gap-y-6 2xl:text-base">
-          <h4 className="text-sm font-medium uppercase text-[#505050] 2xl:tracking-[4px]">
+        <div className="flex flex-col gap-y-3 xl:gap-y-6 ">
+          <h4 className="font-medium  uppercase text-[#505050] lg:tracking-[2px] 2xl:text-base 2xl:tracking-[2px]">
             Categories
           </h4>
 
-          <div className="ml-3 flex flex-col gap-y-6 lg:ml-0 lg:gap-y-3 2xl:ml-3 2xl:gap-y-6">
+          <div className="ml-3 flex flex-col gap-y-6 xl:ml-2 xl:gap-y-6">
             <NavLink
               className={({ isActive }) =>
                 (isActive ? "text-primary" : "") +
                 " " +
-                "flex items-center leading-[25px] transition-colors hover:text-primary"
+                "flex items-center leading-[25px] transition-colors hover:text-primary 2xl:text-base"
               }
               to="movies"
               onClick={navClickHandler}
@@ -122,7 +128,7 @@ const MenuSideBar = () => {
               className={({ isActive }) =>
                 (isActive ? "text-primary" : "") +
                 " " +
-                "flex items-center leading-[25px] transition-colors hover:text-primary"
+                "flex items-center leading-[25px] transition-colors hover:text-primary 2xl:text-base"
               }
               to="tvseries"
               onClick={navClickHandler}
@@ -135,7 +141,7 @@ const MenuSideBar = () => {
               className={({ isActive }) =>
                 (isActive ? "text-primary" : "") +
                 " " +
-                "flex items-center leading-[25px] transition-colors hover:text-primary"
+                "flex items-center leading-[25px] transition-colors hover:text-primary 2xl:text-base"
               }
               to="celebs"
               onClick={navClickHandler}
@@ -148,16 +154,16 @@ const MenuSideBar = () => {
       </div>
 
       <div className="mt-8 flex flex-col gap-y-3 lg:mt-0 lg:gap-y-4 2xl:gap-y-6">
-        <h4 className="text-sm font-medium uppercase text-[#505050] 2xl:ml-4 2xl:tracking-[4px]">
+        <h4 className="font-medium uppercase text-[#505050] lg:ml-2 xl:ml-3 xl:tracking-[2px]">
           General
         </h4>
 
-        <div className="ml-3 flex flex-col lg:ml-0 2xl:ml-7">
+        <div className="ml-3 flex flex-col lg:ml-5">
           {Object.keys(loginInfo).length > 0 && (
             <>
               {!loading ? (
                 <Link
-                  className="flex items-center transition-colors hover:text-primary lg:text-sm 2xl:text-base"
+                  className="flex items-center transition-colors hover:text-primary"
                   onClick={logoutHandler}
                 >
                   <IoMdLogOut className="mr-[6px] inline-block text-[19px] lg:text-base 2xl:text-[18px]" />
@@ -177,7 +183,7 @@ const MenuSideBar = () => {
 
           {Object.keys(loginInfo).length <= 0 && (
             <Link
-              className="flex items-center transition-colors hover:text-primary lg:text-sm 2xl:text-base"
+              className="flex items-center transition-colors hover:text-primary"
               to="login"
               onClick={navClickHandler}
             >
@@ -188,7 +194,7 @@ const MenuSideBar = () => {
         </div>
 
         {Object.keys(loginInfo).length > 0 && (
-          <div className="mt-4 flex flex-wrap items-center justify-start border-t-2 border-t-primary pt-[20px] lg:mt-0 lg:justify-center lg:border-0 lg:pt-0 2xl:p-2">
+          <div className="mt-4 flex flex-col items-center justify-start border-t-2 border-t-primary pt-[20px] lg:justify-center lg:border-0 lg:pt-0 2xl:p-2">
             <img
               className="mr-[6px] inline-block h-[35px] w-[35px] rounded-full border-2 border-primary  object-cover lg:mb-[6px] lg:mr-0"
               src={
@@ -199,7 +205,7 @@ const MenuSideBar = () => {
               alt="avatar img"
             />
 
-            <span className="truncate text-primary lg:text-sm 2xl:text-base">
+            <span className="block w-full truncate text-center text-primary">
               {loginInfo.user_name}
             </span>
           </div>

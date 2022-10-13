@@ -96,21 +96,23 @@ const CelebProfile = () => {
       <div
         className={`${
           loading ? "hidden opacity-0 " : "opacity-1 block"
-        } CelebProfile mt-[74px] grid grid-cols-1 gap-y-4 px-3 py-8 pb-[90px] text-[#ececec] md:px-5 lg:mt-0 lg:grid-cols-12 lg:gap-y-14 lg:gap-x-10 lg:p-10`}
+        } CelebProfile mt-[74px] grid grid-cols-12 gap-y-4 px-3 py-8 pb-[90px] text-[#ececec] md:px-5 lg:mt-0 lg:grid-cols-12 lg:gap-y-10 lg:gap-x-10 lg:p-10 xl:gap-y-14`}
       >
-        <div className="col-span-1 lg:col-span-4">
+        <div className="col-span-12 xl:col-span-4">
           <img
-            className="mx-auto w-[70%] sm:w-[50%] lg:w-full"
+            className="mx-auto w-[70%] sm:w-[50%] md:w-[40%] lg:w-[40%] xl:w-full"
             loading="lazy"
             src={`${process.env.REACT_APP_API_PATH_IMG_W500}${celebInfo?.profile_path}`}
             alt="profile img"
           />
         </div>
 
-        <div className="col-span-1 flex flex-col gap-y-2 text-center lg:col-span-8 lg:mt-5 lg:gap-y-4 lg:text-left">
-          <h1 className="text-3xl lg:text-5xl ">{celebInfo?.name}</h1>
+        <div className="col-span-12 flex flex-col gap-y-2 text-center lg:mt-0 lg:gap-y-4 lg:text-left xl:col-span-8 xl:mt-5">
+          <h1 className="text-3xl lg:text-center lg:text-3xl xl:text-left xl:text-5xl">
+            {celebInfo?.name}
+          </h1>
 
-          <h2 className="text-xl text-[#b5b5b5] lg:text-2xl">
+          <h2 className="text-xl text-[#b5b5b5] lg:text-center lg:text-xl xl:text-left xl:text-2xl">
             {celebInfo?.birthday && celebInfo?.deathday
               ? `(${celebInfo?.birthday} / ${celebInfo?.deathday})`
               : `(${celebInfo?.birthday})`}
@@ -128,7 +130,7 @@ const CelebProfile = () => {
           )}
         </div>
 
-        <div className="col-span-1 mt-3 lg:col-span-12 lg:mt-0">
+        <div className="col-span-12 mt-3 lg:mt-0">
           <FilmList
             title="Movies"
             specifyClass="moviesCelebProfile"
@@ -137,7 +139,7 @@ const CelebProfile = () => {
           />
         </div>
 
-        <div className="col-span-1 lg:col-span-12">
+        <div className="col-span-12">
           <FilmList
             title="TV Series"
             specifyClass="tvseriesCelebProfile"

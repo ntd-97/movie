@@ -25,7 +25,7 @@ const BannerItem = ({ type, filmID, info }) => {
             : coverImgNotFound
         }
         alt="banner img not found"
-        className="h-[230px] w-full rounded-[20px] object-cover text-primary sm:h-[260px] md:h-[310px] lg:h-[465px]  2xl:h-[570px]"
+        className="max-h-[230px] w-full rounded-[20px] object-cover text-primary sm:max-h-[260px] md:max-h-[310px] lg:max-h-[465px]  2xl:max-h-[570px]"
       />
 
       <div className="absolute bottom-3 w-full px-4 text-white lg:bottom-8 lg:left-8 lg:w-auto lg:px-0">
@@ -33,14 +33,14 @@ const BannerItem = ({ type, filmID, info }) => {
           {type === "tvseries" ? info.name : info.title}
         </h2>
 
-        <div className="mb-1 flex items-center justify-between lg:mb-5">
+        <div className="mb-1 flex items-center justify-between sm:mb-5">
           <p className="mr-1 flex items-center text-base font-bold lg:text-xl">
             <AiFillStar className="mr-1 inline-block text-[20px] text-yellow-400 lg:mr-2 lg:text-[26px]" />
             {info.vote_average ? info.vote_average : "0"}
             <span className="test-base font-bold text-[#545454]">/10</span>
           </p>
           <button
-            className="flex items-center justify-center rounded-full bg-primary p-2 font-medium outline-none transition-all hover:bg-red-400 lg:hidden"
+            className="flex items-center justify-center rounded-full bg-primary p-2 font-medium outline-none transition-all hover:bg-red-400 sm:hidden"
             onClick={btnFilmClickHandler}
           >
             <BsPlayCircleFill className="text-xl" />
@@ -48,7 +48,7 @@ const BannerItem = ({ type, filmID, info }) => {
         </div>
 
         <button
-          className="hidden items-center rounded-[10px] bg-primary px-10 py-2 font-medium outline-none transition-all hover:bg-red-400 lg:flex"
+          className="hidden items-center rounded-[10px] bg-primary px-10 py-2 font-medium outline-none transition-all hover:bg-red-400 sm:flex"
           onClick={btnFilmClickHandler}
         >
           Watch
