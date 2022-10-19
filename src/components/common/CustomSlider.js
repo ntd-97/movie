@@ -4,7 +4,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import PropTypes from "prop-types";
 
-import { Pagination, Navigation, Autoplay } from "swiper";
+import { Pagination, Navigation, Autoplay, Lazy } from "swiper";
 import { Swiper } from "swiper/react";
 
 import "swiper/css";
@@ -21,7 +21,7 @@ const CustomSlider = ({
   return (
     <>
       <Swiper
-        modules={[Autoplay, Pagination, Navigation]}
+        modules={[Autoplay, Pagination, Navigation, Lazy]}
         className={`mySwiper${specifyClass}`}
         spaceBetween={12}
         //add swiper custom navigation
