@@ -8,17 +8,17 @@ import { FaHeart } from "react-icons/fa";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import FilmList from "../FilmList";
+import FilmList from "../common/FilmList";
 import FDActorList from "./FDActorList";
 import FDTrailerList from "./FDTrailerList";
-import Loader from "../Loader";
+import Loader from "../common/Loader";
 
 import coverImgNotFound from "../../assets/images/cover_not_found.jpg";
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
 import { AccountStateContext } from "../../App";
 
-const FilmDetails = () => {
+const FilmDetailsPage = () => {
   const [loading, setLoading] = useState(true);
 
   const [loadingBtnWatchList, setLoadingBtnWatchList] = useState(false);
@@ -445,4 +445,4 @@ const FilmDetails = () => {
   );
 };
 
-export default FilmDetails;
+export default FilmDetailsPage;

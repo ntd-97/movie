@@ -5,13 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-import posterImgNotFound from "../assets/images/poster_not_found.jpg";
+import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
 const FilmItem = ({ type, filmID, info }) => {
   const navigate = useNavigate();
 
   const clickFilmItemHandler = (event) => {
-    event.stopPropagation();
     navigate(`/${type}/${filmID?.toString()}`);
   };
 

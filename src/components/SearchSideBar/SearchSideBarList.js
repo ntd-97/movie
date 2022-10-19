@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import SearchSideBarItem from "./SearchSideBarItem";
-import Loader from "../Loader";
+import Loader from "../common/Loader";
 
 import PropTypes from "prop-types";
 

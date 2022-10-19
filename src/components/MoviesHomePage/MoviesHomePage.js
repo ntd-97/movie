@@ -1,69 +1,28 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 
-import CustomSlider from "../CustomSlider";
-import BannerItem from "../BannerItem";
-import FilmList from "../FilmList";
-import Loader from "../Loader";
+import CustomSlider from "../common/CustomSlider";
+import BannerItem from "../common/BannerItem";
+import FilmList from "../common/FilmList";
+import Loader from "../common/Loader";
 
 import { BsArrowRight } from "react-icons/bs";
 
 import { SwiperSlide } from "swiper/react";
 
-import axios from "axios";
-
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getMovies } from "../../redux/slices/MoviesHomePage/moviesHomePageSlice";
 
 const MoviesHomePage = () => {
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
-  const [movies, setMovies] = useState({
-    nowPlaying: [],
-    popular: [],
-    topRated: [],
-  });
+  const movies = useSelector((state) => state.moviesHomePage);
 
   const navigate = useNavigate();
 
-  const timeOutId = useRef();
-
-  const getMovies = useRef(async () => {
-    try {
-      // now playing movies data
-      const resNowPlaying = await axios.get(
-        `${process.env.REACT_APP_API_PATH_MOVIES}now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
-      );
-      // poppular movies data
-      const resPopular = await axios.get(
-        `${process.env.REACT_APP_API_PATH_MOVIES}popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
-      );
-      // top rated movies data
-      const resTopRated = await axios.get(
-        `${process.env.REACT_APP_API_PATH_MOVIES}top_rated?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
-      );
-
-      setMovies({
-        nowPlaying: resNowPlaying.data,
-        popular: resPopular.data,
-        topRated: resTopRated.data,
-      });
-
-      // set timeout to prevent jerking
-      timeOutId.current = setTimeout(() => {
-        setLoading(false);
-      }, 400);
-    } catch (error) {
-      console.log(error);
-      navigate("/error");
-    }
-  });
-
   useEffect(() => {
-    getMovies.current();
-
-    return () => {
-      clearTimeout(timeOutId.current);
-    };
-  }, []);
+    dispatch(getMovies());
+  }, [dispatch]);
 
   return (
     <>
@@ -73,10 +32,10 @@ const MoviesHomePage = () => {
         classHeight="h-[50px]"
         classBorder="border-[4px]"
         classMargin="mt-[100px] lg:mt-10"
-        loading={loading}
+        loading={movies.loading}
       />
 
-      {!loading && (
+      {!movies.loading && (
         <div className="MoviesHomePage mt-[90px] px-3 pb-[90px] md:mt-[100px] md:mb-[100px] md:px-5 lg:my-0 lg:p-10">
           {/* Banner */}
           <div className="relative mb-6 overflow-hidden rounded-[20px]">
@@ -85,7 +44,7 @@ const MoviesHomePage = () => {
               paginationClass="banner"
               autoPlay={true}
             >
-              {movies?.nowPlaying?.results?.map((film) => (
+              {movies?.nowPlaying?.map((film) => (
                 <SwiperSlide key={film.id}>
                   <BannerItem type="movies" filmID={film.id} info={film} />
                 </SwiperSlide>
@@ -98,7 +57,7 @@ const MoviesHomePage = () => {
             title="Popular movies"
             specifyClass="moviesPopList"
             type="movies"
-            films={movies.popular.results}
+            films={movies.popular}
           />
 
           {/* Top rated movies */}
@@ -106,7 +65,7 @@ const MoviesHomePage = () => {
             title="Top rated movies"
             specifyClass="moviesTopList"
             type="movies"
-            films={movies.topRated.results}
+            films={movies.topRated}
           />
 
           <button

@@ -1,69 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
-
-import axios from "axios";
+import React, { useEffect } from "react";
 
 import { BsArrowRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 import { SwiperSlide } from "swiper/react";
 
-import BannerItem from "../BannerItem";
-import CustomSlider from "../CustomSlider";
-import FilmList from "../FilmList";
-import Loader from "../Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { getTvSeries } from "../../redux/slices/TVSeriesHomePage/tvSeriesHomePageSlice";
+
+import BannerItem from "../common/BannerItem";
+import CustomSlider from "../common/CustomSlider";
+import FilmList from "../common/FilmList";
+import Loader from "../common/Loader";
 
 const TVSeriesHomePage = () => {
-  const [loading, setLoading] = useState(true);
-
-  const [tvSeries, setTvSeries] = useState({
-    nowPlaying: [],
-    popular: [],
-    topRated: [],
-  });
-
   const navigate = useNavigate();
 
-  const timeOutId = useRef();
-
-  const getTvSeries = useRef(async () => {
-    try {
-      // tv series now playing data
-      const resNowPlaying = await axios.get(
-        `${process.env.REACT_APP_API_PATH_TVSERIES}on_the_air?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
-      );
-      // tv series popular data
-      const resPopular = await axios.get(
-        `${process.env.REACT_APP_API_PATH_TVSERIES}popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
-      );
-      // tv series top rated data
-      const resTopRated = await axios.get(
-        `${process.env.REACT_APP_API_PATH_TVSERIES}top_rated?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
-      );
-
-      setTvSeries({
-        nowPlaying: resNowPlaying.data,
-        popular: resPopular.data,
-        topRated: resTopRated.data,
-      });
-
-      // set timeout to prevent jerking
-      timeOutId.current = setTimeout(() => {
-        setLoading(false);
-      }, 400);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      navigate("/error");
-    }
-  });
+  const tvSeries = useSelector((state) => state.tvSeriesHomePage);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getTvSeries.current();
-
-    return () => {
-      clearTimeout(timeOutId.current);
-    };
-  }, []);
+    dispatch(getTvSeries());
+  }, [dispatch]);
 
   return (
     <>
@@ -73,10 +31,10 @@ const TVSeriesHomePage = () => {
         classHeight="h-[50px]"
         classBorder="border-[4px]"
         classMargin="mt-[100px] lg:mt-10"
-        loading={loading}
+        loading={tvSeries.loading}
       />
 
-      {!loading && (
+      {!tvSeries.loading && (
         <div className=" TVSeriesHomePage mt-[90px] px-3 pb-[90px] md:mt-[100px] md:mb-[100px] md:px-5 lg:my-0 lg:p-10">
           {/* banner */}
           <div className="relative  mb-6 overflow-hidden rounded-[20px]">
@@ -85,7 +43,7 @@ const TVSeriesHomePage = () => {
               paginationClass="banner"
               autoPlay={true}
             >
-              {tvSeries?.nowPlaying?.results?.map((film) => {
+              {tvSeries?.onAir?.map((film) => {
                 return (
                   <SwiperSlide key={film.id}>
                     <BannerItem type="tvseries" filmID={film.id} info={film} />
@@ -99,7 +57,7 @@ const TVSeriesHomePage = () => {
           <FilmList
             type="tvseries"
             title="Popular TV series"
-            films={tvSeries.popular.results}
+            films={tvSeries?.popular}
             specifyClass="TVSeriesPopList"
           />
 
@@ -107,7 +65,7 @@ const TVSeriesHomePage = () => {
           <FilmList
             type="tvseries"
             title="Top rated TV series"
-            films={tvSeries.topRated.results}
+            films={tvSeries?.topRated}
             specifyClass="TVSeriesTopList"
           />
 

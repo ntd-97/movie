@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 
-import FilmItem from "../FilmItem";
-import CelebItem from "../Celebs/CelebItem";
-import Loader from "../Loader";
+import FilmItem from "../common/FilmItem";
+import CelebItem from "../CelebsPage/CelebItem";
+import Loader from "../common/Loader";
 
 import ReactPaginate from "react-paginate";
 

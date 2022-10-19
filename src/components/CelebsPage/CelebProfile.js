@@ -6,8 +6,8 @@ import { useRef, useState, useEffect } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import FilmList from "../FilmList";
-import Loader from "../Loader";
+import FilmList from "../common/FilmList";
+import Loader from "../common/Loader";
 
 const CelebProfile = () => {
   const { celebId } = useParams();

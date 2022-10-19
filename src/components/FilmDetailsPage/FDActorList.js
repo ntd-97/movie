@@ -2,7 +2,7 @@ import React from "react";
 
 import { SwiperSlide } from "swiper/react";
 
-import CustomSlider from "../CustomSlider";
+import CustomSlider from "../common/CustomSlider";
 import FDActorItem from "./FDActorItem";
 
 import PropTypes from "prop-types";

@@ -10,7 +10,7 @@ import axios from "axios";
 
 import { AccountStateContext } from "../../App";
 
-import Loader from "../Loader";
+import Loader from "../common/Loader";
 
 const SearchSideBarListTVF = ({
   title,

@@ -1,7 +1,7 @@
 import Main from "./components/Main";
 import MenuSideBar from "./components/MenuSideBar/MenuSideBar";
 import SearchSideBar from "./components/SearchSideBar/SearchSideBar";
-import FDTrailerModal from "./components/FilmDetails/FDTrailerModal";
+import FDTrailerModal from "./components/FilmDetailsPage/FDTrailerModal";
 
 import { createContext, useEffect, useState } from "react";
 

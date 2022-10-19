@@ -2,7 +2,7 @@ import React from "react";
 
 import PropTypes from "prop-types";
 
-import Portal from "../Portal";
+import Portal from "../common/Portal";
 import { useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
 

@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 
-import FilmItem from "../FilmItem";
+import FilmItem from "../common/FilmItem";
 import FilterBar from "./FilterBar";
-import Loader from "../Loader";
+import Loader from "../common/Loader";
+
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 import ReactPaginate from "react-paginate";
 
@@ -19,51 +21,38 @@ const FilmsListPage = () => {
   let { pathname, search } = useLocation();
   let { page } = useParams();
 
-  const timeOutId = useRef();
-
-  const getFilmsList = useRef(async (page, search, pathname) => {
-    try {
-      setLoading(true);
-
-      let path = "";
-
-      // set path base on list's type
-      if (pathname.includes("movies")) {
-        path = `${process.env.REACT_APP_API_PATH_DISCOVER_MOVIE}${
-          process.env.REACT_APP_API_KEY
-        }&language=en-US&certification_country=US&page=${page}${search.replace(
-          "?",
-          "&"
-        )}`;
-      } else if (pathname.includes("tvseries")) {
-        path = `${process.env.REACT_APP_API_PATH_DISCOVER_TV}${
-          process.env.REACT_APP_API_KEY
-        }&language=en-US&page=${page}${search.replace("?", "&")}`;
-      }
-
-      const res = await axios.get(path);
-
-      setFilmsList(res.data);
-
-      // set timeout to prevent jerking
-      timeOutId.current = setTimeout(() => {
-        setLoading(false);
-      }, [200]);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      navigate("/error");
-    }
-  });
+  const movieListApiPaths = useBuildApiPath("MovieListPage", page, search);
+  const tvListApiPaths = useBuildApiPath("TVListPage", page, search);
 
   // get data when page, search are changed
   useEffect(() => {
-    getFilmsList.current(page, search, pathname);
+    const getFilmsList = async () => {
+      try {
+        setLoading(true);
 
-    return () => {
-      clearTimeout(timeOutId.current);
+        let path = "";
+
+        // set path base on list's type
+        if (pathname.includes("movies")) {
+          path = movieListApiPaths;
+        } else if (pathname.includes("tvseries")) {
+          path = tvListApiPaths;
+        }
+
+        const res = await axios.get(path);
+
+        setFilmsList(res.data);
+
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+        navigate("/error");
+      }
     };
-  }, [page, search, pathname]);
+
+    getFilmsList();
+  }, [pathname, movieListApiPaths, tvListApiPaths, navigate]);
 
   return (
     <>

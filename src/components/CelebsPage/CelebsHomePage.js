@@ -7,7 +7,7 @@ import ReactPaginate from "react-paginate";
 import { useNavigate, useParams } from "react-router-dom";
 
 import CelebItem from "./CelebItem";
-import Loader from "../Loader";
+import Loader from "../common/Loader";
 
 const CelebsHomePage = () => {
   const [celebsList, setCelebsList] = useState();
@@ -17,8 +17,6 @@ const CelebsHomePage = () => {
   let { page } = useParams();
 
   const navigate = useNavigate();
-
-  const timeOutId = useRef();
 
   const getCelebsList = useRef(async (page) => {
     try {
@@ -30,9 +28,9 @@ const CelebsHomePage = () => {
       setCelebsList(res.data);
 
       // set timeout to prevent jerking
-      timeOutId.current = setTimeout(() => {
-        setLoading(false);
-      }, [400]);
+      // timeOutId.current = setTimeout(() => {
+      setLoading(false);
+      // }, [400]);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -43,9 +41,9 @@ const CelebsHomePage = () => {
   useEffect(() => {
     getCelebsList.current(page);
 
-    return () => {
-      clearTimeout(timeOutId.current);
-    };
+    // return () => {
+    //   clearTimeout(timeOutId.current);
+    // };
   }, [page]);
 
   return (

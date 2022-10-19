@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import bgImage from "../../assets/images/login_bg.jpg";
-import Loader from "../Loader";
+import Loader from "../common/Loader";
 
 const SignUpPage = () => {
   const [loading, setLoading] = useState(true);

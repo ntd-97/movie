@@ -13,7 +13,7 @@ import axios from "axios";
 import { LoginContext } from "../../App";
 
 import { useNavigate } from "react-router-dom";
-import Loader from "../Loader";
+import Loader from "../common/Loader";
 
 // Yup validation schema
 const validationSchema = yup.object({

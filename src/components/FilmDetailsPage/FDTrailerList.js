@@ -1,6 +1,6 @@
 import { SwiperSlide } from "swiper/react";
 
-import CustomSlider from "../CustomSlider";
+import CustomSlider from "../common/CustomSlider";
 import FDTrailerItem from "./FDTrailerItem";
 
 import PropTypes from "prop-types";

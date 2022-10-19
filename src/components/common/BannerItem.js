@@ -5,7 +5,7 @@ import { AiFillStar } from "react-icons/ai";
 
 import { useNavigate } from "react-router-dom";
 
-import coverImgNotFound from "../assets/images/cover_not_found.jpg";
+import coverImgNotFound from "../../assets/images/cover_not_found.jpg";
 
 import PropTypes from "prop-types";
 
