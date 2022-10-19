@@ -84,7 +84,7 @@ const MenuSideBar = () => {
       ref={menu}
       className={`${
         showMenu ? "h-[456px]" : "h-[74px]"
-      } fixed top-0 right-0 left-0 z-[100] flex w-full select-none flex-col overflow-hidden bg-[#181818] p-5 text-[#ececec] transition-all delay-[40ms] duration-300 ease-linear lg:relative lg:z-auto lg:h-screen lg:w-[24%] lg:justify-between lg:border-r-2 lg:border-[#353535] lg:px-2 xl:w-[17%] 2xl:w-[13%] 2xl:px-0`}
+      } fixed top-0 right-0 left-0 z-[100] flex w-full select-none flex-col overflow-hidden bg-[#181818] p-5 text-[#ececec] transition-all delay-75 duration-300 ease-linear lg:relative lg:z-auto lg:h-screen lg:w-[24%] lg:justify-between lg:border-r-2 lg:border-[#353535] lg:px-2 xl:w-[17%] 2xl:w-[13%] 2xl:px-0`}
     >
       <HiOutlineMenuAlt1
         onClick={menuClickHanler}
