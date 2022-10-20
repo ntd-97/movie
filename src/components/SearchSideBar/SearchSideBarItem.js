@@ -39,7 +39,7 @@ const SearchSideBarItem = ({ film, type, showSearchOnMobile }) => {
         showSearchOnMobile(false);
         navigate(`/${type === "movie" ? "movies" : "tvseries"}/${film?.id}`);
       }}
-      className="SearchSideBarItem grid grid-cols-12 rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-105 hover:cursor-pointer lg:gap-y-2"
+      className="SearchSideBarItem grid grid-cols-12 rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-[102%] hover:cursor-pointer lg:gap-y-2 lg:hover:scale-105"
     >
       <img
         src={
