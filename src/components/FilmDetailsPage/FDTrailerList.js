@@ -30,6 +30,7 @@ const FDTrailerList = ({ specifyClass, trailers }) => {
       specifyClass={specifyClass}
       paginationClass="normalList"
       config={swiperResponsiveConfig}
+      lazyLoad={false}
     >
       {trailers
         ?.filter((trailer) => trailer.site === "YouTube")

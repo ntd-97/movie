@@ -8,10 +8,9 @@ const FDActorItem = ({ actor }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col justify-center items-center gap-y-1 text-center">
+    <div className="flex flex-col items-center justify-center gap-y-1 text-center">
       <img
-        className="w-[200px] object-cover rounded-[20px] hover:cursor-pointer transition-all border-2 border-[#252229] hover:border-2 hover:border-white"
-        loading="lazy"
+        className="w-[200px] rounded-[20px] border-2 border-[#252229] object-cover transition-all hover:cursor-pointer hover:border-2 hover:border-white"
         src={`${process.env.REACT_APP_API_PATH_IMG_W500}${actor?.profile_path}`}
         alt="actor img"
         onClick={() => {
@@ -21,7 +20,7 @@ const FDActorItem = ({ actor }) => {
 
       <Link
         to={`/celebs/profile/${actor.id}`}
-        className="font-medium text-[#ececec] transition-all hover:text-white mt-3"
+        className="mt-3 font-medium text-[#ececec] transition-all hover:text-white"
       >
         {actor?.original_name}
       </Link>

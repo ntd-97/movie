@@ -17,6 +17,7 @@ const CustomSlider = ({
   paginationClass,
   config,
   autoPlay = false,
+  lazyLoad = true,
 }) => {
   return (
     <>
@@ -44,10 +45,12 @@ const CustomSlider = ({
         }
         centerInsufficientSlides={true}
         breakpoints={config ? config : ""}
-        lazy={{
-          loadPrevNext: true,
-          loadPrevNextAmount: 2,
-        }}
+        lazy={
+          lazyLoad && {
+            loadPrevNext: true,
+            loadPrevNextAmount: 2,
+          }
+        }
       >
         {children}
       </Swiper>
