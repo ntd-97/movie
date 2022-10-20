@@ -2,12 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 
-import ReactPaginate from "react-paginate";
-
 import { useNavigate, useParams } from "react-router-dom";
 
 import CelebItem from "./CelebItem";
 import Loader from "../common/Loader";
+import CustomPagination from "../common/CustomPagination";
 
 const CelebsHomePage = () => {
   const [celebsList, setCelebsList] = useState();
@@ -79,26 +78,13 @@ const CelebsHomePage = () => {
       </div>
 
       {/* pagination */}
-      <ReactPaginate
-        pageCount={
-          celebsList?.total_pages ? parseInt(celebsList?.total_pages) : 1
-        }
-        className="mt-10 flex items-center justify-center gap-x-2 text-[15px] text-[#ececec] lg:gap-x-3 lg:text-base"
-        pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
-        previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
-        nextClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
-        activeClassName="text-primary"
-        disabledClassName="opacity-40"
-        disabledLinkClassName="hover:cursor-default"
-        renderOnZeroPageCount={null}
-        initialPage={parseInt(page) - 1}
-        disableInitialCallback={true}
-        pageRangeDisplayed={2}
-        marginPagesDisplayed={window.innerWidth <= 1024 ? 1 : 3}
+      <CustomPagination
+        totalPage={celebsList?.total_pages ? celebsList?.total_pages : 1}
+        page={parseInt(page)}
         onPageChange={(e) => {
           navigate(`/celebs/page/${(e.selected + 1).toString()}`);
         }}
-      ></ReactPaginate>
+      />
     </div>
   );
 };

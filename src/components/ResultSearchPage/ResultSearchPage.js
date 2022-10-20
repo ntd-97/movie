@@ -6,9 +6,8 @@ import FilmItem from "../common/FilmItem";
 import CelebItem from "../CelebsPage/CelebItem";
 import Loader from "../common/Loader";
 
-import ReactPaginate from "react-paginate";
-
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import CustomPagination from "../common/CustomPagination";
 
 const ResultSearchPage = () => {
   const [loading, setLoading] = useState(false);
@@ -157,35 +156,17 @@ const ResultSearchPage = () => {
           )}
 
         {/* pagination */}
-        {resultSearch?.results?.filter((film) => film.poster_path).length >
-        0 ? (
-          <ReactPaginate
-            pageCount={
-              resultSearch?.total_pages >= 500 ? 500 : resultSearch?.total_pages
-            }
-            className="mt-10 flex items-center justify-center gap-x-3 text-[#ececec] "
-            pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
-            previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
-            nextClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
-            activeClassName="text-primary"
-            disabledClassName="opacity-40"
-            disabledLinkClassName="hover:cursor-default"
-            renderOnZeroPageCount={null}
-            forcePage={parseInt(page) - 1}
-            disableInitialCallback={true}
-            pageRangeDisplayed={2}
-            marginPagesDisplayed={window.innerHeight <= 1024 ? 1 : 3}
-            onPageChange={(e) => {
-              navigate(
-                `/${type.current.subType}/search/page/${(
-                  e.selected + 1
-                ).toString()}${search ? search : ""}`
-              );
-            }}
-          />
-        ) : (
-          ""
-        )}
+        <CustomPagination
+          totalPage={resultSearch?.total_pages ? resultSearch?.total_pages : 1}
+          page={parseInt(page)}
+          onPageChange={(e) => {
+            navigate(
+              `/${type.current.subType}/search/page/${(
+                e.selected + 1
+              ).toString()}${search ? search : ""}`
+            );
+          }}
+        />
       </div>
     </>
   );

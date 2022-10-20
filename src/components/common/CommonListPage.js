@@ -5,9 +5,8 @@ import axios from "axios";
 import FilmItem from "./FilmItem";
 import Loader from "./Loader";
 
-import ReactPaginate from "react-paginate";
-
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import CustomPagination from "./CustomPagination";
 
 const CommonListPage = () => {
   const [loading, setLoading] = useState(false);
@@ -153,32 +152,17 @@ const CommonListPage = () => {
         )}
 
         {/* pagination */}
-        {films?.results?.filter((film) => film.poster_path).length > 0 ? (
-          <ReactPaginate
-            pageCount={films?.total_pages >= 500 ? 500 : films?.total_pages}
-            className="mt-10 flex items-center justify-center gap-x-2 text-[15px] text-[#ececec] lg:gap-x-3 lg:text-base"
-            pageLinkClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
-            previousClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
-            nextClassName="bg-[#33292E] bg-opacity-80  transition-all hover:bg-opacity-100 py-1 px-2 rounded-[5px]"
-            activeClassName="text-primary"
-            disabledClassName="opacity-40"
-            disabledLinkClassName="hover:cursor-default"
-            renderOnZeroPageCount={null}
-            forcePage={parseInt(page) - 1}
-            disableInitialCallback={true}
-            pageRangeDisplayed={2}
-            marginPagesDisplayed={window.innerHeight <= 1024 ? 1 : 3}
-            onPageChange={(e) => {
-              navigate(
-                `${type.current.pathPagination}/page/${(
-                  e.selected + 1
-                ).toString()}`
-              );
-            }}
-          />
-        ) : (
-          ""
-        )}
+        <CustomPagination
+          totalPage={films?.total_pages ? films?.total_pages : 1}
+          page={parseInt(page)}
+          onPageChange={(e) => {
+            navigate(
+              `${type.current.pathPagination}/page/${(
+                e.selected + 1
+              ).toString()}`
+            );
+          }}
+        />
       </div>
     </>
   );

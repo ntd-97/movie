@@ -29,6 +29,8 @@ const SearchSideBarList = ({
       setLoading(true);
       const res = await axios.get(apiPath);
 
+      res.data.results = res.data.results.filter((film) => film.poster_path);
+
       if (res.data.results.length < 3) {
         setFilms(res.data.results);
       } else {
