@@ -7,12 +7,16 @@ import PropTypes from "prop-types";
 
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
+import { useState } from "react";
+
 const FilmItem = ({ type, filmID, info }) => {
   const navigate = useNavigate();
 
   const clickFilmItemHandler = (event) => {
     navigate(`/${type}/${filmID?.toString()}`);
   };
+
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
     <div
@@ -21,13 +25,18 @@ const FilmItem = ({ type, filmID, info }) => {
     >
       <img
         loading="lazy"
-        className="mb-3 h-[230px] w-full rounded-[10px] object-cover sm:h-[250px] md:h-[250px] lg:mb-4 xl:h-[250px]  2xl:h-[310px]"
+        className={`${
+          imgLoaded ? "" : "animate-pulse bg-[#252229]"
+        } mb-3 h-[230px] w-full rounded-[10px] object-cover sm:h-[250px] md:h-[250px] lg:mb-4 xl:h-[250px]  2xl:h-[310px]`}
         src={
           info?.poster_path
             ? `${process.env.REACT_APP_API_PATH_IMG_W500}${info?.poster_path}`
             : posterImgNotFound
         }
         alt="poster film"
+        onLoad={() => {
+          setImgLoaded(true);
+        }}
       />
 
       <h3 className="mb-2 truncate lg:mb-3 lg:text-base 2xl:text-lg">
