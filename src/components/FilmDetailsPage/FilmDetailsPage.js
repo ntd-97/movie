@@ -17,6 +17,7 @@ import coverImgNotFound from "../../assets/images/cover_not_found.jpg";
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
 import { AccountStateContext } from "../../App";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const FilmDetailsPage = () => {
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,16 @@ const FilmDetailsPage = () => {
   const sessionId = localStorage.getItem("session_id");
 
   const timeOutId = useRef();
+
+  const filmPosterPath = useBuildApiPath({
+    tag: "Img500",
+    imgPath: filmDetails?.poster_path,
+  });
+
+  const filmImgBannerPath = useBuildApiPath({
+    tag: "ImgOriginal",
+    imgPath: filmDetails?.backdrop_path,
+  });
 
   const watchlistClickHandler = async () => {
     try {
@@ -172,15 +183,10 @@ const FilmDetailsPage = () => {
           .map((person) => person.name)
           .join(", ");
 
-        const backdrop_path_full = res.data.backdrop_path
-          ? `${process.env.REACT_APP_API_PATH_IMG_ORIGINAL}${res.data?.backdrop_path}`
-          : coverImgNotFound;
-
         res.data = {
           ...res.data,
           vote_average,
           director,
-          backdrop_path_full,
         };
         return res.data;
       });
@@ -224,7 +230,11 @@ const FilmDetailsPage = () => {
           <div
             className="coverImgFilmDetails relative col-span-1 grid bg-cover px-4 py-8 md:px-5 lg:my-auto lg:grid-cols-12 lg:gap-10 lg:py-16 lg:px-10 2xl:py-10"
             style={{
-              backgroundImage: `url(${filmDetails?.backdrop_path_full})`,
+              backgroundImage: `url(${
+                filmDetails?.backdrop_path
+                  ? filmImgBannerPath
+                  : coverImgNotFound
+              })`,
             }}
           >
             <div className="z-50 lg:col-span-5 2xl:col-span-4">
@@ -232,9 +242,7 @@ const FilmDetailsPage = () => {
                 className="mx-auto w-[70%] object-cover text-primary sm:w-[50%] md:w-[40%] lg:mx-0 lg:w-full"
                 loading="lazy"
                 src={
-                  filmDetails?.poster_path
-                    ? `${process.env.REACT_APP_API_PATH_IMG_W500}${filmDetails?.poster_path}`
-                    : posterImgNotFound
+                  filmDetails?.poster_path ? filmPosterPath : posterImgNotFound
                 }
                 alt="poster img not found"
               />

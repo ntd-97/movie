@@ -9,11 +9,17 @@ import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const SearchSideBarItem = ({ film, type, showSearchOnMobile }) => {
   const [genres, setGenres] = useState([]);
 
   const navigate = useNavigate();
+
+  const filmPosterPath = useBuildApiPath({
+    tag: "Img500",
+    imgPath: film?.poster_path,
+  });
 
   useEffect(() => {
     const getGenres = async () => {
@@ -42,11 +48,7 @@ const SearchSideBarItem = ({ film, type, showSearchOnMobile }) => {
       className="SearchSideBarItem grid grid-cols-12 rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-[102%] hover:cursor-pointer lg:gap-y-2 lg:hover:scale-105"
     >
       <img
-        src={
-          film?.poster_path
-            ? `${process.env.REACT_APP_API_PATH_IMG_W500}${film?.poster_path}`
-            : posterImgNotFound
-        }
+        src={film?.poster_path ? filmPosterPath : posterImgNotFound}
         alt="poster film"
         className="col-span-3 my-auto w-full rounded-[10px] object-cover sm:col-span-2 lg:col-span-12 lg:h-[145px] lg:object-top xl:col-span-4 2xl:col-span-3 2xl:h-[135px]"
       />

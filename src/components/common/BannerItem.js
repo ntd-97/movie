@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import coverImgNotFound from "../../assets/images/cover_not_found.jpg";
 
 import PropTypes from "prop-types";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const BannerItem = ({ type, filmID, info }) => {
   const navigate = useNavigate();
@@ -17,17 +18,18 @@ const BannerItem = ({ type, filmID, info }) => {
     navigate(`/${type}/${filmID}`);
   };
 
+  const imgBannerPath = useBuildApiPath({
+    tag: "ImgOriginal",
+    imgPath: info.backdrop_path,
+  });
+
   return (
     <div
       onClick={clickFilmBannerHandler}
       className="BannerItem relative select-none hover:cursor-pointer"
     >
       <img
-        src={
-          info.backdrop_path
-            ? `${process.env.REACT_APP_API_PATH_IMG_ORIGINAL}${info.backdrop_path}`
-            : coverImgNotFound
-        }
+        src={info.backdrop_path ? imgBannerPath : coverImgNotFound}
         alt="banner img not found"
         className="max-h-[230px] w-full rounded-[20px] object-cover text-primary sm:max-h-[260px] md:max-h-[310px] lg:max-h-[465px]  2xl:max-h-[570px]"
       />

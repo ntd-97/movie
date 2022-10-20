@@ -3,11 +3,17 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { useState } from "react";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const CelebItem = ({ celebId, name, profilePath }) => {
   const navigate = useNavigate();
 
   const [imgCelebLoaded, setImgCelebLoaded] = useState(false);
+
+  const celebProfilePath = useBuildApiPath({
+    tag: "Img500",
+    imgPath: profilePath,
+  });
 
   return (
     <div
@@ -21,7 +27,7 @@ const CelebItem = ({ celebId, name, profilePath }) => {
           imgCelebLoaded ? "" : "animate-pulse bg-[#252229]"
         } h-[230px] w-full rounded-[10px] object-cover transition-all lg:h-[200px] 2xl:h-[300px]`}
         loading="lazy"
-        src={`${process.env.REACT_APP_API_PATH_IMG_W500}${profilePath}`}
+        src={celebProfilePath}
         alt="actor img"
         onLoad={() => {
           setImgCelebLoaded(true);

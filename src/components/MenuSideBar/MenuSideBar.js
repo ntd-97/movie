@@ -20,6 +20,7 @@ import axios from "axios";
 import avatarDefault from "../../assets/images/avatar_default.png";
 
 import Loader from "../common/Loader";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const MenuSideBar = () => {
   const { loginInfo, setLoginInfo } = useContext(LoginContext);
@@ -29,6 +30,11 @@ const MenuSideBar = () => {
   const [loading, setLoading] = useState(false);
 
   const [showMenu, setShowMenu] = useState(false);
+
+  const avatarPath = useBuildApiPath({
+    tag: "Img500",
+    imgPath: loginInfo?.avatar,
+  });
 
   const menuClickHanler = () => {
     setShowMenu(!showMenu);
@@ -194,11 +200,7 @@ const MenuSideBar = () => {
           <div className="mt-4 flex flex-col items-center justify-start border-t-2 border-t-primary pt-[20px] lg:justify-center lg:border-0 lg:pt-0 2xl:p-2">
             <img
               className="mr-[6px] inline-block h-[35px] w-[35px] rounded-full border-2 border-primary  object-cover lg:mb-[6px] lg:mr-0"
-              src={
-                loginInfo.avatar
-                  ? `${process.env.REACT_APP_API_PATH_IMG_W500}${loginInfo.avatar}`
-                  : avatarDefault
-              }
+              src={loginInfo.avatar ? avatarPath : avatarDefault}
               alt="avatar img"
             />
 

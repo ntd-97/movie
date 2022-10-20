@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
 import { useState } from "react";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const FilmItem = ({ type, filmID, info }) => {
   const navigate = useNavigate();
@@ -17,6 +18,11 @@ const FilmItem = ({ type, filmID, info }) => {
   };
 
   const [imgLoaded, setImgLoaded] = useState(false);
+
+  const filmPosterPath = useBuildApiPath({
+    tag: "Img500",
+    imgPath: info?.poster_path,
+  });
 
   return (
     <div
@@ -28,11 +34,7 @@ const FilmItem = ({ type, filmID, info }) => {
         className={`${
           imgLoaded ? "" : "animate-pulse bg-[#252229]"
         } mb-3 h-[230px] w-full rounded-[10px] object-cover sm:h-[250px] md:h-[250px] lg:mb-4 xl:h-[250px]  2xl:h-[310px]`}
-        src={
-          info?.poster_path
-            ? `${process.env.REACT_APP_API_PATH_IMG_W500}${info?.poster_path}`
-            : posterImgNotFound
-        }
+        src={info?.poster_path ? filmPosterPath : posterImgNotFound}
         alt="poster film"
         onLoad={() => {
           setImgLoaded(true);

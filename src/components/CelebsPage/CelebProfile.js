@@ -5,6 +5,7 @@ import React from "react";
 import { useRef, useState, useEffect } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 import FilmList from "../common/FilmList";
 import Loader from "../common/Loader";
@@ -19,6 +20,11 @@ const CelebProfile = () => {
   const timeOutId = useRef();
 
   const navigate = useNavigate();
+
+  const celebProfilePath = useBuildApiPath({
+    tag: "Img500",
+    imgPath: celebInfo?.profile_path,
+  });
 
   const getCelebInfo = useRef(async () => {
     try {
@@ -102,7 +108,7 @@ const CelebProfile = () => {
           <img
             className="mx-auto w-[70%] sm:w-[50%] md:w-[40%] lg:w-[40%] xl:w-full"
             loading="lazy"
-            src={`${process.env.REACT_APP_API_PATH_IMG_W500}${celebInfo?.profile_path}`}
+            src={celebProfilePath}
             alt="profile img"
           />
         </div>

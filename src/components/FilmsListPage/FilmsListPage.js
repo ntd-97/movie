@@ -20,8 +20,12 @@ const FilmsListPage = () => {
   let { pathname, search } = useLocation();
   let { page } = useParams();
 
-  const movieListApiPaths = useBuildApiPath("MovieListPage", page, search);
-  const tvListApiPaths = useBuildApiPath("TVListPage", page, search);
+  const movieListApiPaths = useBuildApiPath({
+    tag: "MovieListPage",
+    page,
+    search,
+  });
+  const tvListApiPaths = useBuildApiPath({ tag: "TVListPage", page, search });
 
   // get data when page, search are changed
   useEffect(() => {
