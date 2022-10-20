@@ -1,4 +1,4 @@
-import { call, put } from "redux-saga/effects";
+import { call, delay, put } from "redux-saga/effects";
 
 import {
   setMovies,
@@ -27,6 +27,7 @@ function* handleGetMovies() {
     // set movies in store
     yield put(setMovies({ ...data }));
     // hide loading
+    yield delay(200);
     yield put(setLoading(false));
   } catch (error) {
     console.log(error);

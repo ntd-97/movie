@@ -1,4 +1,4 @@
-import { call, put } from "redux-saga/effects";
+import { call, delay, put } from "redux-saga/effects";
 
 import {
   setTvSeries,
@@ -27,6 +27,7 @@ function* handleGetTvSeries() {
     // set tvseries in store
     yield put(setTvSeries({ ...data }));
     // hide loading
+    yield delay(200);
     yield put(setLoading(false));
   } catch (error) {
     console.log(error);
