@@ -61,7 +61,7 @@ const LoginPage = () => {
         showPassword: false,
       });
       // hide error message
-      setShowErrorMsg(false);
+      dispatch(setShowErrorMsg(false));
       // uncheck check box
       setChecked(false);
       // navigate to home page
@@ -72,7 +72,7 @@ const LoginPage = () => {
     if (loginInfo.error) {
       navigate("/error");
     }
-  }, [navigate, reset, loginInfo.session_id, loginInfo.error]);
+  }, [navigate, reset, loginInfo.session_id, loginInfo.error, dispatch]);
 
   return (
     <div className="LoginPage bg_overlay relative flex h-screen w-full items-center justify-center">
