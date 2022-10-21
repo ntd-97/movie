@@ -50,7 +50,7 @@ const MenuSideBar = () => {
       setLoading(true);
       const res_delete_session = await axios.delete(
         `${process.env.REACT_APP_API_PATH_SESSION_DELETE}${process.env.REACT_APP_API_KEY}`,
-        { data: { session_id: localStorage.getItem("session_id") } }
+        { data: { session_id: loginInfo.session_id } }
       );
 
       if (res_delete_session.data.success) {

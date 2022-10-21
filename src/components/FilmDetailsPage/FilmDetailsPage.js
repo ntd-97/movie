@@ -18,6 +18,7 @@ import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
 import { AccountStateContext } from "../../App";
 import useBuildApiPath from "../../hooks/useBuildApiPath";
+import { useSelector } from "react-redux";
 
 const FilmDetailsPage = () => {
   const [loading, setLoading] = useState(true);
@@ -36,8 +37,7 @@ const FilmDetailsPage = () => {
   let { pathname } = useLocation();
   let { filmId } = useParams();
 
-  const userId = localStorage.getItem("user_id");
-  const sessionId = localStorage.getItem("session_id");
+  const loginInfo = useSelector((state) => state.loginInfo);
 
   const timeOutId = useRef();
 
@@ -56,7 +56,7 @@ const FilmDetailsPage = () => {
       setLoadingBtnWatchList(true);
       const mediaType = pathname.includes("tvseries") ? "tv" : "movie";
       await axios.post(
-        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${userId}/watchlist?api_key=${process.env.REACT_APP_API_KEY}&session_id=${sessionId}`,
+        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist?api_key=${process.env.REACT_APP_API_KEY}&session_id=${loginInfo.session_id}`,
         {
           media_type: mediaType,
           media_id: filmId,
@@ -85,7 +85,7 @@ const FilmDetailsPage = () => {
       setLoadingBtnFavorite(true);
       const mediaType = pathname.includes("tvseries") ? "tv" : "movie";
       await axios.post(
-        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${userId}/favorite?api_key=${process.env.REACT_APP_API_KEY}&session_id=${sessionId}`,
+        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite?api_key=${process.env.REACT_APP_API_KEY}&session_id=${loginInfo.session_id}`,
         {
           media_type: mediaType,
           media_id: filmId,
@@ -119,14 +119,14 @@ const FilmDetailsPage = () => {
       // build API path
       const res = await axios.get(
         `${path}${filmId}?api_key=${process.env.REACT_APP_API_KEY}${
-          sessionId ? `&session_id=${sessionId}` : ""
+          loginInfo.session_id ? `&session_id=${loginInfo.session_id}` : ""
         }&append_to_response=videos,credits,${
           type.current === "movies" ? "release_dates" : "content_ratings"
-        },${sessionId ? "account_states" : ""},similar`
+        },${loginInfo.session_id ? "account_states" : ""},similar`
       );
 
       // Add or remove film in favorite and watchlist
-      if (userId) {
+      if (loginInfo.user_id) {
         setAccountState({
           watchlist: res.data.account_states.watchlist,
           favorite: res.data.account_states.favorite,
@@ -331,7 +331,7 @@ const FilmDetailsPage = () => {
 
               <div className="mt-10 flex justify-between gap-x-4 ">
                 <div className="flex gap-x-2">
-                  {userId && (
+                  {loginInfo.user_id && (
                     <button
                       onClick={watchlistClickHandler}
                       className="group flex h-10 w-10 items-center justify-center rounded-xl  bg-[#292326] bg-opacity-90 px-2 py-2 transition-all hover:bg-gray-500"
@@ -354,7 +354,7 @@ const FilmDetailsPage = () => {
                     </button>
                   )}
 
-                  {userId && (
+                  {loginInfo.user_id && (
                     <button
                       className={`${
                         accountState?.favorite
