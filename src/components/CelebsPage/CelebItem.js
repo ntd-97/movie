@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-import { useState } from "react";
+// import { useState } from "react";
 import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const CelebItem = ({ celebId, name, profilePath }) => {
   const navigate = useNavigate();
 
-  const [imgCelebLoaded, setImgCelebLoaded] = useState(false);
+  // const [imgCelebLoaded, setImgCelebLoaded] = useState(false);
 
   const celebImgPath = useBuildApiPath({
     tag: "Img500",
@@ -23,15 +23,16 @@ const CelebItem = ({ celebId, name, profilePath }) => {
       }}
     >
       <img
-        className={`${
-          imgCelebLoaded ? "" : "animate-pulse bg-[#252229]"
-        } h-[230px] w-full rounded-[10px] object-cover transition-all lg:h-[200px] 2xl:h-[300px]`}
-        loading="lazy"
+        // ${
+        //           imgCelebLoaded ? "" : "animate-pulse bg-[#252229]"
+        //         }
+        className={` h-[230px] w-full rounded-[10px] object-cover transition-all lg:h-[200px] 2xl:h-[300px]`}
+        // loading="lazy"
         src={celebImgPath}
         alt="actor img"
-        onLoad={() => {
-          setImgCelebLoaded(true);
-        }}
+        // onLoad={() => {
+        //   setImgCelebLoaded(true);
+        // }}
       />
       <p className="mt-2 inline-block w-full truncate font-medium text-[#ececec] transition-all hover:text-white">
         {name}
