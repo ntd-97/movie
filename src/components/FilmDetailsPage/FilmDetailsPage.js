@@ -240,7 +240,6 @@ const FilmDetailsPage = () => {
             <div className="z-50 lg:col-span-5 2xl:col-span-4">
               <img
                 className="mx-auto w-[70%] object-cover text-primary sm:w-[50%] md:w-[40%] lg:mx-0 lg:w-full"
-                loading="lazy"
                 src={
                   filmDetails?.poster_path ? filmPosterPath : posterImgNotFound
                 }

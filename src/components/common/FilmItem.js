@@ -30,7 +30,6 @@ const FilmItem = ({ type, filmID, info }) => {
       className="FilmItem relative select-none rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95 hover:cursor-pointer"
     >
       <img
-        loading="lazy"
         className={`${
           imgLoaded ? "" : "animate-pulse bg-[#252229]"
         } mb-3 h-[230px] w-full rounded-[10px] object-cover sm:h-[250px] md:h-[250px] lg:mb-4 xl:h-[250px]  2xl:h-[310px]`}

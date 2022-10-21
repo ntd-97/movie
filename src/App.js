@@ -73,7 +73,6 @@ function App() {
           onLoad={() => {
             setloadTrailer(false);
           }}
-          loading="lazy"
           src={`https://www.youtube.com/embed/${trailerKey}`}
           title="YouTube video player"
           frameBorder="0"

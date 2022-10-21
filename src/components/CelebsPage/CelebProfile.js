@@ -110,7 +110,6 @@ const CelebProfile = () => {
         <div className="col-span-12 xl:col-span-4">
           <img
             className="mx-auto w-[70%] sm:w-[50%] md:w-[40%] lg:w-[40%] xl:w-full"
-            loading="lazy"
             src={celebImgPath}
             alt="profile img"
           />
