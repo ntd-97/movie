@@ -1,6 +1,6 @@
 import { takeLatest } from "redux-saga/effects";
 
-import { getMovies } from "../../slices/MoviesHomePage/moviesHomePageSlice";
+import { getMovies } from "../../slices/moviesHomePageSlice";
 
 import handleGetMovies from "./moviesHomePageHandler";
 

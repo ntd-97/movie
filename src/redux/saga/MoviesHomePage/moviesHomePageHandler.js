@@ -3,7 +3,8 @@ import { call, delay, put } from "redux-saga/effects";
 import {
   setMovies,
   setLoading,
-} from "../../slices/MoviesHomePage/moviesHomePageSlice";
+  setError,
+} from "../../slices/moviesHomePageSlice";
 
 import requestGetMovies from "./moviesHomePageRequest";
 
@@ -29,8 +30,10 @@ function* handleGetMovies() {
     // hide loading
     yield delay(200);
     yield put(setLoading(false));
+    yield put(setError(false));
   } catch (error) {
     console.log(error);
+    yield put(setError(true));
   }
 }
 

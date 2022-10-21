@@ -11,7 +11,7 @@ import { SwiperSlide } from "swiper/react";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getMovies } from "../../redux/slices/MoviesHomePage/moviesHomePageSlice";
+import { getMovies } from "../../redux/slices/moviesHomePageSlice";
 
 const MoviesHomePage = () => {
   const dispatch = useDispatch();
@@ -21,8 +21,13 @@ const MoviesHomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // get movies
     dispatch(getMovies());
-  }, [dispatch]);
+    // nav to error page
+    if (movies.error) {
+      navigate("/error");
+    }
+  }, [dispatch, navigate, movies.error]);
 
   return (
     <>

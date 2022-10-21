@@ -5,6 +5,7 @@ const initialState = {
   popular: [],
   topRated: [],
   loading: false,
+  error: false,
 };
 
 const moviesHomePageSlice = createSlice({
@@ -19,8 +20,10 @@ const moviesHomePageSlice = createSlice({
       topRated: action.payload.topRated,
     }),
     setLoading: (state, action) => ({ ...state, loading: action.payload }),
+    setError: (state, action) => ({ ...state, error: action.payload }),
   },
 });
 
-export const { getMovies, setMovies, setLoading } = moviesHomePageSlice.actions;
+export const { getMovies, setMovies, setLoading, setError } =
+  moviesHomePageSlice.actions;
 export default moviesHomePageSlice.reducer;

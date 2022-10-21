@@ -5,6 +5,7 @@ const initialState = {
   popular: [],
   topRated: [],
   loading: false,
+  error: false,
 };
 
 const tvSeriesHomePageSlice = createSlice({
@@ -19,9 +20,10 @@ const tvSeriesHomePageSlice = createSlice({
       topRated: action.payload.topRated,
     }),
     setLoading: (state, action) => ({ ...state, loading: action.payload }),
+    setError: (state, action) => ({ ...state, error: action.payload }),
   },
 });
 
-export const { getTvSeries, setTvSeries, setLoading } =
+export const { getTvSeries, setTvSeries, setLoading, setError } =
   tvSeriesHomePageSlice.actions;
 export default tvSeriesHomePageSlice.reducer;

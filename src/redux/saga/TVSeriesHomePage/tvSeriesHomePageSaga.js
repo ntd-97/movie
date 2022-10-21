@@ -1,6 +1,6 @@
 import { takeLatest } from "redux-saga/effects";
 
-import { getTvSeries } from "../../slices/TVSeriesHomePage/tvSeriesHomePageSlice";
+import { getTvSeries } from "../../slices/tvSeriesHomePageSlice";
 
 import handleGetTvSeries from "./tvSeriesHomePageHandler";
 

@@ -1,8 +1,6 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import LogoImg from "../../assets/images/logo.png";
-
-import { LoginContext } from "../../App";
 
 import {
   BsArrowRightCircleFill,
@@ -21,9 +19,12 @@ import avatarDefault from "../../assets/images/avatar_default.png";
 
 import Loader from "../common/Loader";
 import useBuildApiPath from "../../hooks/useBuildApiPath";
+import { useSelector, useDispatch } from "react-redux";
+import { setLoginInfo } from "../../redux/slices/loginInfoSlice";
 
 const MenuSideBar = () => {
-  const { loginInfo, setLoginInfo } = useContext(LoginContext);
+  const loginInfo = useSelector((state) => state.loginInfo);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -54,7 +55,14 @@ const MenuSideBar = () => {
 
       if (res_delete_session.data.success) {
         localStorage.clear();
-        setLoginInfo({});
+        dispatch(
+          setLoginInfo({
+            session_id: "",
+            user_id: "",
+            username: "",
+            avatar: "",
+          })
+        );
         setLoading(false);
         setShowMenu(false);
       }
@@ -162,7 +170,7 @@ const MenuSideBar = () => {
         </h4>
 
         <div className="ml-3 flex flex-col lg:ml-5">
-          {Object.keys(loginInfo).length > 0 && (
+          {loginInfo.session_id && (
             <>
               {!loading ? (
                 <Link
@@ -184,7 +192,7 @@ const MenuSideBar = () => {
             </>
           )}
 
-          {Object.keys(loginInfo).length <= 0 && (
+          {!loginInfo.session_id && (
             <Link
               className="flex items-center transition-colors hover:text-primary"
               to="login"
@@ -196,7 +204,7 @@ const MenuSideBar = () => {
           )}
         </div>
 
-        {Object.keys(loginInfo).length > 0 && (
+        {loginInfo.session_id && (
           <div className="mt-4 flex flex-col items-center justify-start border-t-2 border-t-primary pt-[20px] lg:justify-center lg:border-0 lg:pt-0 2xl:p-2">
             <img
               className="mr-[6px] inline-block h-[35px] w-[35px] rounded-full border-2 border-primary  object-cover lg:mb-[6px] lg:mr-0"
@@ -205,12 +213,12 @@ const MenuSideBar = () => {
             />
 
             <span className="block w-full truncate text-center text-primary">
-              {loginInfo.user_name}
+              {loginInfo.username}
             </span>
           </div>
         )}
 
-        {Object.keys(loginInfo).length <= 0 && (
+        {!loginInfo.session_id && (
           <Link
             to={"signup"}
             onClick={navClickHandler}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { FiSearch } from "react-icons/fi";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -12,8 +12,7 @@ import SearchSideBarListMW from "./SearchSideBarListMW";
 import SearchSideBarListTVW from "./SearchSideBarListTVW";
 import SearchSideBarListMF from "./SearchSideBarListMF";
 import SearchSideBarListTVF from "./SearchSideBarListTVF";
-
-import { LoginContext } from "../../App";
+import { useSelector } from "react-redux";
 
 const SearchSideBar = () => {
   const [lists, setLists] = useState({});
@@ -26,7 +25,7 @@ const SearchSideBar = () => {
 
   const typeRef = useRef("");
 
-  const { loginInfo } = useContext(LoginContext);
+  const loginInfo = useSelector((state) => state.loginInfo);
 
   // preventing call API a lots of times when the user types in the search input
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
@@ -34,70 +33,70 @@ const SearchSideBar = () => {
   const { pathname } = useLocation();
   const navigate = useRef(useNavigate());
 
-  const getLists = useRef(async () => {
-    try {
-      const user_id = localStorage.getItem("user_id");
-      const session_id = localStorage.getItem("session_id");
-
-      let results = {};
-
-      results = {
-        trending: [
-          {
-            apiPath: `${process.env.REACT_APP_API_PATH_TRENDING}movie/day?api_key=${process.env.REACT_APP_API_KEY}`,
-            title: "Movies Trending",
-            type: "movie",
-            pathNavigate: "/movies/trending",
-          },
-          {
-            apiPath: `${process.env.REACT_APP_API_PATH_TRENDING}tv/day?api_key=${process.env.REACT_APP_API_KEY}`,
-            title: "TV Series Trending",
-            type: "tv",
-            pathNavigate: "/tvseries/trending",
-          },
-        ],
-      };
-
-      if (user_id) {
-        results = {
-          ...results,
-          movieWatchlist: {
-            apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
-            title: "Movies Watchlist",
-            type: "movie",
-            pathNavigate: "/movies/watchlist",
-          },
-          tvWatchlist: {
-            apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
-            title: "TV Series Watchlist",
-            type: "tv",
-            pathNavigate: "/tvseries/watchlist",
-          },
-          movieFavorite: {
-            apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
-            title: "Favorite Movies",
-            type: "movie",
-            pathNavigate: "/movies/favorite",
-          },
-          tvFavorite: {
-            apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${session_id}&sort_by=created_at.desc&page=1`,
-            title: "Favorite TV Series",
-            type: "tv",
-            pathNavigate: "/tvseries/favorite",
-          },
-        };
-      }
-
-      setLists(results);
-    } catch (error) {
-      console.log(error);
-      navigate("/error");
-    }
-  });
-
   const clickOpenSideBarHandler = () => {
     setOpenSearchSidebar(!openSearchSidebar);
   };
+
+  useEffect(() => {
+    const getLists = async () => {
+      try {
+        let results = {};
+
+        results = {
+          trending: [
+            {
+              apiPath: `${process.env.REACT_APP_API_PATH_TRENDING}movie/day?api_key=${process.env.REACT_APP_API_KEY}`,
+              title: "Movies Trending",
+              type: "movie",
+              pathNavigate: "/movies/trending",
+            },
+            {
+              apiPath: `${process.env.REACT_APP_API_PATH_TRENDING}tv/day?api_key=${process.env.REACT_APP_API_KEY}`,
+              title: "TV Series Trending",
+              type: "tv",
+              pathNavigate: "/tvseries/trending",
+            },
+          ],
+        };
+
+        if (loginInfo.user_id) {
+          results = {
+            ...results,
+            movieWatchlist: {
+              apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+              title: "Movies Watchlist",
+              type: "movie",
+              pathNavigate: "/movies/watchlist",
+            },
+            tvWatchlist: {
+              apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+              title: "TV Series Watchlist",
+              type: "tv",
+              pathNavigate: "/tvseries/watchlist",
+            },
+            movieFavorite: {
+              apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+              title: "Favorite Movies",
+              type: "movie",
+              pathNavigate: "/movies/favorite",
+            },
+            tvFavorite: {
+              apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+              title: "Favorite TV Series",
+              type: "tv",
+              pathNavigate: "/tvseries/favorite",
+            },
+          };
+        }
+
+        setLists(results);
+      } catch (error) {
+        console.log(error);
+        navigate("/error");
+      }
+    };
+    getLists();
+  }, [loginInfo]);
 
   useEffect(() => {
     // set search placeholder and path to navigate base on the pathname
@@ -142,10 +141,6 @@ const SearchSideBar = () => {
       );
     }
   }, [debouncedSearchQuery]);
-
-  useEffect(() => {
-    getLists.current();
-  }, [loginInfo]);
 
   return (
     <div
@@ -194,7 +189,7 @@ const SearchSideBar = () => {
           />
         ))}
 
-        {localStorage.getItem("user_id") &&
+        {loginInfo.user_id &&
           lists?.movieWatchlist?.apiPath &&
           lists?.tvWatchlist?.apiPath &&
           lists?.movieFavorite?.apiPath &&

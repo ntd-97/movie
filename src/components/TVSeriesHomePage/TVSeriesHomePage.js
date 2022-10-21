@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getTvSeries } from "../../redux/slices/TVSeriesHomePage/tvSeriesHomePageSlice";
+import { getTvSeries } from "../../redux/slices/tvSeriesHomePageSlice";
 
 import BannerItem from "../common/BannerItem";
 import CustomSlider from "../common/CustomSlider";
@@ -20,8 +20,13 @@ const TVSeriesHomePage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // get tvseries
     dispatch(getTvSeries());
-  }, [dispatch]);
+    // nav to error page
+    if (tvSeries.error) {
+      navigate("/error");
+    }
+  }, [dispatch, navigate, tvSeries.error]);
 
   return (
     <>

@@ -3,7 +3,8 @@ import { call, delay, put } from "redux-saga/effects";
 import {
   setTvSeries,
   setLoading,
-} from "../../slices/TVSeriesHomePage/tvSeriesHomePageSlice";
+  setError,
+} from "../../slices/tvSeriesHomePageSlice";
 
 import requestGetTvSeries from "./tvSeriesHomePageRequest";
 
@@ -29,8 +30,10 @@ function* handleGetTvSeries() {
     // hide loading
     yield delay(200);
     yield put(setLoading(false));
+    yield put(setError(false));
   } catch (error) {
     console.log(error);
+    yield put(setError(true));
   }
 }
 
