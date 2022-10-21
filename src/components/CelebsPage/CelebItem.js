@@ -20,6 +20,7 @@ const CelebItem = ({ celebId, name, profilePath }) => {
       }}
     >
       <img
+        loading="lazy"
         className={` h-[230px] w-full rounded-[10px] object-cover transition-all lg:h-[200px] 2xl:h-[300px]`}
         src={celebImgPath}
         alt="actor img"
