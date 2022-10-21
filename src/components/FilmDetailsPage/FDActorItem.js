@@ -8,7 +8,7 @@ import useBuildApiPath from "../../hooks/useBuildApiPath";
 const FDActorItem = ({ actor }) => {
   const navigate = useNavigate();
 
-  const celebProfilePath = useBuildApiPath({
+  const celebImgPath = useBuildApiPath({
     tag: "Img500",
     imgPath: actor?.profile_path,
   });
@@ -17,7 +17,7 @@ const FDActorItem = ({ actor }) => {
     <div className="flex flex-col items-center justify-center gap-y-1 text-center">
       <img
         className="w-[200px] rounded-[20px] border-2 border-[#252229] object-cover transition-all hover:cursor-pointer hover:border-2 hover:border-white"
-        src={celebProfilePath}
+        src={celebImgPath}
         alt="actor img"
         onClick={() => {
           navigate(`/celebs/profile/${actor.id}`);

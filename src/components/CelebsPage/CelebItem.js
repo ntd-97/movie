@@ -10,7 +10,7 @@ const CelebItem = ({ celebId, name, profilePath }) => {
 
   const [imgCelebLoaded, setImgCelebLoaded] = useState(false);
 
-  const celebProfilePath = useBuildApiPath({
+  const celebImgPath = useBuildApiPath({
     tag: "Img500",
     imgPath: profilePath,
   });
@@ -27,7 +27,7 @@ const CelebItem = ({ celebId, name, profilePath }) => {
           imgCelebLoaded ? "" : "animate-pulse bg-[#252229]"
         } h-[230px] w-full rounded-[10px] object-cover transition-all lg:h-[200px] 2xl:h-[300px]`}
         loading="lazy"
-        src={celebProfilePath}
+        src={celebImgPath}
         alt="actor img"
         onLoad={() => {
           setImgCelebLoaded(true);

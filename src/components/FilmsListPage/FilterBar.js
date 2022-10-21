@@ -5,6 +5,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 
 import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const FilterBar = ({ type }) => {
   const [filters, setFilters] = useState({});
@@ -15,6 +16,12 @@ const FilterBar = ({ type }) => {
   let { search } = useLocation();
 
   const filterParams = useRef({});
+
+  const genresApiPath = useBuildApiPath({ tag: "FilterBarGenres", type: type });
+  const certificationsApiPath = useBuildApiPath({
+    tag: "FilterBarCertifications",
+    type: type,
+  });
 
   // change filter handler
   const selectionChangeHanler = (event) => {
@@ -65,16 +72,12 @@ const FilterBar = ({ type }) => {
 
   const getFilters = useRef(async (type) => {
     // get genres data
-    const resGenres = await axios.get(
-      `${process.env.REACT_APP_API_PATH_GENRES}${type}/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
+    const resGenres = await axios.get(genresApiPath);
 
     // get certification data
     let resCertification;
     if (type === "movie") {
-      resCertification = await axios.get(
-        `${process.env.REACT_APP_API_PATH_CERTIFICATIONS}${type}/list?api_key=${process.env.REACT_APP_API_KEY}`
-      );
+      resCertification = await axios.get(certificationsApiPath);
     }
 
     // build list of years

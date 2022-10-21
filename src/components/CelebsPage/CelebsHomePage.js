@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CelebItem from "./CelebItem";
 import Loader from "../common/Loader";
 import CustomPagination from "../common/CustomPagination";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const CelebsHomePage = () => {
   const [celebsList, setCelebsList] = useState();
@@ -17,33 +18,28 @@ const CelebsHomePage = () => {
 
   const navigate = useNavigate();
 
-  const getCelebsList = useRef(async (page) => {
-    try {
-      setLoading(true);
-      const res = await axios.get(
-        `${process.env.REACT_APP_API_PATH_PEOPLE}popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
-      );
-
-      setCelebsList(res.data);
-
-      // set timeout to prevent jerking
-      // timeOutId.current = setTimeout(() => {
-      setLoading(false);
-      // }, [400]);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      navigate("/error");
-    }
+  const celebListApiPath = useBuildApiPath({
+    tag: "CelebListPage",
+    page: page,
   });
 
   useEffect(() => {
-    getCelebsList.current(page);
+    const getCelebsList = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(celebListApiPath);
 
-    // return () => {
-    //   clearTimeout(timeOutId.current);
-    // };
-  }, [page]);
+        setCelebsList(res.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+        navigate("/error");
+      }
+    };
+
+    getCelebsList();
+  }, [navigate, celebListApiPath]);
 
   return (
     <div className="CelebsHomePage transtion-all mt-[100px] px-3 pb-[90px] md:px-5 lg:mt-0 lg:p-10">

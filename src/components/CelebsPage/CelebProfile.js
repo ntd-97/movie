@@ -21,16 +21,19 @@ const CelebProfile = () => {
 
   const navigate = useNavigate();
 
-  const celebProfilePath = useBuildApiPath({
+  const celebImgPath = useBuildApiPath({
     tag: "Img500",
     imgPath: celebInfo?.profile_path,
   });
 
+  const celebProfilePath = useBuildApiPath({
+    tag: "CelebProfile",
+    celebId: celebId,
+  });
+
   const getCelebInfo = useRef(async () => {
     try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_API_PATH_PEOPLE}${celebId}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&append_to_response=movie_credits,tv_credits`
-      );
+      const res = await axios.get(celebProfilePath);
 
       const moviesCast =
         res.data.movie_credits.cast &&
@@ -108,7 +111,7 @@ const CelebProfile = () => {
           <img
             className="mx-auto w-[70%] sm:w-[50%] md:w-[40%] lg:w-[40%] xl:w-full"
             loading="lazy"
-            src={celebProfilePath}
+            src={celebImgPath}
             alt="profile img"
           />
         </div>
