@@ -9,9 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-import { useContext } from "react";
-
-import { AccountStateContext } from "../../App";
+import { useSelector } from "react-redux";
 
 const SearchSideBarListMW = ({
   title,
@@ -26,7 +24,7 @@ const SearchSideBarListMW = ({
 
   const [films, setFilms] = useState([]);
 
-  const { accountState } = useContext(AccountStateContext);
+  const accountFilmState = useSelector((state) => state.accountFilmState);
 
   const getFilms = useRef(async () => {
     setLoading(true);
@@ -49,12 +47,16 @@ const SearchSideBarListMW = ({
 
   useEffect(() => {
     if (
-      accountState.changed === "watchlist" &&
-      accountState.mediaType === "movie"
+      accountFilmState.changed === "watchlist" &&
+      accountFilmState.mediaType === "movie"
     ) {
       getFilms.current();
     }
-  }, [accountState]);
+  }, [
+    accountFilmState.changed,
+    accountFilmState.mediaType,
+    accountFilmState.watchlist,
+  ]);
 
   return (
     <div className="SearchSideBarList">

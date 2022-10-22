@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 
 // export context
 export const TrailerModalContext = createContext();
-export const AccountStateContext = createContext();
 
 function App() {
   const [loadTrailer, setloadTrailer] = useState(true);
@@ -17,8 +16,6 @@ function App() {
   const [openModal, setOpenModal] = useState(false);
 
   const [trailerKey, setTrailerKey] = useState();
-
-  const [accountState, setAccountState] = useState({});
 
   const dispatch = useDispatch();
 
@@ -41,16 +38,13 @@ function App() {
 
   return (
     <div className="App relative mx-auto flex max-w-[1920px]">
-      {/* <div className="App relative mx-auto grid max-w-[1920px] grid-cols-1 lg:grid-cols-12"> */}
-      <AccountStateContext.Provider value={{ accountState, setAccountState }}>
-        <MenuSideBar />
+      <MenuSideBar />
 
-        <TrailerModalContext.Provider value={{ setOpenModal, setTrailerKey }}>
-          <Main></Main>
-        </TrailerModalContext.Provider>
+      <TrailerModalContext.Provider value={{ setOpenModal, setTrailerKey }}>
+        <Main></Main>
+      </TrailerModalContext.Provider>
 
-        <SearchSideBar />
-      </AccountStateContext.Provider>
+      <SearchSideBar />
 
       {/* Trailer modal */}
       <FDTrailerModal

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import SearchSideBarItem from "./SearchSideBarItem";
 import Loader from "../common/Loader";
@@ -8,8 +8,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-
-import { AccountStateContext } from "../../App";
+import { useSelector } from "react-redux";
 
 const SearchSideBarListMF = ({
   title,
@@ -24,7 +23,7 @@ const SearchSideBarListMF = ({
 
   const [films, setFilms] = useState([]);
 
-  const { accountState } = useContext(AccountStateContext);
+  const accountFilmState = useSelector((state) => state.accountFilmState);
 
   const getFilms = useRef(async () => {
     setLoading(true);
@@ -47,12 +46,16 @@ const SearchSideBarListMF = ({
 
   useEffect(() => {
     if (
-      accountState.changed === "favorite" &&
-      accountState.mediaType === "movie"
+      accountFilmState.changed === "favorite" &&
+      accountFilmState.mediaType === "movie"
     ) {
       getFilms.current();
     }
-  }, [accountState]);
+  }, [
+    accountFilmState.changed,
+    accountFilmState.mediaType,
+    accountFilmState.favorite,
+  ]);
 
   return (
     <div className="SearchSideBarList">

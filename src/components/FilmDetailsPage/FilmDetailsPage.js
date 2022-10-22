@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 import axios from "axios";
 
@@ -16,15 +16,17 @@ import Loader from "../common/Loader";
 import coverImgNotFound from "../../assets/images/cover_not_found.jpg";
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
-import { AccountStateContext } from "../../App";
 import useBuildApiPath from "../../hooks/useBuildApiPath";
-import { useSelector } from "react-redux";
+
+import {
+  updateAccountBothList,
+  updateAccountWatchList,
+  updateAccountFavorite,
+} from "../../redux/slices/accountFilmStateSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const FilmDetailsPage = () => {
   const [loading, setLoading] = useState(true);
-
-  const [loadingBtnWatchList, setLoadingBtnWatchList] = useState(false);
-  const [loadingBtnFavorite, setLoadingBtnFavorite] = useState(false);
 
   const [filmDetails, setFilmDetails] = useState({});
 
@@ -32,7 +34,8 @@ const FilmDetailsPage = () => {
 
   const navigate = useNavigate();
 
-  const { accountState, setAccountState } = useContext(AccountStateContext);
+  const accountFilmState = useSelector((state) => state.accountFilmState);
+  const dispatch = useDispatch();
 
   let { pathname } = useLocation();
   let { filmId } = useParams();
@@ -51,167 +54,155 @@ const FilmDetailsPage = () => {
     imgPath: filmDetails?.backdrop_path,
   });
 
-  const watchlistClickHandler = async () => {
-    try {
-      setLoadingBtnWatchList(true);
-      const mediaType = pathname.includes("tvseries") ? "tv" : "movie";
-      await axios.post(
-        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist?api_key=${process.env.REACT_APP_API_KEY}&session_id=${loginInfo.session_id}`,
-        {
-          media_type: mediaType,
-          media_id: filmId,
-          watchlist: !accountState.watchlist,
-        },
-        { "Content-Type": "application/json;charset=utf-8" }
-      );
-
-      setAccountState((prevState) => ({
-        ...prevState,
-        watchlist: !prevState.watchlist,
+  const watchlistClickHandler = () => {
+    const mediaType = pathname.includes("tvseries") ? "tv" : "movie";
+    dispatch(
+      updateAccountWatchList({
+        watchlist: accountFilmState.watchlist,
         changed: "watchlist",
-        mediaType,
-      }));
-
-      setLoadingBtnWatchList(false);
-    } catch (error) {
-      console.log(error);
-      setLoadingBtnWatchList(false);
-      navigate("/error");
-    }
+        mediaType: mediaType,
+        user_id: loginInfo.user_id,
+        session_id: loginInfo.session_id,
+        filmId: filmId,
+      })
+    );
   };
 
-  const favoriteClickHandler = async () => {
-    try {
-      setLoadingBtnFavorite(true);
-      const mediaType = pathname.includes("tvseries") ? "tv" : "movie";
-      await axios.post(
-        `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite?api_key=${process.env.REACT_APP_API_KEY}&session_id=${loginInfo.session_id}`,
-        {
-          media_type: mediaType,
-          media_id: filmId,
-          favorite: !accountState.favorite,
-        },
-        { "Content-Type": "application/json;charset=utf-8" }
-      );
+  const favoriteClickHandler = () => {
+    const mediaType = pathname.includes("tvseries") ? "tv" : "movie";
 
-      setAccountState((prevState) => ({
-        ...prevState,
-        favorite: !prevState.favorite,
+    dispatch(
+      updateAccountFavorite({
+        favorite: accountFilmState.favorite,
         changed: "favorite",
-        mediaType,
-      }));
-
-      setLoadingBtnFavorite(false);
-    } catch (error) {
-      console.log(error);
-      setLoadingBtnFavorite(false);
-      navigate("/error");
-    }
+        mediaType: mediaType,
+        user_id: loginInfo.user_id,
+        session_id: loginInfo.session_id,
+        filmId: filmId,
+      })
+    );
   };
-
-  const getFilmDetails = useRef(async (filmId, pathname) => {
-    try {
-      // get API path base on type(movies, tvseries)
-      const path = pathname.includes("tvseries")
-        ? process.env.REACT_APP_API_PATH_TVSERIES
-        : process.env.REACT_APP_API_PATH_MOVIES;
-
-      // build API path
-      const res = await axios.get(
-        `${path}${filmId}?api_key=${process.env.REACT_APP_API_KEY}${
-          loginInfo.session_id ? `&session_id=${loginInfo.session_id}` : ""
-        }&append_to_response=videos,credits,${
-          type.current === "movies" ? "release_dates" : "content_ratings"
-        },${loginInfo.session_id ? "account_states" : ""},similar`
-      );
-
-      // Add or remove film in favorite and watchlist
-      if (loginInfo.user_id) {
-        setAccountState({
-          watchlist: res.data.account_states.watchlist,
-          favorite: res.data.account_states.favorite,
-        });
-      }
-
-      setFilmDetails((prevData) => {
-        // refactor data
-        if (type.current === "movies") {
-          // refactor movie's time
-          const [hours, minutes] = [
-            Math.floor(res.data.runtime / 60),
-            res.data.runtime % 60,
-          ];
-
-          // get certification
-          const USCertification = res.data.release_dates?.results?.filter(
-            (item) => item.iso_3166_1 === "US"
-          );
-          const certification = USCertification[0]?.release_dates?.filter(
-            (item) => item.certification !== ""
-          )[0]?.certification;
-
-          res.data = {
-            ...res.data,
-            hours,
-            minutes,
-            certification,
-          };
-        } else {
-          const [hours, minutes] = [
-            Math.floor(res.data.episode_run_time / 60),
-            res.data.episode_run_time % 60,
-          ];
-
-          const certification = res.data.content_ratings.results.filter(
-            (item) => item.iso_3166_1 === "US"
-          )[0]?.rating;
-
-          res.data = {
-            ...res.data,
-            hours,
-            minutes,
-            certification,
-          };
-        }
-
-        // refactor vote average
-        const vote_average = res.data.vote_average.toString().slice(0, 3);
-
-        // get director
-        const director = res.data.credits.crew
-          .filter((person) => person.known_for_department === "Directing")
-          .map((person) => person.name)
-          .join(", ");
-
-        res.data = {
-          ...res.data,
-          vote_average,
-          director,
-        };
-        return res.data;
-      });
-
-      timeOutId.current = setTimeout(() => {
-        setLoading(false);
-      }, [200]);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      navigate("/error");
-    }
-  });
 
   useEffect(() => {
+    const getFilmDetails = async (filmId, pathname) => {
+      try {
+        // get API path base on type(movies, tvseries)
+        const path = pathname.includes("tvseries")
+          ? process.env.REACT_APP_API_PATH_TVSERIES
+          : process.env.REACT_APP_API_PATH_MOVIES;
+
+        // build API path
+        const res = await axios.get(
+          `${path}${filmId}?api_key=${process.env.REACT_APP_API_KEY}${
+            loginInfo.session_id ? `&session_id=${loginInfo.session_id}` : ""
+          }&append_to_response=videos,credits,${
+            type.current === "movies" ? "release_dates" : "content_ratings"
+          },${loginInfo.session_id ? "account_states" : ""},similar`
+        );
+
+        // Add or remove film in favorite and watchlist
+        if (loginInfo.user_id) {
+          dispatch(
+            updateAccountBothList({
+              changed: "all",
+              watchlist: res.data.account_states.watchlist,
+              favorite: res.data.account_states.favorite,
+            })
+          );
+        }
+
+        setFilmDetails((prevData) => {
+          // refactor data
+          if (type.current === "movies") {
+            // refactor movie's time
+            const [hours, minutes] = [
+              Math.floor(res.data.runtime / 60),
+              res.data.runtime % 60,
+            ];
+
+            // get certification
+            const USCertification = res.data.release_dates?.results?.filter(
+              (item) => item.iso_3166_1 === "US"
+            );
+            const certification = USCertification[0]?.release_dates?.filter(
+              (item) => item.certification !== ""
+            )[0]?.certification;
+
+            res.data = {
+              ...res.data,
+              hours,
+              minutes,
+              certification,
+            };
+          } else {
+            const [hours, minutes] = [
+              Math.floor(res.data.episode_run_time / 60),
+              res.data.episode_run_time % 60,
+            ];
+
+            const certification = res.data.content_ratings.results.filter(
+              (item) => item.iso_3166_1 === "US"
+            )[0]?.rating;
+
+            res.data = {
+              ...res.data,
+              hours,
+              minutes,
+              certification,
+            };
+          }
+
+          // refactor vote average
+          const vote_average = res.data.vote_average.toString().slice(0, 3);
+
+          // get director
+          const director = res.data.credits.crew
+            .filter((person) => person.known_for_department === "Directing")
+            .map((person) => person.name)
+            .join(", ");
+
+          res.data = {
+            ...res.data,
+            vote_average,
+            director,
+          };
+          return res.data;
+        });
+
+        timeOutId.current = setTimeout(() => {
+          setLoading(false);
+        }, [200]);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+        navigate("/error");
+      }
+    };
+
     setLoading(true);
     // set type
     type.current = pathname.includes("tvseries") ? "tvseries" : "movies";
     // call function getData
-    getFilmDetails.current(filmId, pathname);
+    getFilmDetails(filmId, pathname);
 
     return () => {
       clearTimeout(timeOutId.current);
     };
-  }, [pathname, filmId]);
+  }, [
+    pathname,
+    filmId,
+    dispatch,
+    loginInfo.session_id,
+    loginInfo.user_id,
+    navigate,
+  ]);
+
+  useEffect(() => {
+    // nav to error page
+    if (accountFilmState.error) {
+      navigate("/error");
+    }
+  }, [navigate, accountFilmState.error]);
 
   return (
     <>
@@ -340,23 +331,25 @@ const FilmDetailsPage = () => {
                         classHeight="h-4"
                         classBorder="border-2"
                         classMargin="mt-0"
-                        loading={loadingBtnWatchList}
+                        loading={accountFilmState.loadingBtnWatchList}
                       />
 
-                      {accountState?.watchlist && !loadingBtnWatchList && (
-                        <MdOutlineRemove className="text-xl transition-all group-hover:text-2xl" />
-                      )}
+                      {accountFilmState?.watchlist &&
+                        !accountFilmState.loadingBtnWatchList && (
+                          <MdOutlineRemove className="text-xl transition-all group-hover:text-2xl" />
+                        )}
 
-                      {!accountState?.watchlist && !loadingBtnWatchList && (
-                        <MdOutlineAdd className="text-xl transition-all group-hover:text-2xl" />
-                      )}
+                      {!accountFilmState?.watchlist &&
+                        !accountFilmState.loadingBtnWatchList && (
+                          <MdOutlineAdd className="text-xl transition-all group-hover:text-2xl" />
+                        )}
                     </button>
                   )}
 
                   {loginInfo.user_id && (
                     <button
                       className={`${
-                        accountState?.favorite
+                        accountFilmState?.favorite
                           ? "text-primary  hover:text-[#ececec]"
                           : " hover:text-primary"
                       } group flex h-10 w-10 items-center justify-center  rounded-full bg-[#292326] bg-opacity-90 px-2 py-2 transition-all hover:bg-transparent hover:opacity-100`}
@@ -367,10 +360,10 @@ const FilmDetailsPage = () => {
                         classHeight="h-4"
                         classBorder="border-2"
                         classMargin="mt-0"
-                        loading={loadingBtnFavorite}
+                        loading={accountFilmState.loadingBtnFavorite}
                       />
 
-                      {!loadingBtnFavorite && (
+                      {!accountFilmState.loadingBtnFavorite && (
                         <FaHeart className="text-xl transition-all group-hover:text-2xl" />
                       )}
                     </button>

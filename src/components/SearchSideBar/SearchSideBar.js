@@ -151,7 +151,7 @@ const SearchSideBar = () => {
       } no-scrollbar fixed bottom-0 left-0 right-0 z-[100] flex w-full flex-col bg-[#181818] pb-4 text-[#ececec] transition-all duration-200 ease-in lg:relative  lg:z-auto  lg:h-screen lg:w-[30%] lg:overflow-scroll lg:border-l-2 lg:border-[#353535] lg:pb-5 xl:w-[40%] 2xl:w-[35%]`}
     >
       <div className="sticky top-0 z-50 flex gap-x-2 bg-[#181818] bg-opacity-95 py-3 px-3 lg:py-5 xl:px-6">
-        <FiSearch className="absolute top-1/2 right-[39px] -translate-y-1/2 text-[22px] text-[#9CA3AF] lg:hidden xl:block" />
+        <FiSearch className="absolute top-1/2 right-[25px] -translate-y-1/2 text-[22px] text-[#9CA3AF] lg:right-[39px] lg:hidden xl:block" />
         {!openSearchSidebar && (
           <IoIosArrowUp
             onClick={clickOpenSideBarHandler}
