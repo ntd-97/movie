@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 import SearchSideBarItem from "./SearchSideBarItem";
 import Loader from "../common/Loader";
@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
+
+import { useSelector } from "react-redux";
 
 const SearchSideBarList = ({
   title,
@@ -22,32 +24,79 @@ const SearchSideBarList = ({
 
   const [films, setFilms] = useState([]);
 
+  const accountFilmState = useSelector((state) => state.accountFilmState);
+
+  const timeOut = useRef(0);
+
+  const getFilms = useCallback(async () => {
+    setLoading(true);
+    const res = await axios.get(apiPath);
+
+    res.data.results = res.data.results.filter((film) => film.poster_path);
+
+    if (res.data.results.length < 3) {
+      setFilms(res.data.results);
+    } else {
+      setFilms(res.data.results.slice(0, 3));
+    }
+
+    timeOut.current = setTimeout(() => {
+      setLoading(false);
+    }, 200);
+  }, [apiPath]);
+
   useEffect(() => {
-    let timeOut = 0;
-
-    const getFilms = async () => {
-      setLoading(true);
-      const res = await axios.get(apiPath);
-
-      res.data.results = res.data.results.filter((film) => film.poster_path);
-
-      if (res.data.results.length < 3) {
-        setFilms(res.data.results);
-      } else {
-        setFilms(res.data.results.slice(0, 3));
-      }
-
-      timeOut = setTimeout(() => {
-        setLoading(false);
-      }, 300);
-    };
-
     getFilms();
 
     return () => {
-      clearTimeout(timeOut);
+      clearTimeout(timeOut.current);
     };
-  }, [apiPath]);
+  }, [apiPath, getFilms]);
+
+  useEffect(() => {
+    if (
+      accountFilmState.changed === "watchlist" &&
+      accountFilmState.mediaType === "movie" &&
+      pathNavigate === "/movies/watchlist"
+    ) {
+      getFilms();
+    }
+
+    if (
+      accountFilmState.changed === "favorite" &&
+      accountFilmState.mediaType === "movie" &&
+      pathNavigate === "/movies/favorite"
+    ) {
+      getFilms();
+    }
+
+    if (
+      accountFilmState.changed === "watchlist" &&
+      accountFilmState.mediaType === "tv" &&
+      pathNavigate === "/tvseries/watchlist"
+    ) {
+      getFilms();
+    }
+
+    if (
+      accountFilmState.changed === "favorite" &&
+      accountFilmState.mediaType === "tv" &&
+      pathNavigate === "/tvseries/favorite"
+    ) {
+      getFilms();
+    }
+
+    return () => {
+      clearTimeout(timeOut.current);
+    };
+  }, [
+    accountFilmState.changed,
+    accountFilmState.mediaType,
+    accountFilmState.watchlist,
+    accountFilmState.favorite,
+    pathNavigate,
+    getFilms,
+  ]);
 
   return (
     <div className="SearchSideBarList">

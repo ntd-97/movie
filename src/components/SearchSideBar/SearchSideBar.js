@@ -8,10 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useDebounce from "../../hooks/useDebounce";
 
 import SearchSideBarList from "./SearchSideBarList";
-import SearchSideBarListMW from "./SearchSideBarListMW";
-import SearchSideBarListTVW from "./SearchSideBarListTVW";
-import SearchSideBarListMF from "./SearchSideBarListMF";
-import SearchSideBarListTVF from "./SearchSideBarListTVF";
+
 import { useSelector } from "react-redux";
 
 const SearchSideBar = () => {
@@ -62,30 +59,32 @@ const SearchSideBar = () => {
         if (loginInfo.user_id) {
           results = {
             ...results,
-            movieWatchlist: {
-              apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
-              title: "Movies Watchlist",
-              type: "movie",
-              pathNavigate: "/movies/watchlist",
-            },
-            tvWatchlist: {
-              apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
-              title: "TV Series Watchlist",
-              type: "tv",
-              pathNavigate: "/tvseries/watchlist",
-            },
-            movieFavorite: {
-              apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
-              title: "Favorite Movies",
-              type: "movie",
-              pathNavigate: "/movies/favorite",
-            },
-            tvFavorite: {
-              apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
-              title: "Favorite TV Series",
-              type: "tv",
-              pathNavigate: "/tvseries/favorite",
-            },
+            accountFilmList: [
+              {
+                apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+                title: "Movies Watchlist",
+                type: "movie",
+                pathNavigate: "/movies/watchlist",
+              },
+              {
+                apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+                title: "Favorite Movies",
+                type: "movie",
+                pathNavigate: "/movies/favorite",
+              },
+              {
+                apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+                title: "TV Series Watchlist",
+                type: "tv",
+                pathNavigate: "/tvseries/watchlist",
+              },
+              {
+                apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+                title: "Favorite TV Series",
+                type: "tv",
+                pathNavigate: "/tvseries/favorite",
+              },
+            ],
           };
         }
 
@@ -95,6 +94,7 @@ const SearchSideBar = () => {
         navigate("/error");
       }
     };
+
     getLists();
   }, [loginInfo]);
 
@@ -151,7 +151,6 @@ const SearchSideBar = () => {
       } no-scrollbar fixed bottom-0 left-0 right-0 z-[100] flex w-full flex-col bg-[#181818] pb-4 text-[#ececec] transition-all duration-200 ease-in lg:relative  lg:z-auto  lg:h-screen lg:w-[30%] lg:overflow-scroll lg:border-l-2 lg:border-[#353535] lg:pb-5 xl:w-[40%] 2xl:w-[35%]`}
     >
       <div className="sticky top-0 z-50 flex gap-x-2 bg-[#181818] bg-opacity-95 py-3 px-3 lg:py-5 xl:px-6">
-        <FiSearch className="absolute top-1/2 right-[25px] -translate-y-1/2 text-[22px] text-[#9CA3AF] lg:right-[39px] lg:hidden xl:block" />
         {!openSearchSidebar && (
           <IoIosArrowUp
             onClick={clickOpenSideBarHandler}
@@ -165,6 +164,8 @@ const SearchSideBar = () => {
             className="rounded-[10px] bg-[#252229] p-2 text-[44px] lg:hidden"
           />
         )}
+
+        <FiSearch className="absolute top-1/2 right-[25px] -translate-y-1/2 text-[22px] text-[#9CA3AF] lg:right-[39px] lg:hidden xl:block" />
 
         <input
           type="text"
@@ -190,48 +191,16 @@ const SearchSideBar = () => {
         ))}
 
         {loginInfo.user_id &&
-          lists?.movieWatchlist?.apiPath &&
-          lists?.tvWatchlist?.apiPath &&
-          lists?.movieFavorite?.apiPath &&
-          lists?.tvFavorite?.apiPath && (
-            <>
-              <SearchSideBarListMW
-                key={lists?.movieWatchlist?.pathNavigate}
-                title={lists?.movieWatchlist?.title}
-                type={lists?.movieWatchlist?.type}
-                pathNavigate={lists?.movieWatchlist?.pathNavigate}
-                apiPath={lists?.movieWatchlist?.apiPath}
-                showSearchOnMobile={setOpenSearchSidebar}
-              />
-
-              <SearchSideBarListMF
-                key={lists?.movieFavorite?.pathNavigate}
-                title={lists?.movieFavorite?.title}
-                type={lists?.movieFavorite?.type}
-                pathNavigate={lists?.movieFavorite?.pathNavigate}
-                apiPath={lists?.movieFavorite?.apiPath}
-                showSearchOnMobile={setOpenSearchSidebar}
-              />
-
-              <SearchSideBarListTVW
-                key={lists?.tvWatchlist?.pathNavigate}
-                title={lists?.tvWatchlist?.title}
-                type={lists?.tvWatchlist?.type}
-                pathNavigate={lists?.tvWatchlist?.pathNavigate}
-                apiPath={lists?.tvWatchlist?.apiPath}
-                showSearchOnMobile={setOpenSearchSidebar}
-              />
-
-              <SearchSideBarListTVF
-                key={lists?.tvFavorite?.pathNavigate}
-                title={lists?.tvFavorite?.title}
-                type={lists?.tvFavorite?.type}
-                pathNavigate={lists?.tvFavorite?.pathNavigate}
-                apiPath={lists?.tvFavorite?.apiPath}
-                showSearchOnMobile={setOpenSearchSidebar}
-              />
-            </>
-          )}
+          lists?.accountFilmList?.map((list) => (
+            <SearchSideBarList
+              key={list.pathNavigate}
+              title={list.title}
+              type={list.type}
+              pathNavigate={list.pathNavigate}
+              apiPath={list.apiPath}
+              showSearchOnMobile={setOpenSearchSidebar}
+            />
+          ))}
       </div>
     </div>
   );
