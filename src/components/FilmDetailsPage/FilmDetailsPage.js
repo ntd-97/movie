@@ -350,9 +350,9 @@ const FilmDetailsPage = () => {
                     <button
                       className={`${
                         accountFilmState?.favorite
-                          ? "text-primary  md:hover:text-[#ececec]"
-                          : " md:hover:text-primary"
-                      } group flex h-10 w-10 items-center justify-center  rounded-full bg-[#292326] bg-opacity-90 px-2 py-2 transition-all hover:bg-transparent hover:opacity-100`}
+                          ? "text-primary  lg:hover:text-[#ececec]"
+                          : " lg:hover:text-primary"
+                      } group flex h-10 w-10 items-center justify-center  rounded-full bg-[#292326] bg-opacity-90 px-2 py-2 transition-all lg:hover:bg-transparent lg:hover:opacity-100`}
                       onClick={favoriteClickHandler}
                     >
                       <Loader
@@ -364,7 +364,7 @@ const FilmDetailsPage = () => {
                       />
 
                       {!accountFilmState.loadingBtnFavorite && (
-                        <FaHeart className="text-xl transition-all group-hover:text-2xl" />
+                        <FaHeart className="text-xl transition-all lg:group-hover:text-2xl" />
                       )}
                     </button>
                   )}
