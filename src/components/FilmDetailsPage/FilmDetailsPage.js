@@ -324,7 +324,7 @@ const FilmDetailsPage = () => {
                   {loginInfo.user_id && (
                     <button
                       onClick={watchlistClickHandler}
-                      className="group flex h-10 w-10 items-center justify-center rounded-xl  bg-[#292326] bg-opacity-90 px-2 py-2 transition-all hover:bg-gray-500"
+                      className="group flex h-10 w-10 items-center justify-center rounded-xl  bg-[#292326] bg-opacity-90 px-2 py-2 transition-all lg:hover:bg-gray-500"
                     >
                       <Loader
                         classWidth="w-4"
@@ -336,12 +336,12 @@ const FilmDetailsPage = () => {
 
                       {accountFilmState?.watchlist &&
                         !accountFilmState.loadingBtnWatchList && (
-                          <MdOutlineRemove className="text-xl transition-all group-hover:text-2xl" />
+                          <MdOutlineRemove className="text-xl transition-all lg:group-hover:text-2xl" />
                         )}
 
                       {!accountFilmState?.watchlist &&
                         !accountFilmState.loadingBtnWatchList && (
-                          <MdOutlineAdd className="text-xl transition-all group-hover:text-2xl" />
+                          <MdOutlineAdd className="text-xl transition-all lg:group-hover:text-2xl" />
                         )}
                     </button>
                   )}
