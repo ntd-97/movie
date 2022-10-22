@@ -350,22 +350,22 @@ const FilmDetailsPage = () => {
                     <button
                       className={`${
                         accountFilmState?.favorite
-                          ? "text-primary  hover:text-[#ececec]"
-                          : " hover:text-primary"
+                          ? "text-primary  md:hover:text-[#ececec]"
+                          : " md:hover:text-primary"
                       } group flex h-10 w-10 items-center justify-center  rounded-full bg-[#292326] bg-opacity-90 px-2 py-2 transition-all hover:bg-transparent hover:opacity-100`}
                       onClick={favoriteClickHandler}
                     >
-                      {/* <Loader
+                      <Loader
                         classWidth="w-4"
                         classHeight="h-4"
                         classBorder="border-2"
                         classMargin="mt-0"
                         loading={accountFilmState.loadingBtnFavorite}
-                      /> */}
+                      />
 
-                      {/* {!accountFilmState.loadingBtnFavorite && ( */}
-                      <FaHeart className="text-xl transition-all group-hover:text-2xl" />
-                      {/* )} */}
+                      {!accountFilmState.loadingBtnFavorite && (
+                        <FaHeart className="text-xl transition-all group-hover:text-2xl" />
+                      )}
                     </button>
                   )}
                 </div>
