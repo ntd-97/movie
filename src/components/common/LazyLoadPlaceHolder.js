@@ -7,7 +7,7 @@ const LazyLoadPlaceHolder = ({ imgLoaded, children, rounded }) => {
     <div
       className={`${
         imgLoaded
-          ? `before:absolute before:${rounded} before:inset-0 before:z-[49] before:animate-pulse before:bg-[#181818] before:content-['']`
+          ? `before:absolute before:inset-0 before:z-[49] before:animate-pulse before:rounded-[20px] before:bg-[#181818] before:content-['']`
           : ""
       } relative w-full`}
     >
