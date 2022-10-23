@@ -1,3 +1,5 @@
+import { useState, useRef } from "react";
+
 import { AiFillStar } from "react-icons/ai";
 import { BsPlayCircleFill } from "react-icons/bs";
 
@@ -7,7 +9,6 @@ import PropTypes from "prop-types";
 
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
-import { useState } from "react";
 import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const FilmItem = ({ type, filmID, info }) => {
@@ -17,29 +18,42 @@ const FilmItem = ({ type, filmID, info }) => {
     navigate(`/${type}/${filmID?.toString()}`);
   };
 
-  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(true);
 
   const filmPosterPath = useBuildApiPath({
     tag: "Img500",
     imgPath: info?.poster_path,
   });
 
+  const Poster = useRef();
+
   return (
     <div
       onClick={clickFilmItemHandler}
       className="FilmItem relative select-none rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95 hover:cursor-pointer"
     >
-      <img
-        loading="lazy"
+      <div
         className={`${
-          imgLoaded ? "" : "animate-pulse bg-[#252229]"
-        } mb-3 h-[230px] w-full rounded-[10px] object-cover sm:h-[250px] md:h-[250px] lg:mb-4 xl:h-[250px]  2xl:h-[310px]`}
-        src={info?.poster_path ? filmPosterPath : posterImgNotFound}
-        alt="poster film"
-        onLoad={() => {
-          setImgLoaded(true);
-        }}
-      />
+          imgLoaded
+            ? "before:absolute before:inset-0 before:z-[600] before:animate-pulse before:rounded-[10px] before:bg-[#181818] before:content-['']"
+            : ""
+        } relative`}
+      >
+        <img
+          ref={Poster}
+          className={`${
+            imgLoaded ? "invisible" : ""
+          } mb-3 h-[230px] w-full rounded-[10px] object-cover sm:h-[250px] md:h-[250px] lg:mb-4 xl:h-[250px]  2xl:h-[310px] `}
+          src={info?.poster_path ? filmPosterPath : posterImgNotFound}
+          alt="poster film"
+          loading="lazy"
+          onLoad={() => {
+            if (Poster.current.complete && Poster.current.naturalHeight > 0) {
+              setImgLoaded(false);
+            }
+          }}
+        />
+      </div>
 
       <h3 className="mb-2 truncate lg:mb-3 lg:text-base 2xl:text-lg">
         {type === "tvseries" ? info?.name : info?.title}
