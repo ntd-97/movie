@@ -34,7 +34,7 @@ const FilmItem = ({ type, filmID, info }) => {
       onClick={clickFilmItemHandler}
       className="FilmItem relative select-none rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95 hover:cursor-pointer"
     >
-      <LazyLoadPlaceHolder imgLoaded={imgLoaded} rounded="rounded-[10px]">
+      <LazyLoadPlaceHolder imgLoaded={imgLoaded} rounded={"rounded-[10px]"}>
         <img
           ref={Poster}
           className={`${
