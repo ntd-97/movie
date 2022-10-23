@@ -43,6 +43,7 @@ const FDTrailerItem = ({ videoKey }) => {
           } h-full w-full object-cover`}
           src={trailerImgPath}
           alt="trailer thumb"
+          loading="lazy"
           onLoad={() => {
             if (
               trailerImg.current.complete &&

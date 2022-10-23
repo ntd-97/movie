@@ -34,6 +34,7 @@ const FDActorItem = ({ actor }) => {
           } w-[200px] rounded-[20px] border-2 border-[#252229] object-cover transition-all hover:cursor-pointer hover:border-2 hover:border-white`}
           src={celebImgPath}
           alt="actor img"
+          loading="lazy"
           onClick={() => {
             navigate(`/celebs/profile/${actor.id}`);
           }}
