@@ -11,6 +11,8 @@ import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
 import useBuildApiPath from "../../hooks/useBuildApiPath";
 
+import LazyLoadPlaceHolder from "../common/LazyLoadPlaceHolder";
+
 const FilmItem = ({ type, filmID, info }) => {
   const navigate = useNavigate();
 
@@ -32,13 +34,7 @@ const FilmItem = ({ type, filmID, info }) => {
       onClick={clickFilmItemHandler}
       className="FilmItem relative select-none rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95 hover:cursor-pointer"
     >
-      <div
-        className={`${
-          imgLoaded
-            ? "before:absolute before:inset-0 before:z-[600] before:animate-pulse before:rounded-[10px] before:bg-[#181818] before:content-['']"
-            : ""
-        } relative`}
-      >
+      <LazyLoadPlaceHolder imgLoaded={imgLoaded} rounded="rounded-[10px]">
         <img
           ref={Poster}
           className={`${
@@ -53,7 +49,7 @@ const FilmItem = ({ type, filmID, info }) => {
             }
           }}
         />
-      </div>
+      </LazyLoadPlaceHolder>
 
       <h3 className="mb-2 truncate lg:mb-3 lg:text-base 2xl:text-lg">
         {type === "tvseries" ? info?.name : info?.title}

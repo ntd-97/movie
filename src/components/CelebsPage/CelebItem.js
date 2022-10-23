@@ -1,16 +1,24 @@
+import { useState, useRef } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
 import useBuildApiPath from "../../hooks/useBuildApiPath";
 
+import LazyLoadPlaceHolder from "../common/LazyLoadPlaceHolder";
+
 const CelebItem = ({ celebId, name, profilePath }) => {
+  const [imgLoaded, setImgLoaded] = useState(true);
+
   const navigate = useNavigate();
 
   const celebImgPath = useBuildApiPath({
     tag: "Img500",
     imgPath: profilePath,
   });
+
+  const profileImg = useRef();
 
   return (
     <div
@@ -19,12 +27,26 @@ const CelebItem = ({ celebId, name, profilePath }) => {
         navigate(`/celebs/profile/${celebId}`);
       }}
     >
-      <img
-        loading="lazy"
-        className={` h-[230px] w-full rounded-[10px] object-cover transition-all lg:h-[200px] 2xl:h-[300px]`}
-        src={celebImgPath}
-        alt="actor img"
-      />
+      <LazyLoadPlaceHolder imgLoaded={imgLoaded} rounded="rounded-[10px]">
+        <img
+          ref={profileImg}
+          className={`${
+            imgLoaded ? "invisible" : ""
+          } h-[230px] w-full rounded-[10px] object-cover lg:h-[200px] 2xl:h-[300px]`}
+          src={celebImgPath}
+          alt="actor img"
+          loading="lazy"
+          onLoad={() => {
+            if (
+              profileImg.current.complete &&
+              profileImg.current.naturalHeight > 0
+            ) {
+              setImgLoaded(false);
+            }
+          }}
+        />
+      </LazyLoadPlaceHolder>
+
       <p className="mt-2 inline-block w-full truncate font-medium text-[#ececec] transition-all hover:text-white">
         {name}
       </p>
