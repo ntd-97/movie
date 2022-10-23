@@ -33,7 +33,6 @@ const FDActorList = ({ specifyClass, actors }) => {
         specifyClass={specifyClass}
         paginationClass="normalList"
         config={swiperResponsiveConfig}
-        lazyLoad={false}
       >
         {[
           ...new Map(
