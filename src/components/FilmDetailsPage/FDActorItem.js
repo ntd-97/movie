@@ -6,8 +6,6 @@ import PropTypes from "prop-types";
 
 import useBuildApiPath from "../../hooks/useBuildApiPath";
 
-import LazyLoadPlaceHolder from "../common/LazyLoadPlaceHolder";
-
 const FDActorItem = ({ actor }) => {
   const [imgLoaded, setImgLoaded] = useState(true);
 
@@ -22,7 +20,13 @@ const FDActorItem = ({ actor }) => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-y-1 text-center ">
-      <LazyLoadPlaceHolder imgLoaded={imgLoaded} rounded="rounded-[20px]">
+      <div
+        className={`${
+          imgLoaded
+            ? "before:absolute before:inset-0 before:z-[49] before:animate-pulse before:rounded-[20px] before:bg-[#181818] before:content-['']"
+            : ""
+        } relative w-full`}
+      >
         <img
           ref={profileImg}
           className={`${
@@ -42,7 +46,7 @@ const FDActorItem = ({ actor }) => {
             }
           }}
         />
-      </LazyLoadPlaceHolder>
+      </div>
 
       <Link
         to={`/celebs/profile/${actor.id}`}

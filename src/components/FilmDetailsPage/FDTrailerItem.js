@@ -8,8 +8,6 @@ import PropTypes from "prop-types";
 
 import useBuildApiPath from "../../hooks/useBuildApiPath";
 
-import LazyLoadPlaceHolder from "../common/LazyLoadPlaceHolder";
-
 const FDTrailerItem = ({ videoKey }) => {
   const [imgLoaded, setImgLoaded] = useState(true);
   // get props from TrailerModalContext
@@ -31,7 +29,13 @@ const FDTrailerItem = ({ videoKey }) => {
         setOpenModal(true);
       }}
     >
-      <LazyLoadPlaceHolder imgLoaded={imgLoaded} rounded="rounded-0">
+      <div
+        className={`${
+          imgLoaded
+            ? "before:rounded-0 before:absolute before:inset-0 before:z-[49] before:animate-pulse before:bg-[#181818] before:content-['']"
+            : ""
+        } relative w-full`}
+      >
         <img
           ref={trailerImg}
           className={`${
@@ -48,7 +52,7 @@ const FDTrailerItem = ({ videoKey }) => {
             }
           }}
         />
-      </LazyLoadPlaceHolder>
+      </div>
       <BsFillPlayFill className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 text-[55px] text-white opacity-0 transition-all group-hover:opacity-100" />
     </div>
   );

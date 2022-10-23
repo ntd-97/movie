@@ -6,8 +6,6 @@ import PropTypes from "prop-types";
 
 import useBuildApiPath from "../../hooks/useBuildApiPath";
 
-import LazyLoadPlaceHolder from "../common/LazyLoadPlaceHolder";
-
 const CelebItem = ({ celebId, name, profilePath }) => {
   const [imgLoaded, setImgLoaded] = useState(true);
 
@@ -27,7 +25,13 @@ const CelebItem = ({ celebId, name, profilePath }) => {
         navigate(`/celebs/profile/${celebId}`);
       }}
     >
-      <LazyLoadPlaceHolder imgLoaded={imgLoaded} rounded="rounded-[10px]">
+      <div
+        className={`${
+          imgLoaded
+            ? "before:absolute before:inset-0 before:z-[49] before:animate-pulse before:rounded-[10px] before:bg-[#181818] before:content-['']"
+            : ""
+        } relative w-full`}
+      >
         <img
           ref={profileImg}
           className={`${
@@ -45,7 +49,7 @@ const CelebItem = ({ celebId, name, profilePath }) => {
             }
           }}
         />
-      </LazyLoadPlaceHolder>
+      </div>
 
       <p className="mt-2 inline-block w-full truncate font-medium text-[#ececec] transition-all hover:text-white">
         {name}
