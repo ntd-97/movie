@@ -65,7 +65,7 @@ const LoginPage = () => {
       // uncheck check box
       setChecked(false);
       // navigate to home page
-      navigate("/");
+      navigate(-1);
     }
 
     // nav to error page
