@@ -31,7 +31,7 @@ const FDActorItem = ({ actor }) => {
           ref={profileImg}
           className={`${
             imgLoaded ? "invisible" : ""
-          } w-[200px] rounded-[20px] border-2 border-[#252229] object-cover transition-all hover:cursor-pointer hover:border-2 hover:border-white`}
+          } h-[250px] w-[200px] rounded-[20px] border-2 border-[#252229] object-cover transition-all hover:cursor-pointer hover:border-2 hover:border-white lg:h-[200px] 2xl:h-[300px]`}
           src={celebImgPath}
           alt="actor img"
           loading="lazy"

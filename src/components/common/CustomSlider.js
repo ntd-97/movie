@@ -48,7 +48,8 @@ const CustomSlider = ({
         lazy={
           lazyLoad && {
             loadPrevNext: true,
-            loadPrevNextAmount: 2,
+            loadPrevNextAmount: 5,
+            loadOnTransitionStart: true,
           }
         }
       >
