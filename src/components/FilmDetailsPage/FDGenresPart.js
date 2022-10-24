@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -6,6 +6,7 @@ import { MdOutlineAdd, MdOutlineRemove } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 
 import {
+  updateAccountBothList,
   updateAccountWatchList,
   updateAccountFavorite,
 } from "../../redux/slices/accountFilmStateSlice";
@@ -52,6 +53,25 @@ const FDGenresPart = ({ filmId, filmDetails, type }) => {
       })
     );
   };
+
+  useEffect(() => {
+    if (loginInfo.user_id) {
+      dispatch(
+        updateAccountBothList({
+          changed: "all",
+          watchlist: filmDetails.account_states.watchlist,
+          favorite: filmDetails.account_states.favorite,
+        })
+      );
+    }
+  }, [loginInfo.user_id, dispatch, filmDetails]);
+
+  useEffect(() => {
+    // nav to error page
+    if (accountFilmState.error) {
+      navigate("/error");
+    }
+  }, [navigate, accountFilmState.error]);
 
   return (
     <>

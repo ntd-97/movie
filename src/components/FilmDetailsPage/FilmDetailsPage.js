@@ -17,8 +17,7 @@ import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
 import useBuildApiPath from "../../hooks/useBuildApiPath";
 
-import { updateAccountBothList } from "../../redux/slices/accountFilmStateSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const FilmDetailsPage = () => {
   const [loading, setLoading] = useState(true);
@@ -28,9 +27,6 @@ const FilmDetailsPage = () => {
   const type = useRef("");
 
   const navigate = useNavigate();
-
-  const accountFilmState = useSelector((state) => state.accountFilmState);
-  const dispatch = useDispatch();
 
   let { pathname } = useLocation();
   let { filmId } = useParams();
@@ -65,17 +61,6 @@ const FilmDetailsPage = () => {
             type.current === "movies" ? "release_dates" : "content_ratings"
           },${loginInfo.session_id ? "account_states" : ""},similar`
         );
-
-        // Show account state of film
-        if (loginInfo.user_id) {
-          dispatch(
-            updateAccountBothList({
-              changed: "all",
-              watchlist: res.data.account_states.watchlist,
-              favorite: res.data.account_states.favorite,
-            })
-          );
-        }
 
         setFilmDetails((prevData) => {
           // refactor data
@@ -155,21 +140,7 @@ const FilmDetailsPage = () => {
     return () => {
       clearTimeout(timeOutId.current);
     };
-  }, [
-    pathname,
-    filmId,
-    dispatch,
-    loginInfo.session_id,
-    loginInfo.user_id,
-    navigate,
-  ]);
-
-  useEffect(() => {
-    // nav to error page
-    if (accountFilmState.error) {
-      navigate("/error");
-    }
-  }, [navigate, accountFilmState.error]);
+  }, [pathname, filmId, loginInfo.session_id, loginInfo.user_id, navigate]);
 
   return (
     <>
