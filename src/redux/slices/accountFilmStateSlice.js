@@ -19,6 +19,7 @@ const accountFilmState = createSlice({
       return {
         ...state,
         watchlist: action.payload.watchlist,
+        changed: action.payload.changed,
         favorite: action.payload.favorite,
       };
     },

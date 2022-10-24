@@ -2,27 +2,22 @@ import React, { useRef, useState, useEffect } from "react";
 
 import axios from "axios";
 
-import { AiFillStar } from "react-icons/ai";
-import { MdOutlineAdd, MdOutlineRemove } from "react-icons/md";
-import { FaHeart } from "react-icons/fa";
-
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import FilmList from "../common/FilmList";
 import FDActorList from "./FDActorList";
 import FDTrailerList from "./FDTrailerList";
 import Loader from "../common/Loader";
+import FDTitlePart from "./FDTitlePart";
+import FDIntroPart from "./FDIntroPart";
+import FDGenresPart from "./FDGenresPart";
 
 import coverImgNotFound from "../../assets/images/cover_not_found.jpg";
 import posterImgNotFound from "../../assets/images/poster_not_found.jpg";
 
 import useBuildApiPath from "../../hooks/useBuildApiPath";
 
-import {
-  updateAccountBothList,
-  updateAccountWatchList,
-  updateAccountFavorite,
-} from "../../redux/slices/accountFilmStateSlice";
+import { updateAccountBothList } from "../../redux/slices/accountFilmStateSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const FilmDetailsPage = () => {
@@ -54,35 +49,6 @@ const FilmDetailsPage = () => {
     imgPath: filmDetails?.backdrop_path,
   });
 
-  const watchlistClickHandler = () => {
-    const mediaType = pathname.includes("tvseries") ? "tv" : "movie";
-    dispatch(
-      updateAccountWatchList({
-        watchlist: accountFilmState.watchlist,
-        changed: "watchlist",
-        mediaType: mediaType,
-        user_id: loginInfo.user_id,
-        session_id: loginInfo.session_id,
-        filmId: filmId,
-      })
-    );
-  };
-
-  const favoriteClickHandler = () => {
-    const mediaType = pathname.includes("tvseries") ? "tv" : "movie";
-
-    dispatch(
-      updateAccountFavorite({
-        favorite: accountFilmState.favorite,
-        changed: "favorite",
-        mediaType: mediaType,
-        user_id: loginInfo.user_id,
-        session_id: loginInfo.session_id,
-        filmId: filmId,
-      })
-    );
-  };
-
   useEffect(() => {
     const getFilmDetails = async (filmId, pathname) => {
       try {
@@ -100,7 +66,7 @@ const FilmDetailsPage = () => {
           },${loginInfo.session_id ? "account_states" : ""},similar`
         );
 
-        // Add or remove film in favorite and watchlist
+        // Show account state of film
         if (loginInfo.user_id) {
           dispatch(
             updateAccountBothList({
@@ -124,6 +90,7 @@ const FilmDetailsPage = () => {
             const USCertification = res.data.release_dates?.results?.filter(
               (item) => item.iso_3166_1 === "US"
             );
+
             const certification = USCertification[0]?.release_dates?.filter(
               (item) => item.certification !== ""
             )[0]?.certification;
@@ -134,7 +101,7 @@ const FilmDetailsPage = () => {
               minutes,
               certification,
             };
-          } else {
+          } else if (type.current === "tvseries") {
             const [hours, minutes] = [
               Math.floor(res.data.episode_run_time / 60),
               res.data.episode_run_time % 60,
@@ -239,154 +206,15 @@ const FilmDetailsPage = () => {
             </div>
 
             <div className="z-50 mt-8 flex flex-col justify-between text-[#ececec] lg:col-span-7 lg:mt-5 2xl:col-span-8">
-              <div className="flex flex-col gap-y-2 text-center lg:gap-y-4 lg:text-left">
-                <h1 className="text-3xl lg:text-5xl">
-                  {type.current === "movies"
-                    ? filmDetails?.title
-                    : filmDetails?.name}
-                </h1>
+              <FDTitlePart type={type} filmDetails={filmDetails} />
 
-                <h2 className="text-xl text-[#b5b5b5] lg:text-2xl">
-                  {type.current === "movies"
-                    ? filmDetails?.original_title
-                    : filmDetails?.original_name}
-                  (
-                  {new Date(
-                    type.current === "movies"
-                      ? filmDetails?.release_date
-                      : filmDetails?.first_air_date
-                  ).getFullYear()}
-                  )
-                </h2>
+              <FDIntroPart type={type} filmDetails={filmDetails} />
 
-                <p>
-                  <span
-                    className={`${
-                      parseInt(filmDetails?.hours) ? "" : "hidden"
-                    }`}
-                  >
-                    {filmDetails?.hours} hour{" "}
-                  </span>
-                  <span
-                    className={`${
-                      parseInt(filmDetails?.minutes) ? "" : "hidden"
-                    } mr-5`}
-                  >
-                    {filmDetails?.minutes} minutes
-                    {type.current === "tvseries" ? "/episode" : ""}
-                  </span>
-                  {filmDetails?.certification && (
-                    <span className="rounded-[6px] bg-[#363636] px-2">
-                      {filmDetails?.certification}
-                    </span>
-                  )}
-                </p>
-
-                <p className="flex items-center justify-center lg:justify-start">
-                  <AiFillStar className="mr-1 inline-block text-[20px] text-yellow-400" />
-                  {filmDetails?.vote_average ? filmDetails?.vote_average : "0"}
-                </p>
-              </div>
-
-              <div className="mt-5">
-                {filmDetails?.director && (
-                  <p className="mb-1">
-                    <span className="mr-2 uppercase text-[#b5b5b5]">
-                      Director:
-                    </span>
-                    {filmDetails?.director}
-                  </p>
-                )}
-
-                <p className="mb-1">
-                  <span className="mr-2 uppercase text-[#b5b5b5]">Nation:</span>
-                  {filmDetails?.production_countries
-                    ?.map((country) => country.name)
-                    .join(", ")}
-                </p>
-
-                <p className="mb-1">
-                  <span className="mr-2 uppercase text-[#b5b5b5]">
-                    Release date:
-                  </span>
-                  {type.current === "movies"
-                    ? filmDetails?.release_date
-                    : filmDetails?.first_air_date}
-                </p>
-
-                <p className="mt-5 text-justify leading-[24px]">
-                  {filmDetails?.overview}
-                </p>
-              </div>
-
-              <div className="mt-10 flex justify-between gap-x-4 ">
-                <div className="flex gap-x-2">
-                  {loginInfo.user_id && (
-                    <button
-                      onClick={watchlistClickHandler}
-                      className="group flex h-10 w-10 items-center justify-center rounded-xl  bg-[#292326] bg-opacity-90 px-2 py-2 transition-all lg:hover:bg-gray-500"
-                    >
-                      <Loader
-                        classWidth="w-4"
-                        classHeight="h-4"
-                        classBorder="border-2"
-                        classMargin="mt-0"
-                        loading={accountFilmState.loadingBtnWatchList}
-                      />
-
-                      {accountFilmState?.watchlist &&
-                        !accountFilmState.loadingBtnWatchList && (
-                          <MdOutlineRemove className="text-xl transition-all lg:group-hover:text-2xl" />
-                        )}
-
-                      {!accountFilmState?.watchlist &&
-                        !accountFilmState.loadingBtnWatchList && (
-                          <MdOutlineAdd className="text-xl transition-all lg:group-hover:text-2xl" />
-                        )}
-                    </button>
-                  )}
-
-                  {loginInfo.user_id && (
-                    <button
-                      className={`${
-                        accountFilmState?.favorite
-                          ? "text-primary  lg:hover:text-[#ececec]"
-                          : " lg:hover:text-primary"
-                      } group flex h-10 w-10 items-center justify-center  rounded-full bg-[#292326] bg-opacity-90 px-2 py-2 transition-all lg:hover:bg-transparent lg:hover:opacity-100`}
-                      onClick={favoriteClickHandler}
-                    >
-                      <Loader
-                        classWidth="w-4"
-                        classHeight="h-4"
-                        classBorder="border-2"
-                        classMargin="mt-0"
-                        loading={accountFilmState.loadingBtnFavorite}
-                      />
-
-                      {!accountFilmState.loadingBtnFavorite && (
-                        <FaHeart className="text-xl transition-all lg:group-hover:text-2xl" />
-                      )}
-                    </button>
-                  )}
-                </div>
-                <div className="flex flex-wrap justify-end gap-x-5 gap-y-3">
-                  {filmDetails?.genres?.map((genre) => {
-                    return (
-                      <span
-                        key={genre.id}
-                        className="my-auto rounded-[10px] border-2 border-[#474749] bg-[#292326] bg-opacity-70 px-[10px] py-[5px] text-sm transition-all hover:cursor-pointer hover:border-white lg:text-base"
-                        onClick={() => {
-                          navigate(
-                            `/${type.current}/list/page/1?with_genres=${genre.id}`
-                          );
-                        }}
-                      >
-                        {genre.name}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
+              <FDGenresPart
+                type={type}
+                filmDetails={filmDetails}
+                filmId={filmId}
+              />
             </div>
           </div>
 

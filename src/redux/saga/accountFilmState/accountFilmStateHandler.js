@@ -74,6 +74,7 @@ function* handleAccountFilmState({ payload }) {
       yield put(
         setAccountBothList({
           watchlist: watchlist,
+          changed: changed,
           favorite: favorite,
         })
       );
