@@ -41,7 +41,7 @@ const MenuSideBar = () => {
     setShowMenu(!showMenu);
   };
 
-  const navClickHandler = async (e) => {
+  const navClickHandler = () => {
     setShowMenu(false);
   };
 

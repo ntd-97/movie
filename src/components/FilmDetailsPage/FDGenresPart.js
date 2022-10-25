@@ -59,8 +59,8 @@ const FDGenresPart = ({ filmId, filmDetails, type }) => {
       dispatch(
         updateAccountBothList({
           changed: "all",
-          watchlist: filmDetails.account_states.watchlist,
-          favorite: filmDetails.account_states.favorite,
+          watchlist: filmDetails?.account_states?.watchlist,
+          favorite: filmDetails?.account_states?.favorite,
         })
       );
     }

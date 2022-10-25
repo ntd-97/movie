@@ -23,18 +23,20 @@ const FDTitlePart = ({ type, filmDetails }) => {
       </h2>
 
       <p>
-        <span className={`${parseInt(filmDetails?.hours) ? "" : "hidden"}`}>
+        <span
+          className={`${parseInt(filmDetails?.hours) ? "" : "hidden"} mr-1`}
+        >
           {filmDetails?.hours} hour
           {type.current === "tvseries" ? "/episode" : ""}
         </span>
         <span
-          className={`${parseInt(filmDetails?.minutes) ? "" : "hidden"} ml-1`}
+          className={`${parseInt(filmDetails?.minutes) ? "" : "hidden"} mr-2`}
         >
           {filmDetails?.minutes} minutes
           {type.current === "tvseries" ? "/episode" : ""}
         </span>
         {filmDetails?.certification && (
-          <span className="ml-3 rounded-[6px] bg-[#363636] px-2">
+          <span className="rounded-[6px] bg-[#363636] px-2">
             {filmDetails?.certification}
           </span>
         )}

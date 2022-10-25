@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 import axios from "axios";
 
@@ -70,7 +70,7 @@ const FilterBar = ({ type }) => {
     });
   };
 
-  const getFilters = useRef(async (type) => {
+  const getFilters = useCallback(async () => {
     // get genres data
     const resGenres = await axios.get(genresApiPath);
 
@@ -144,12 +144,12 @@ const FilterBar = ({ type }) => {
         tvTypes,
       });
     }
-  });
+  }, [certificationsApiPath, genresApiPath, type]);
 
   // Get data when type change
   useEffect(() => {
-    getFilters.current(type);
-  }, [type]);
+    getFilters();
+  }, [getFilters]);
 
   // get filter params from URL when page reloaded and bind to select's value
   const buildFilterSearchObj = (search) => {

@@ -1,10 +1,9 @@
+import React, { useRef, useState, useEffect, useCallback } from "react";
+
 import axios from "axios";
 
-import React from "react";
-
-import { useRef, useState, useEffect } from "react";
-
 import { useNavigate, useParams } from "react-router-dom";
+
 import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 import FilmList from "../common/FilmList";
@@ -31,7 +30,7 @@ const CelebProfile = () => {
     celebId: celebId,
   });
 
-  const getCelebInfo = useRef(async () => {
+  const getCelebInfo = useCallback(async () => {
     try {
       const res = await axios.get(celebProfilePath);
 
@@ -81,15 +80,15 @@ const CelebProfile = () => {
       setLoanding(false);
       navigate("/error");
     }
-  });
+  }, [celebProfilePath, navigate]);
 
   useEffect(() => {
-    getCelebInfo.current();
+    getCelebInfo();
 
     return () => {
       clearTimeout(timeOutId.current);
     };
-  }, []);
+  }, [getCelebInfo]);
 
   return (
     <>
@@ -115,7 +114,7 @@ const CelebProfile = () => {
           />
         </div>
 
-        <div className="col-span-12 flex flex-col gap-y-2 text-center lg:mt-0 lg:gap-y-4 lg:text-left xl:col-span-8 xl:mt-5">
+        <div className="col-span-12 flex flex-col gap-y-2 text-center lg:mt-0 lg:gap-y-4 xl:col-span-8 xl:mt-5 xl:text-left">
           <h1 className="text-3xl lg:text-center lg:text-3xl xl:text-left xl:text-5xl">
             {celebInfo?.name}
           </h1>

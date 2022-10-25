@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 
 import axios from "axios";
 
 import FilmItem from "./FilmItem";
 import Loader from "./Loader";
+import CustomPagination from "./CustomPagination";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import CustomPagination from "./CustomPagination";
+
 import { useSelector } from "react-redux";
 
 const CommonListPage = () => {
@@ -24,7 +25,7 @@ const CommonListPage = () => {
 
   const loginInfo = useSelector((state) => state.loginInfo);
 
-  const getFilms = useRef(async (page, pathname) => {
+  const getFilms = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -83,28 +84,36 @@ const CommonListPage = () => {
         };
       }
 
-      const res = await axios.get(type.current.path);
+      // prevent call API when logout
+      if (
+        !loginInfo.session_id &&
+        !type.current.pathPagination.includes("trending")
+      ) {
+        navigate("/");
+      } else {
+        const res = await axios.get(type.current.path);
 
-      // set timeout to prevent jerking
-      timeOutId.current = setTimeout(() => {
-        setLoading(false);
-        setFilms(res.data);
-      }, [300]);
+        // set timeout to prevent jerking
+        timeOutId.current = setTimeout(() => {
+          setLoading(false);
+          setFilms(res.data);
+        }, [300]);
+      }
     } catch (error) {
       console.log(error);
       setLoading(false);
       navigate("/error");
     }
-  });
+  }, [navigate, loginInfo.user_id, loginInfo.session_id, page, pathname]);
 
   // get data when page was changed
   useEffect(() => {
-    getFilms.current(page, pathname);
+    getFilms();
 
     return () => {
       clearTimeout(timeOutId.current);
     };
-  }, [page, pathname]);
+  }, [getFilms]);
 
   return (
     <>

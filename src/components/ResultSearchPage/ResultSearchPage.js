@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 
 import axios from "axios";
 
@@ -7,6 +7,7 @@ import CelebItem from "../CelebsPage/CelebItem";
 import Loader from "../common/Loader";
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+
 import CustomPagination from "../common/CustomPagination";
 
 const ResultSearchPage = () => {
@@ -22,7 +23,7 @@ const ResultSearchPage = () => {
 
   const timeOutId = useRef();
 
-  const getResultSearch = useRef(async (page, search) => {
+  const getResultSearch = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -57,29 +58,34 @@ const ResultSearchPage = () => {
         process.env.REACT_APP_API_KEY
       }&language=en-US&page=${page}${search.replace("?", "&")}`;
 
-      const res = await axios.get(path);
+      //  back to previous page when search is empty
+      if (!search) {
+        navigate(-1);
+      } else {
+        const res = await axios.get(path);
 
-      setResultSearch(res.data);
+        setResultSearch(res.data);
 
-      // set timeout to prevent jerking
-      timeOutId.current = setTimeout(() => {
-        setLoading(false);
-      }, [200]);
+        // set timeout to prevent jerking
+        timeOutId.current = setTimeout(() => {
+          setLoading(false);
+        }, [200]);
+      }
     } catch (error) {
       console.log(error);
       setLoading(false);
       navigate("/error");
     }
-  });
+  }, [navigate, pathname, page, search]);
 
   // get data when page, search was changed
   useEffect(() => {
-    getResultSearch.current(page, search);
+    getResultSearch();
 
     return () => {
       clearTimeout(timeOutId.current);
     };
-  }, [page, search]);
+  }, [getResultSearch]);
 
   return (
     <>

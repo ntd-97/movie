@@ -41,7 +41,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const loginInfo = useSelector((state) => state.loginInfo);
 
-  const loginHandler = async () => {
+  const loginHandler = () => {
     if (isValid) {
       const { username, password } = getValues();
       dispatch(getLoginInfo({ username, password }));

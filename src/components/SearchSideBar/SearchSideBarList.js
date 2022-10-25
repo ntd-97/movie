@@ -51,7 +51,7 @@ const SearchSideBarList = ({
     return () => {
       clearTimeout(timeOut.current);
     };
-  }, [apiPath, getFilms]);
+  }, [getFilms]);
 
   useEffect(() => {
     if (

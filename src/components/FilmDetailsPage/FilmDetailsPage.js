@@ -46,7 +46,7 @@ const FilmDetailsPage = () => {
   });
 
   useEffect(() => {
-    const getFilmDetails = async (filmId, pathname) => {
+    const getFilmDetails = async () => {
       try {
         // get API path base on type(movies, tvseries)
         const path = pathname.includes("tvseries")
@@ -135,7 +135,7 @@ const FilmDetailsPage = () => {
     // set type
     type.current = pathname.includes("tvseries") ? "tvseries" : "movies";
     // call function getData
-    getFilmDetails(filmId, pathname);
+    getFilmDetails();
 
     return () => {
       clearTimeout(timeOutId.current);
