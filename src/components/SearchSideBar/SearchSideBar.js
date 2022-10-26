@@ -85,7 +85,15 @@ const SearchSideBar = () => {
     };
 
     getLists();
-  }, [loginInfo]);
+  }, [
+    loginInfo,
+    apiPathsList.moviesWatchList,
+    apiPathsList.moviesFavorite,
+    apiPathsList.moviesTrending,
+    apiPathsList.tvsTrending,
+    apiPathsList.tvsWatchList,
+    apiPathsList.tvsFavorite,
+  ]);
 
   return (
     <div
