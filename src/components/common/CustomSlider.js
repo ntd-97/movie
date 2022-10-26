@@ -45,7 +45,15 @@ const CustomSlider = ({
         }
         centerInsufficientSlides={true}
         breakpoints={config ? config : ""}
-        lazy={true}
+        lazy={
+          lazyLoad && {
+            enabled: true,
+            checkInView: true,
+            loadOnTransitionStart: true,
+            loadPrevNext: true,
+            loadPrevNextAmount: 5,
+          }
+        }
       >
         {children}
       </Swiper>

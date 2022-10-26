@@ -30,7 +30,7 @@ const FilmItem = ({ type, filmID, info }) => {
   return (
     <div
       onClick={clickFilmItemHandler}
-      className="FilmItem relative select-none rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:scale-95 hover:cursor-pointer"
+      className="FilmItem relative select-none rounded-[20px] bg-[#33292E] bg-opacity-60 p-3 text-[#ECECEC] transition-all hover:cursor-pointer"
     >
       <div
         className={`${
