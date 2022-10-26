@@ -6,6 +6,7 @@ import SearchSideBarList from "./SearchSideBarList";
 import SearchSideBarInput from "./SearchSideBarInput";
 
 import { useSelector } from "react-redux";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const SearchSideBar = () => {
   const [lists, setLists] = useState({});
@@ -16,6 +17,12 @@ const SearchSideBar = () => {
 
   const navigate = useRef(useNavigate());
 
+  const apiPathsList = useBuildApiPath({
+    tag: "SearchSidebarList",
+    user_id: loginInfo.user_id,
+    session_id: loginInfo.session_id,
+  });
+
   useEffect(() => {
     const getLists = async () => {
       try {
@@ -24,13 +31,13 @@ const SearchSideBar = () => {
         results = {
           trending: [
             {
-              apiPath: `${process.env.REACT_APP_API_PATH_TRENDING}movie/day?api_key=${process.env.REACT_APP_API_KEY}`,
+              apiPath: apiPathsList.moviesTrending,
               title: "Movies Trending",
               type: "movie",
               pathNavigate: "/movies/trending",
             },
             {
-              apiPath: `${process.env.REACT_APP_API_PATH_TRENDING}tv/day?api_key=${process.env.REACT_APP_API_KEY}`,
+              apiPath: apiPathsList.tvsTrending,
               title: "TV Series Trending",
               type: "tv",
               pathNavigate: "/tvseries/trending",
@@ -43,25 +50,25 @@ const SearchSideBar = () => {
             ...results,
             accountFilmList: [
               {
-                apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+                apiPath: apiPathsList.moviesWatchList,
                 title: "Movies Watchlist",
                 type: "movie",
                 pathNavigate: "/movies/watchlist",
               },
               {
-                apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+                apiPath: apiPathsList.moviesFavorite,
                 title: "Favorite Movies",
                 type: "movie",
                 pathNavigate: "/movies/favorite",
               },
               {
-                apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+                apiPath: apiPathsList.tvsWatchList,
                 title: "TV Series Watchlist",
                 type: "tv",
                 pathNavigate: "/tvseries/watchlist",
               },
               {
-                apiPath: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=1`,
+                apiPath: apiPathsList.tvsFavorite,
                 title: "Favorite TV Series",
                 type: "tv",
                 pathNavigate: "/tvseries/favorite",

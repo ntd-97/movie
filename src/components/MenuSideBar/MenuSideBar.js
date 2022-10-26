@@ -45,13 +45,16 @@ const MenuSideBar = () => {
     setShowMenu(false);
   };
 
+  const logOutApiPaths = useBuildApiPath({
+    tag: "Logout",
+  });
+
   const logoutHandler = async () => {
     try {
       setLoading(true);
-      const res_delete_session = await axios.delete(
-        `${process.env.REACT_APP_API_PATH_SESSION_DELETE}${process.env.REACT_APP_API_KEY}`,
-        { data: { session_id: loginInfo.session_id } }
-      );
+      const res_delete_session = await axios.delete(logOutApiPaths, {
+        data: { session_id: loginInfo.session_id },
+      });
 
       if (res_delete_session.data.success) {
         localStorage.clear();
@@ -61,6 +64,7 @@ const MenuSideBar = () => {
             user_id: "",
             username: "",
             avatar: "",
+            logout: true,
           })
         );
         setLoading(false);

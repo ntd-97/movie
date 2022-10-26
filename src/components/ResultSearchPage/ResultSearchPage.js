@@ -9,6 +9,7 @@ import Loader from "../common/Loader";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import CustomPagination from "../common/CustomPagination";
+import useBuildApiPath from "../../hooks/useBuildApiPath";
 
 const ResultSearchPage = () => {
   const [loading, setLoading] = useState(false);
@@ -23,17 +24,21 @@ const ResultSearchPage = () => {
 
   const timeOutId = useRef();
 
+  const searchApiPath = useBuildApiPath({
+    tag: "ResultSearchPage",
+    pathname: pathname,
+    page: page,
+    search: search,
+  });
+
   const getResultSearch = useCallback(async () => {
     try {
       setLoading(true);
-
-      let path = "";
 
       // set API's path and title base on pathname
       if (pathname.includes("movies")) {
         type.current = {
           title: "Movies Search List",
-          envPath: process.env.REACT_APP_API_PATH_SEARCH_MOVIE,
           subType: "movies",
         };
       }
@@ -41,7 +46,6 @@ const ResultSearchPage = () => {
       if (pathname.includes("tvseries")) {
         type.current = {
           title: "TV Series Search List",
-          envPath: process.env.REACT_APP_API_PATH_SEARCH_TV,
           subType: "tvseries",
         };
       }
@@ -49,20 +53,15 @@ const ResultSearchPage = () => {
       if (pathname.includes("celebs")) {
         type.current = {
           title: "Celebs Search List",
-          envPath: process.env.REACT_APP_API_PATH_SEARCH_PEOPLE,
           subType: "celebs",
         };
       }
-
-      path = `${type.current.envPath}${
-        process.env.REACT_APP_API_KEY
-      }&language=en-US&page=${page}${search.replace("?", "&")}`;
 
       //  back to previous page when search is empty
       if (!search) {
         navigate(-1);
       } else {
-        const res = await axios.get(path);
+        const res = await axios.get(searchApiPath);
 
         setResultSearch(res.data);
 
@@ -76,7 +75,7 @@ const ResultSearchPage = () => {
       setLoading(false);
       navigate("/error");
     }
-  }, [navigate, pathname, page, search]);
+  }, [navigate, pathname, search, searchApiPath]);
 
   // get data when page, search was changed
   useEffect(() => {

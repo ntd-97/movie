@@ -21,11 +21,14 @@ const SearchSideBarItem = ({ film, type, showSearchOnMobile }) => {
     imgPath: film?.poster_path,
   });
 
+  const genresApiPaths = useBuildApiPath({
+    tag: "Genres",
+    type,
+  });
+
   useEffect(() => {
     const getGenres = async () => {
-      const resGenres = await axios.get(
-        `${process.env.REACT_APP_API_PATH_GENRES}${type}/list?api_key=${process.env.REACT_APP_API_KEY}`
-      );
+      const resGenres = await axios.get(genresApiPaths);
 
       const genresResult = film.genre_ids.map((genre) => {
         return resGenres.data.genres.find(
@@ -37,7 +40,7 @@ const SearchSideBarItem = ({ film, type, showSearchOnMobile }) => {
     };
 
     getGenres();
-  }, [type, film]);
+  }, [type, film, genresApiPaths]);
 
   return (
     <div

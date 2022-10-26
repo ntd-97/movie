@@ -8,6 +8,7 @@ const initialState = {
   loading: false,
   showErrorMsg: false,
   error: false,
+  logout: false,
 };
 
 const loginInfoSlice = createSlice({
@@ -22,6 +23,7 @@ const loginInfoSlice = createSlice({
         user_id: action.payload.user_id,
         username: action.payload.username,
         avatar: action.payload.avatar,
+        logout: action.payload.logout,
       };
     },
     setLoading: (state, action) => ({ ...state, loading: action.payload }),

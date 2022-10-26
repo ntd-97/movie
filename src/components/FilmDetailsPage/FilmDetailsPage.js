@@ -45,22 +45,22 @@ const FilmDetailsPage = () => {
     imgPath: filmDetails?.backdrop_path,
   });
 
+  // set type
+  type.current = pathname.includes("tvseries") ? "tvseries" : "movies";
+
+  const filmDetailsApiPaths = useBuildApiPath({
+    tag: "FilmDetailsPage",
+    type: type.current,
+    filmId: filmId,
+    session_id: loginInfo.session_id,
+  });
+
   useEffect(() => {
     const getFilmDetails = async () => {
       try {
-        // get API path base on type(movies, tvseries)
-        const path = pathname.includes("tvseries")
-          ? process.env.REACT_APP_API_PATH_TVSERIES
-          : process.env.REACT_APP_API_PATH_MOVIES;
+        setLoading(true);
 
-        // build API path
-        const res = await axios.get(
-          `${path}${filmId}?api_key=${process.env.REACT_APP_API_KEY}${
-            loginInfo.session_id ? `&session_id=${loginInfo.session_id}` : ""
-          }&append_to_response=videos,credits,${
-            type.current === "movies" ? "release_dates" : "content_ratings"
-          },${loginInfo.session_id ? "account_states" : ""},similar`
-        );
+        const res = await axios.get(filmDetailsApiPaths);
 
         setFilmDetails((prevData) => {
           // refactor data
@@ -131,16 +131,20 @@ const FilmDetailsPage = () => {
       }
     };
 
-    setLoading(true);
-    // set type
-    type.current = pathname.includes("tvseries") ? "tvseries" : "movies";
     // call function getData
     getFilmDetails();
 
     return () => {
       clearTimeout(timeOutId.current);
     };
-  }, [pathname, filmId, loginInfo.session_id, loginInfo.user_id, navigate]);
+  }, [
+    pathname,
+    filmId,
+    loginInfo.session_id,
+    loginInfo.user_id,
+    navigate,
+    filmDetailsApiPaths,
+  ]);
 
   return (
     <>

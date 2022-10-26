@@ -10,6 +10,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 
+import useBuildApiPath from "../../hooks/useBuildApiPath";
+
 const CommonListPage = () => {
   const [loading, setLoading] = useState(false);
 
@@ -25,6 +27,14 @@ const CommonListPage = () => {
 
   const loginInfo = useSelector((state) => state.loginInfo);
 
+  const commonListPageApiPaths = useBuildApiPath({
+    tag: "CommonListPage",
+    page: page,
+    pathname: pathname,
+    user_id: loginInfo.user_id,
+    session_id: loginInfo.session_id,
+  });
+
   const getFilms = useCallback(async () => {
     try {
       setLoading(true);
@@ -33,7 +43,6 @@ const CommonListPage = () => {
       if (pathname.includes("movies") && pathname.includes("trending")) {
         type.current = {
           title: "Movies Trending",
-          path: `${process.env.REACT_APP_API_PATH_TRENDING}movie/day?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`,
           pathPagination: "/movies/trending",
           subType: "movies",
         };
@@ -42,7 +51,6 @@ const CommonListPage = () => {
       if (pathname.includes("tvseries") && pathname.includes("trending")) {
         type.current = {
           title: "TV Series Trending",
-          path: `${process.env.REACT_APP_API_PATH_TRENDING}tv/day?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`,
           pathPagination: "/tvseries/trending",
           subType: "tvseries",
         };
@@ -51,7 +59,6 @@ const CommonListPage = () => {
       if (pathname.includes("movies") && pathname.includes("watchlist")) {
         type.current = {
           title: "Movies Watchlist",
-          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=${page}`,
           pathPagination: "/movies/watchlist",
           subType: "movies",
         };
@@ -60,7 +67,6 @@ const CommonListPage = () => {
       if (pathname.includes("tvseries") && pathname.includes("watchlist")) {
         type.current = {
           title: "TV Series Watchlist",
-          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=${page}`,
           pathPagination: "/tvseries/watchlist",
           subType: "tvseries",
         };
@@ -69,7 +75,6 @@ const CommonListPage = () => {
       if (pathname.includes("movies") && pathname.includes("favorite")) {
         type.current = {
           title: "Favorite Movies",
-          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=${page}`,
           pathPagination: "/movies/favorite",
           subType: "movies",
         };
@@ -78,7 +83,6 @@ const CommonListPage = () => {
       if (pathname.includes("tvseries") && pathname.includes("favorite")) {
         type.current = {
           title: "Favorite TV Series",
-          path: `${process.env.REACT_APP_API_PATH_ACCOUNT_FILM_LIST}${loginInfo.user_id}/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&session_id=${loginInfo.session_id}&sort_by=created_at.desc&page=${page}`,
           pathPagination: "/tvseries/favorite",
           subType: "tvseries",
         };
@@ -86,12 +90,13 @@ const CommonListPage = () => {
 
       // prevent call API when logout
       if (
-        !loginInfo.session_id &&
+        loginInfo.logout &&
         !type.current.pathPagination.includes("trending")
       ) {
         navigate("/");
       } else {
-        const res = await axios.get(type.current.path);
+        if (!commonListPageApiPaths) return;
+        const res = await axios.get(commonListPageApiPaths);
 
         // set timeout to prevent jerking
         timeOutId.current = setTimeout(() => {
@@ -104,7 +109,7 @@ const CommonListPage = () => {
       setLoading(false);
       navigate("/error");
     }
-  }, [navigate, loginInfo.user_id, loginInfo.session_id, page, pathname]);
+  }, [navigate, loginInfo.logout, pathname, commonListPageApiPaths]);
 
   // get data when page was changed
   useEffect(() => {
