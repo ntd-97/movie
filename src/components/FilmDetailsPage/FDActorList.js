@@ -8,6 +8,10 @@ import FDActorItem from "./FDActorItem";
 import PropTypes from "prop-types";
 
 const swiperResponsiveConfig = {
+  1366: {
+    slidesPerView: 6,
+    slidesPerGroup: 6,
+  },
   992: {
     slidesPerView: 5,
     slidesPerGroup: 5,
