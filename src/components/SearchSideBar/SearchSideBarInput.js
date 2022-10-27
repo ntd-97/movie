@@ -20,6 +20,8 @@ const SearchSideBarInput = ({ setOpenSearchSidebar, openSearchSidebar }) => {
 
   const [searchParams] = useSearchParams();
 
+  const reload = useRef(false);
+
   // preventing call API a lots of times when the user types in the search input
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
@@ -30,16 +32,24 @@ const SearchSideBarInput = ({ setOpenSearchSidebar, openSearchSidebar }) => {
   useEffect(() => {
     // set search param when reload
     const searchParam = searchParams.get("query");
-    if (searchParam) setSearchQuery(searchParam);
-  }, [searchParams]);
+    if (searchParam) {
+      reload.current = true;
+      setSearchQuery(searchParam);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     // navigation when the user types in the search input
     if (debouncedSearchQuery) {
-      setOpenSearchSidebar(false);
-      navigate.current(
-        `/${typeRef.current}/search/page/1?query=${debouncedSearchQuery}`
-      );
+      if (reload.current === false) {
+        setOpenSearchSidebar(false);
+        navigate.current(
+          `/${typeRef.current}/search/page/1?query=${debouncedSearchQuery}`
+        );
+      } else {
+        reload.current = false;
+      }
     }
   }, [debouncedSearchQuery, setOpenSearchSidebar]);
 
