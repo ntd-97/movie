@@ -173,7 +173,7 @@ const LoginPage = () => {
                   ? "hover:cursor-default"
                   : "hover:cursor-pointer hover:bg-red-400"
               } flex h-[43px] select-none items-center justify-center rounded-[10px] bg-primary py-2 text-[18px] font-bold`}
-              aria-disabled={loginInfo.loading ? true : false}
+              disabled={loginInfo.loading}
             >
               {loginInfo.loading ? (
                 <div className="mx-auto h-5 w-5 animate-spin rounded-full border-2 border-t-2 border-white border-t-transparent"></div>

@@ -81,6 +81,7 @@ const FDGenresPart = ({ filmId, filmDetails, type }) => {
             <button
               onClick={watchlistClickHandler}
               className="group flex h-10 w-10 items-center justify-center rounded-xl  bg-[#292326] bg-opacity-90 px-2 py-2 transition-all lg:hover:bg-gray-500"
+              disabled={accountFilmState.loadingBtnWatchList}
             >
               <Loader
                 classWidth="w-4"
@@ -110,6 +111,7 @@ const FDGenresPart = ({ filmId, filmDetails, type }) => {
                   : " lg:hover:text-primary"
               } group flex h-10 w-10 items-center justify-center  rounded-full bg-[#292326] bg-opacity-90 px-2 py-2 transition-all lg:hover:bg-transparent lg:hover:opacity-100`}
               onClick={favoriteClickHandler}
+              disabled={accountFilmState.loadingBtnFavorite}
             >
               <Loader
                 classWidth="w-4"
