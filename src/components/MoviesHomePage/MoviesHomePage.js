@@ -49,11 +49,13 @@ const MoviesHomePage = () => {
               paginationClass="banner"
               autoPlay={true}
             >
-              {movies?.nowPlaying?.map((film) => (
-                <SwiperSlide key={film.id}>
-                  <BannerItem type="movies" filmID={film.id} info={film} />
-                </SwiperSlide>
-              ))}
+              {movies?.nowPlaying
+                ?.filter((film) => film.backdrop_path)
+                .map((film) => (
+                  <SwiperSlide key={film.id}>
+                    <BannerItem type="movies" filmID={film.id} info={film} />
+                  </SwiperSlide>
+                ))}
             </CustomSlider>
           </div>
 

@@ -42,19 +42,25 @@ const TVSeriesHomePage = () => {
       {!tvSeries.loading && (
         <div className=" TVSeriesHomePage mt-[90px] px-3 pb-[90px] md:mt-[100px] md:mb-[100px] md:px-5 lg:my-0 lg:p-10">
           {/* banner */}
-          <div className="relative  mb-6 overflow-hidden rounded-[20px]">
+          <div className="relative mb-6 overflow-hidden rounded-[20px]">
             <CustomSlider
               specifyClass="TVSeriesBanner"
               paginationClass="banner"
               autoPlay={true}
             >
-              {tvSeries?.onAir?.map((film) => {
-                return (
-                  <SwiperSlide key={film.id}>
-                    <BannerItem type="tvseries" filmID={film.id} info={film} />
-                  </SwiperSlide>
-                );
-              })}
+              {tvSeries?.onAir
+                ?.filter((film) => film.backdrop_path)
+                .map((film) => {
+                  return (
+                    <SwiperSlide key={film.id}>
+                      <BannerItem
+                        type="tvseries"
+                        filmID={film.id}
+                        info={film}
+                      />
+                    </SwiperSlide>
+                  );
+                })}
             </CustomSlider>
           </div>
 
